@@ -43,6 +43,7 @@ func (g *Game) Play() bool {
 				fmt.Println("bad move")
 				return !g.board.curPlayer
 			}
+			g.board.curPlayer = !g.board.curPlayer
 		}
 	}
 }

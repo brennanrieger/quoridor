@@ -112,7 +112,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		}
 	case Down:
 		if b.horizWalls.Get(curPos) {
-			return fmt.Errorf("hit wall")
+			return fmt.Errorf("hit bottom wall")
 		} else if curPos.r == 0 && b.curPlayer {
 			b.win <- true
 		} else if curPos.r == 0 && !b.curPlayer {
@@ -126,7 +126,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		}
 	case Up:
 		if b.horizWalls.Get(curPos.U()) {
-			return fmt.Errorf("hit wall")
+			return fmt.Errorf("hit top wall")
 		} else if curPos.r == b.n_rows-1 && b.curPlayer {
 			return fmt.Errorf("hit ceiling")
 		} else if curPos.r == b.n_rows-1 && !b.curPlayer {
@@ -140,7 +140,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		}
 	case Left:
 		if b.vertiWalls.Get(curPos) {
-			return fmt.Errorf("hit wall")
+			return fmt.Errorf("hit left wall")
 		} else if curPos.c == 0 {
 			return fmt.Errorf("hit left border")
 		} else {
@@ -152,7 +152,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		}
 	case Right:
 		if b.vertiWalls.Get(curPos.R()) {
-			return fmt.Errorf("hit wall")
+			return fmt.Errorf("hit right wall")
 		} else if curPos.c == b.n_cols-1 {
 			return fmt.Errorf("hit right border")
 		} else {
