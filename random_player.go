@@ -69,10 +69,10 @@ func (rp *RandomPlayer) movePiece(b *Board) MoveType {
 	if !b.horizWalls.Get(curPos.U()) && (curPos.r != b.n_rows-1 || b.curPlayer == false) {
 		availableMoves = append(availableMoves, Up)
 	}
-	if !b.horizWalls.Get(curPos) && curPos.c != 0 {
+	if !b.vertiWalls.Get(curPos) && curPos.c != 0 {
 		availableMoves = append(availableMoves, Left)
 	}
-	if !b.horizWalls.Get(curPos.R()) && curPos.c != b.n_cols-1 {
+	if !b.vertiWalls.Get(curPos.R()) && curPos.c != b.n_cols-1 {
 		availableMoves = append(availableMoves, Right)
 	}
 
