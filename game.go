@@ -20,6 +20,7 @@ func (g *Game) Init(n_rows int, n_cols int, p0 Player, p1 Player, v Visualizer) 
 	g.board = &Board{}
 	g.board.Init(n_rows, n_cols, win)
 	g.visualizer = &v
+	g.win = win
 }
 
 func (g *Game) Play() bool {
