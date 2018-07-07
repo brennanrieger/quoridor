@@ -19,7 +19,7 @@ func (rp *RandomPlayer) Move(b *Board) (MoveType, *Pos) {
 	} else {
 		mt, po = rp.movePiece(b), &Pos{}
 	}
-	fmt.Println(mt)
+	fmt.Println("Move type:", mt)
 	return mt, po
 }
 
@@ -76,6 +76,6 @@ func (rp *RandomPlayer) movePiece(b *Board) MoveType {
 		availableMoves = append(availableMoves, Right)
 	}
 
-	fmt.Println(availableMoves)
+	fmt.Println("Available Moves:", availableMoves)
 	return availableMoves[rand.Intn(len(availableMoves))]
 }

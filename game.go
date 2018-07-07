@@ -45,6 +45,7 @@ func (g *Game) Play() bool {
 				return !g.board.curPlayer
 			}
 			g.board.curPlayer = !g.board.curPlayer
+			fmt.Println(g.board.curPlayer, "turn")
 		}
 	}
 }

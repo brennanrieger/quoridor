@@ -37,5 +37,17 @@ func (m *Matrix) Copy() *Matrix {
 }
 
 func (m *Matrix) Show() {
-	fmt.Println(m.grid)
+	var disp string
+	for r := m.n_rows - 1; r >= 0; r-- {
+		for c := 0; c < m.n_cols; c++ {
+			if m.grid[r*m.n_cols+c] {
+				disp += "1"
+			} else {
+				disp += "0"
+			}
+		}
+		disp += "\n"
+	}
+	disp += "\n"
+	fmt.Println(disp)
 }

@@ -85,7 +85,6 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 	} else {
 		curPos = b.pos0
 	}
-	curPos.Show()
 
 	switch moveType {
 	case HorizWall:
@@ -193,6 +192,7 @@ func (b *Board) Validate() bool {
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
+	visited.Show()
 
 	var neighbors []*Pos
 	if !b.vertiWalls.Get(pos) && pos.c != 0 {
