@@ -16,7 +16,7 @@ func (g *Game) Init(n_rows int, n_cols int, p0 Player, p1 Player, v Visualizer) 
 	g.p0 = &p0
 	g.p1 = &p1
 
-	win := make(chan bool)
+	win := make(chan bool, 2)
 	g.board = &Board{}
 	g.board.Init(n_rows, n_cols, win)
 	g.visualizer = &v

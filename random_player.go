@@ -75,5 +75,7 @@ func (rp *RandomPlayer) movePiece(b *Board) MoveType {
 	if !b.horizWalls.Get(curPos.R()) && curPos.c != b.n_cols-1 {
 		availableMoves = append(availableMoves, Right)
 	}
+
+	fmt.Println(availableMoves)
 	return availableMoves[rand.Intn(len(availableMoves))]
 }
