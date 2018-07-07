@@ -208,7 +208,7 @@ func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	}
 	if !b.horizWalls.Get(pos.U()) && pos.r == b.n_rows-1 && !curWalker {
 		return true
-	} else if !b.horizWalls.Get(pos) && pos.r != b.n_rows-1 {
+	} else if !b.horizWalls.Get(pos.U()) && pos.r != b.n_rows-1 {
 		neighbors = append(neighbors, pos.U())
 	}
 
