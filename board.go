@@ -186,13 +186,11 @@ func (b *Board) Validate() bool {
 	var visited1 = &Matrix{}
 	visited0.Init(b.n_rows, b.n_cols)
 	visited1.Init(b.n_rows, b.n_cols)
-	bob := b.walk(b.pos0, visited0, false) //&& b.walk(b.pos1, visited1, true)
-	return bob
+	return b.walk(b.pos0, visited0, false) && b.walk(b.pos1, visited1, true)
 }
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
-	visited.Show()
 
 	var neighbors []*Pos
 	if !b.vertiWalls.Get(pos) && pos.c != 0 {
