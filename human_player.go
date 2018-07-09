@@ -10,6 +10,10 @@ import (
 type HumanPlayer struct{}
 
 func (hp *HumanPlayer) Move(b *Board) (MoveType, *Pos) {
+	return hp.move()
+}
+
+func (hp *HumanPlayer) move() MoveType, *Pos {
 	rawText := hp.promptUser
 	inputs := Strings.split(rawText, ' ')
 
@@ -24,18 +28,25 @@ func (hp *HumanPlayer) Move(b *Board) (MoveType, *Pos) {
 		return Right, pos
 	case "h":
 		pos, err := parseWallPos(inputs)
-
+		if err != nil {
+			hp.helpText()
+			return hp.move()
+		} else {
+			return HorizWall, pos
+		}
 	case "v":
 		pos, err := parseWallPos(inputs)
+		if err != nil {
+			hp.helpText()
+			return hp.move()
+		} else {
+			return VertiWall, pos
+		}
 	default:
 		fmt.Printf("Invalid move. Please try again")
 		hp.helpText()
-		hp.promptUser()
+		return hp.move()
 	}
-}
-
-func (hp *HumanPlayer) move() MoveType, *Pos {
-
 }
 
 func (hp *HumanPlayer) promptUser() string {
@@ -66,7 +77,17 @@ func (hp *HumanPlayer) parseWallPos(inputs) *Pos, err {
 }
 
 func (hp *HumanPlayer) helpText() {
-	fmt.Println("Usage:")
+	fmt.Println(`
+Usage:
+There are 6 valid move types: left, up, down, right, horizontal wall and vertical wall
+To move your piece, press the a w s d keys to move it left, up, down, and right, respectively
+To build a horizontal wall, press h followed by the row and column of the left corner wall
+To build a vertical wall, press v followed by the row and column of the bottom corner wall
+Ex: h 3 5
+Ex: a
+Ex: v 2 3
+Ex: s
+	`)
 }
 
 // func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
