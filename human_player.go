@@ -84,14 +84,21 @@ func (hp *HumanPlayer) parseWallPos(inputs []string) (*Pos, error) {
 
 func (hp *HumanPlayer) helpText() {
 	fmt.Println(`
-Usage:
-There are 6 valid move types: left, up, down, right, horizontal wall and vertical wall
-To move your piece, press the a w s d keys to move it left, up, down, and right, respectively
-To build a horizontal wall, press h followed by the row and column of the left corner wall
-To build a vertical wall, press v followed by the row and column of the bottom corner wall
-Ex: h 3 5
-Ex: a
-Ex: v 2 3
-Ex: s
+
+==========================================================================================
+=
+=   USAGE:
+=
+=   There are 6 valid move types: left, up, down, right, horizontal wall and vertical wall
+=   To move your piece, press the a w s d keys to move it left, up, down, and right, respectively
+=   To build a horizontal wall, press h followed by the row and column of the left corner wall
+=   To build a vertical wall, press v followed by the row and column of the bottom corner wall
+=
+=   Ex: h 3 5
+=   Ex: a
+=   Ex: v 2 3
+=   Ex: s
+=
+=========================================================================================
 	`)
 }
