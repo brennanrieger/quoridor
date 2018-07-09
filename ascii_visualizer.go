@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type AsciiVisualizer struct{}
 
@@ -17,7 +20,9 @@ func (av *AsciiVisualizer) Display(b *Board) {
 		}
 		disp += av.lineRow(b, r) + "\n"
 	}
-	disp += "\n\n"
+	disp += "\n  "
+	disp += strings.Repeat("=", b.n_cols*2-3)
+	disp += "\n"
 	fmt.Println(disp)
 }
 
