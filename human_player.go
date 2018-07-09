@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type HumanPlayer struct{}
@@ -13,9 +14,10 @@ func (hp *HumanPlayer) Move(b *Board) (MoveType, *Pos) {
 	return hp.move()
 }
 
-func (hp *HumanPlayer) move() MoveType, *Pos {
-	rawText := hp.promptUser
-	inputs := Strings.split(rawText, ' ')
+func (hp *HumanPlayer) move() (MoveType, *Pos) {
+	rawText := hp.promptUser()
+	inputs := strings.Split(rawText, " ")
+	var pos *Pos
 
 	switch inputs[0] {
 	case "a":
@@ -27,7 +29,7 @@ func (hp *HumanPlayer) move() MoveType, *Pos {
 	case "d":
 		return Right, pos
 	case "h":
-		pos, err := parseWallPos(inputs)
+		pos, err := hp.parseWallPos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()
@@ -35,7 +37,7 @@ func (hp *HumanPlayer) move() MoveType, *Pos {
 			return HorizWall, pos
 		}
 	case "v":
-		pos, err := parseWallPos(inputs)
+		pos, err := hp.parseWallPos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()
@@ -61,18 +63,22 @@ func (hp *HumanPlayer) promptUser() string {
 	}
 }
 
-func (hp *HumanPlayer) parseWallPos(inputs) *Pos, err {
+func (hp *HumanPlayer) parseWallPos(inputs []string) (*Pos, error) {
 	var pos *Pos
 	if len(inputs) != 3 {
 		return pos, fmt.Errorf("Building a wall requires 3 inputs")
 	}
 
-	r, rErr := strconv.ParseInt(inputs[1], 10, 32)
-	c, cErr := strconv.ParseInt(inputs[2], 10, 32)
+	r, rErr := strconv.ParseInt(inputs[1], 10, 16)
+	c, cErr := strconv.ParseInt(inputs[2], 10, 16)
 	if rErr != nil || cErr != nil {
 		return pos, fmt.Errorf("%v %v", rErr, cErr)
 	} else {
-		return &Pos(r,c), nil
+		pos = &Pos{
+			r: int(r),
+			c: int(c),
+		}
+		return pos, nil
 	}
 }
 
@@ -89,59 +95,3 @@ Ex: v 2 3
 Ex: s
 	`)
 }
-
-// func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
-// 	var availablePositions []*Pos
-
-// 	var moveType MoveType
-// 	if horizontal {
-// 		moveType = HorizWall
-// 	} else {
-// 		moveType = VertiWall
-// 	}
-
-// 	for r := 0; r < b.n_rows-1; r++ {
-// 		for c := 0; c < b.n_cols-1; c++ {
-// 			var boardCopy = b.Copy()
-// 			pos := &Pos{
-// 				r: r,
-// 				c: c,
-// 			}
-// 			if err := boardCopy.Move(moveType, pos); err == nil && boardCopy.Validate() {
-// 				availablePositions = append(availablePositions, pos)
-// 			}
-// 		}
-// 	}
-
-// 	if len(availablePositions) > 0 {
-// 		return moveType, availablePositions[rand.Intn(len(availablePositions))]
-// 	} else {
-// 		return rp.movePiece(b), nil
-// 	}
-// }
-
-// func (rp *RandomPlayer) movePiece(b *Board) MoveType {
-// 	var availableMoves []MoveType
-
-// 	var curPos *Pos
-// 	if b.curPlayer {
-// 		curPos = b.pos1
-// 	} else {
-// 		curPos = b.pos0
-// 	}
-
-// 	if !b.horizWalls.Get(curPos) && (curPos.r != 0 || b.curPlayer == true) {
-// 		availableMoves = append(availableMoves, Down)
-// 	}
-// 	if !b.horizWalls.Get(curPos.U()) && (curPos.r != b.n_rows-1 || b.curPlayer == false) {
-// 		availableMoves = append(availableMoves, Up)
-// 	}
-// 	if !b.vertiWalls.Get(curPos) && curPos.c != 0 {
-// 		availableMoves = append(availableMoves, Left)
-// 	}
-// 	if !b.vertiWalls.Get(curPos.R()) && curPos.c != b.n_cols-1 {
-// 		availableMoves = append(availableMoves, Right)
-// 	}
-
-// 	return availableMoves[rand.Intn(len(availableMoves))]
-// }
