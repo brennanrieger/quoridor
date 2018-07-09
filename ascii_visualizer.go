@@ -20,9 +20,9 @@ func (av *AsciiVisualizer) Display(b *Board) {
 		}
 		disp += av.lineRow(b, r) + "\n"
 	}
-	disp += "\n  "
+	disp += "\n\n  "
 	disp += strings.Repeat("=", b.n_cols*2-3)
-	disp += "\n"
+	disp += "\n\n"
 	fmt.Println(disp)
 }
 
