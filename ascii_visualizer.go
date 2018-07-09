@@ -17,7 +17,7 @@ func (av *AsciiVisualizer) Display(b *Board) {
 		}
 		disp += av.lineRow(b, r) + "\n"
 	}
-	disp += "\n"
+	disp += "\n\n"
 	fmt.Println(disp)
 }
 
