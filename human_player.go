@@ -29,6 +29,7 @@ func (hp *HumanPlayer) move() (MoveType, *Pos) {
 	case "d":
 		return Right, pos
 	case "h":
+		fmt.Println("this caase h")
 		pos, err := hp.parseWallPos(inputs)
 		if err != nil {
 			hp.helpText()
@@ -45,6 +46,7 @@ func (hp *HumanPlayer) move() (MoveType, *Pos) {
 			return VertiWall, pos
 		}
 	default:
+		fmt.Println(inputs[0])
 		fmt.Printf("Invalid move. Please try again")
 		hp.helpText()
 		return hp.move()
@@ -59,7 +61,7 @@ func (hp *HumanPlayer) promptUser() string {
 		fmt.Println("invalid input: ", err)
 		return hp.promptUser()
 	} else {
-		return text
+		return strings.TrimSuffix(text, "\n")
 	}
 }
 
