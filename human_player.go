@@ -29,7 +29,6 @@ func (hp *HumanPlayer) move() (MoveType, *Pos) {
 	case "d":
 		return Right, pos
 	case "h":
-		fmt.Println("this caase h")
 		pos, err := hp.parseWallPos(inputs)
 		if err != nil {
 			hp.helpText()

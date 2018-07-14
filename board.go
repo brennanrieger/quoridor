@@ -181,6 +181,13 @@ func (b *Board) Copy() *Board {
 	return newBoard
 }
 
+func (b *Board) Flip() *Board {
+	newBoard := &Board{}
+	newBoard.Init(b.n_rows, b.n_cols, b.win)
+	// TODO
+	return newBoard
+}
+
 func (b *Board) Validate() bool {
 	var visited0 = &Matrix{}
 	var visited1 = &Matrix{}
