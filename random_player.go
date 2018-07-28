@@ -8,7 +8,7 @@ type RandomPlayer struct {
 	playerNum bool
 }
 
-func (rp *RandomPlayer) Init(playerNum) {
+func (rp *RandomPlayer) Init(playerNum bool) {
 	rp.playerNum = playerNum
 }
 
@@ -45,7 +45,7 @@ func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
 				c: c,
 			}
 			dummyWinCh := make(chan bool, 2)
-			if err := boardCopy.Move(moveType, pos, dummyWinCh); err == nil && boardCopy.Validate() {
+			if err := boardCopy.Move(moveType, pos, rp.playerNum, dummyWinCh); err == nil && boardCopy.Validate() {
 				availablePositions = append(availablePositions, pos)
 			}
 		}
@@ -62,16 +62,16 @@ func (rp *RandomPlayer) movePiece(b *Board) MoveType {
 	var availableMoves []MoveType
 
 	var curPos *Pos
-	if b.curPlayer {
+	if rp.playerNum {
 		curPos = b.pos1
 	} else {
 		curPos = b.pos0
 	}
 
-	if !b.horizWalls.Get(curPos) && (curPos.r != 0 || b.curPlayer == true) {
+	if !b.horizWalls.Get(curPos) && (curPos.r != 0 || rp.playerNum == true) {
 		availableMoves = append(availableMoves, Down)
 	}
-	if !b.horizWalls.Get(curPos.U()) && (curPos.r != b.n_rows-1 || b.curPlayer == false) {
+	if !b.horizWalls.Get(curPos.U()) && (curPos.r != b.n_rows-1 || rp.playerNum == false) {
 		availableMoves = append(availableMoves, Up)
 	}
 	if !b.vertiWalls.Get(curPos) && curPos.c != 0 {
