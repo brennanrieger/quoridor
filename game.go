@@ -8,6 +8,7 @@ type Game struct {
 	p0         *Player
 	p1         *Player
 	visualizer *Visualizer
+	curPlayer  bool
 
 	win chan bool
 }
@@ -18,7 +19,7 @@ func (g *Game) Init(n_rows int, n_cols int, p0 Player, p1 Player, v Visualizer) 
 
 	win := make(chan bool, 2)
 	g.board = &Board{}
-	g.board.Init(n_rows, n_cols, win)
+	g.board.Init(n_rows, n_cols)
 	g.visualizer = &v
 	g.win = win
 }
@@ -33,7 +34,7 @@ func (g *Game) Play() bool {
 			g.Display()
 			var moveType MoveType
 			var wallPos *Pos
-			if g.board.curPlayer {
+			if curPlayer {
 				moveType, wallPos = (*g.p1).Move(g.board)
 			} else {
 				moveType, wallPos = (*g.p0).Move(g.board)
@@ -42,9 +43,9 @@ func (g *Game) Play() bool {
 				// if player makes invalid move other player wins
 				fmt.Println(err)
 				fmt.Println("bad move")
-				return !g.board.curPlayer
+				return !curPlayer
 			}
-			g.board.curPlayer = !g.board.curPlayer
+			g.curPlayer = !g.curPlayer
 		}
 	}
 }

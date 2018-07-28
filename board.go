@@ -34,15 +34,11 @@ type Board struct {
 	pos0 *Pos
 	pos1 *Pos
 
-	curPlayer bool
-
 	vertiWalls *Matrix
 	horizWalls *Matrix
-
-	win chan bool
 }
 
-func (b *Board) Init(n_rows int, n_cols int, win chan bool) {
+func (b *Board) Init(n_rows int, n_cols int) {
 	b.n_rows = n_rows
 	b.n_cols = n_cols
 
@@ -60,27 +56,25 @@ func (b *Board) Init(n_rows int, n_cols int, win chan bool) {
 	b.horizWalls = &Matrix{}
 	b.vertiWalls.Init(n_rows, n_cols+1)
 	b.horizWalls.Init(n_rows+1, n_cols)
-
-	b.win = win
 }
 
-func (b *Board) Move(moveType MoveType, wallPos *Pos) error {
+func (b *Board) Move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan bool) error {
 	var boardCopy = b.Copy()
-	if err := boardCopy.move(moveType, wallPos); err != nil {
+	dummyWinCh := make(chan bool, 2)
+	if err := boardCopy.move(moveType, wallPos, curPlayer, dummyWinCh); err != nil {
 		return err
 	} else if !boardCopy.Validate() {
 		return fmt.Errorf("New board is not valid")
 	} else {
-		b.move(moveType, wallPos)
-		b.curPlayer = !b.curPlayer
+		b.move(moveType, wallPos, curPlayer, win)
 	}
 	return nil
 }
 
-func (b *Board) move(moveType MoveType, wallPos *Pos) error {
+func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan bool) error {
 
 	var curPos *Pos
-	if b.curPlayer {
+	if curPlayer {
 		curPos = b.pos1
 	} else {
 		curPos = b.pos0
@@ -112,12 +106,12 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 	case Down:
 		if b.horizWalls.Get(curPos) {
 			return fmt.Errorf("hit bottom wall")
-		} else if curPos.r == 0 && b.curPlayer {
-			b.win <- true
-		} else if curPos.r == 0 && !b.curPlayer {
+		} else if curPos.r == 0 && curPlayer {
+			win <- true
+		} else if curPos.r == 0 && !curPlayer {
 			return fmt.Errorf("hit floor")
 		} else {
-			if b.curPlayer {
+			if curPlayer {
 				b.pos1 = curPos.D()
 			} else {
 				b.pos0 = curPos.D()
@@ -126,12 +120,12 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 	case Up:
 		if b.horizWalls.Get(curPos.U()) {
 			return fmt.Errorf("hit top wall")
-		} else if curPos.r == b.n_rows-1 && b.curPlayer {
+		} else if curPos.r == b.n_rows-1 && curPlayer {
 			return fmt.Errorf("hit ceiling")
-		} else if curPos.r == b.n_rows-1 && !b.curPlayer {
-			b.win <- false
+		} else if curPos.r == b.n_rows-1 && !curPlayer {
+			win <- false
 		} else {
-			if b.curPlayer {
+			if curPlayer {
 				b.pos1 = curPos.U()
 			} else {
 				b.pos0 = curPos.U()
@@ -143,7 +137,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		} else if curPos.c == 0 {
 			return fmt.Errorf("hit left border")
 		} else {
-			if b.curPlayer {
+			if curPlayer {
 				b.pos1 = curPos.L()
 			} else {
 				b.pos0 = curPos.L()
@@ -155,7 +149,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		} else if curPos.c == b.n_cols-1 {
 			return fmt.Errorf("hit right border")
 		} else {
-			if b.curPlayer {
+			if curPlayer {
 				b.pos1 = curPos.R()
 			} else {
 				b.pos0 = curPos.R()
@@ -165,14 +159,12 @@ func (b *Board) move(moveType MoveType, wallPos *Pos) error {
 		return fmt.Errorf("Not a valid move type")
 	}
 
-	// only switch player if move was successful
-	b.curPlayer = !b.curPlayer
 	return nil
 }
 
 func (b *Board) Copy() *Board {
 	newBoard := &Board{}
-	newBoard.Init(b.n_rows, b.n_cols, b.win)
+	newBoard.Init(b.n_rows, b.n_cols)
 	newBoard.curPlayer = b.curPlayer
 	newBoard.pos1 = b.pos1.Copy()
 	newBoard.pos0 = b.pos0.Copy()
@@ -183,7 +175,7 @@ func (b *Board) Copy() *Board {
 
 func (b *Board) Flip() *Board {
 	newBoard := &Board{}
-	newBoard.Init(b.n_rows, b.n_cols, b.win)
+	newBoard.Init(b.n_rows, b.n_cols)
 	newBoard.curPlayer = !b.curPlayer
 	newBoard.pos1 = b.flipPos(b.pos0)
 	newBoard.pos0 = b.flipPos(b.pos1)
