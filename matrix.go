@@ -36,6 +36,18 @@ func (m *Matrix) Copy() *Matrix {
 	}
 }
 
+func (m *Matrix) Flip() *Matrix {
+	grid := make([]bool, m.n_rows*m.n_cols)
+	for i, j := 0, len(grid)-1; i < j; i, j = i+1, j-1 {
+		grid[i], grid[j] = grid[j], grid[i]
+	}
+	return &Matrix{
+		n_rows: m.n_rows,
+		n_cols: m.n_cols,
+		grid:   grid,
+	}
+}
+
 func (m *Matrix) Show() {
 	var disp string
 	for r := m.n_rows - 1; r >= 0; r-- {

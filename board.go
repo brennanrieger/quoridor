@@ -184,8 +184,19 @@ func (b *Board) Copy() *Board {
 func (b *Board) Flip() *Board {
 	newBoard := &Board{}
 	newBoard.Init(b.n_rows, b.n_cols, b.win)
-	// TODO
+	newBoard.curPlayer = !b.curPlayer
+	newBoard.pos1 = b.flipPos(b.pos0)
+	newBoard.pos0 = b.flipPos(b.pos1)
+	newBoard.vertiWalls = b.vertiWalls.Flip()
+	newBoard.horizWalls = b.horizWalls.Flip()
 	return newBoard
+}
+
+func (b *Board) flipPos(pos *Pos) *Pos {
+	return &Pos{
+		r: m.n_rows - r - 1,
+		c: c,
+	}
 }
 
 func (b *Board) Validate() bool {
