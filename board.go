@@ -165,7 +165,6 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 func (b *Board) Copy() *Board {
 	newBoard := &Board{}
 	newBoard.Init(b.n_rows, b.n_cols)
-	newBoard.curPlayer = b.curPlayer
 	newBoard.pos1 = b.pos1.Copy()
 	newBoard.pos0 = b.pos0.Copy()
 	newBoard.vertiWalls = b.vertiWalls.Copy()
@@ -176,7 +175,6 @@ func (b *Board) Copy() *Board {
 func (b *Board) Flip() *Board {
 	newBoard := &Board{}
 	newBoard.Init(b.n_rows, b.n_cols)
-	newBoard.curPlayer = !b.curPlayer
 	newBoard.pos1 = b.flipPos(b.pos0)
 	newBoard.pos0 = b.flipPos(b.pos1)
 	newBoard.vertiWalls = b.vertiWalls.Flip()
@@ -186,8 +184,8 @@ func (b *Board) Flip() *Board {
 
 func (b *Board) flipPos(pos *Pos) *Pos {
 	return &Pos{
-		r: m.n_rows - r - 1,
-		c: m.n_cols - c - 1,
+		r: b.n_rows - pos.r - 1,
+		c: b.n_cols - pos.c - 1,
 	}
 }
 

@@ -4,7 +4,13 @@ import (
 	"math/rand"
 )
 
-type RandomPlayer struct{}
+type RandomPlayer struct {
+	playerNum bool
+}
+
+func (rp *RandomPlayer) Init(playerNum) {
+	rp.playerNum = playerNum
+}
 
 func (rp *RandomPlayer) Move(b *Board) (MoveType, *Pos) {
 	var boardCopy = b.Copy()
@@ -38,7 +44,8 @@ func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
 				r: r,
 				c: c,
 			}
-			if err := boardCopy.Move(moveType, pos); err == nil && boardCopy.Validate() {
+			dummyWinCh := make(chan bool, 2)
+			if err := boardCopy.Move(moveType, pos, dummyWinCh); err == nil && boardCopy.Validate() {
 				availablePositions = append(availablePositions, pos)
 			}
 		}
