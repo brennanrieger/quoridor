@@ -195,7 +195,7 @@ func (b *Board) Flip() *Board {
 func (b *Board) flipPos(pos *Pos) *Pos {
 	return &Pos{
 		r: m.n_rows - r - 1,
-		c: c,
+		c: m.n_cols - c - 1,
 	}
 }
 
