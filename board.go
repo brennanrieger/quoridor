@@ -84,27 +84,27 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 	case HorizWall:
 		if wallPos.r < 0 || wallPos.c < 0 || wallPos.r > b.n_rows || wallPos.c > b.n_cols-2 {
 			return fmt.Errorf("wall out of bounds")
-		} else if b.horizWalls.Get(wallPos).(bool) || b.horizWalls.Get(wallPos.R()).(bool) {
+		} else if b.horizWalls.Get(wallPos) || b.horizWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall already exists")
-		} else if wallPos.r != 0 && wallPos.r != b.n_rows && b.vertiWalls.Get(wallPos.D().R()).(bool) && b.vertiWalls.Get(wallPos.R()).(bool) {
+		} else if wallPos.r != 0 && wallPos.r != b.n_rows && b.vertiWalls.Get(wallPos.D().R()) && b.vertiWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall intersects")
 		} else {
-			b.horizWalls.Set(wallPos, true)
-			b.horizWalls.Set(wallPos.R(), true)
+			b.horizWalls.Set(wallPos)
+			b.horizWalls.Set(wallPos.R())
 		}
 	case VertiWall:
 		if wallPos.r < 0 || wallPos.c < 1 || wallPos.r > b.n_rows-2 || wallPos.c > b.n_cols-1 { // do not allow columns on far edges
 			return fmt.Errorf("wall out of bounds")
-		} else if b.vertiWalls.Get(wallPos).(bool) || b.vertiWalls.Get(wallPos.U()).(bool) {
+		} else if b.vertiWalls.Get(wallPos) || b.vertiWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall already exists")
-		} else if b.horizWalls.Get(wallPos.U().L()).(bool) && b.horizWalls.Get(wallPos.U()).(bool) {
+		} else if b.horizWalls.Get(wallPos.U().L()) && b.horizWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall intersects")
 		} else {
-			b.vertiWalls.Set(wallPos, true)
-			b.vertiWalls.Set(wallPos.U(), true)
+			b.vertiWalls.Set(wallPos)
+			b.vertiWalls.Set(wallPos.U())
 		}
 	case Down:
-		if b.horizWalls.Get(curPos).(bool) {
+		if b.horizWalls.Get(curPos) {
 			return fmt.Errorf("hit bottom wall")
 		} else if curPos.r == 0 && curPlayer {
 			win <- true
@@ -118,7 +118,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 			}
 		}
 	case Up:
-		if b.horizWalls.Get(curPos.U()).(bool) {
+		if b.horizWalls.Get(curPos.U()) {
 			return fmt.Errorf("hit top wall")
 		} else if curPos.r == b.n_rows-1 && curPlayer {
 			return fmt.Errorf("hit ceiling")
@@ -132,7 +132,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 			}
 		}
 	case Left:
-		if b.vertiWalls.Get(curPos).(bool) {
+		if b.vertiWalls.Get(curPos) {
 			return fmt.Errorf("hit left wall")
 		} else if curPos.c == 0 {
 			return fmt.Errorf("hit left border")
@@ -144,7 +144,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 			}
 		}
 	case Right:
-		if b.vertiWalls.Get(curPos.R()).(bool) {
+		if b.vertiWalls.Get(curPos.R()) {
 			return fmt.Errorf("hit right wall")
 		} else if curPos.c == b.n_cols-1 {
 			return fmt.Errorf("hit right border")
@@ -198,28 +198,28 @@ func (b *Board) Validate() bool {
 }
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
-	visited.Set(pos, true)
+	visited.Set(pos)
 
 	var neighbors []*Pos
-	if !b.vertiWalls.Get(pos).(bool) && pos.c != 0 {
+	if !b.vertiWalls.Get(pos) && pos.c != 0 {
 		neighbors = append(neighbors, pos.L())
 	}
-	if !b.vertiWalls.Get(pos.R()).(bool) && pos.c != b.n_cols-1 {
+	if !b.vertiWalls.Get(pos.R()) && pos.c != b.n_cols-1 {
 		neighbors = append(neighbors, pos.R())
 	}
-	if !b.horizWalls.Get(pos).(bool) && pos.r == 0 && curWalker {
+	if !b.horizWalls.Get(pos) && pos.r == 0 && curWalker {
 		return true
-	} else if !b.horizWalls.Get(pos).(bool) && pos.r != 0 {
+	} else if !b.horizWalls.Get(pos) && pos.r != 0 {
 		neighbors = append(neighbors, pos.D())
 	}
-	if !b.horizWalls.Get(pos.U()).(bool) && pos.r == b.n_rows-1 && !curWalker {
+	if !b.horizWalls.Get(pos.U()) && pos.r == b.n_rows-1 && !curWalker {
 		return true
-	} else if !b.horizWalls.Get(pos.U()).(bool) && pos.r != b.n_rows-1 {
+	} else if !b.horizWalls.Get(pos.U()) && pos.r != b.n_rows-1 {
 		neighbors = append(neighbors, pos.U())
 	}
 
 	for _, neighborPos := range neighbors {
-		if !visited.Get(neighborPos).(bool) && b.walk(neighborPos, visited, curWalker) {
+		if !visited.Get(neighborPos) && b.walk(neighborPos, visited, curWalker) {
 			return true
 		}
 	}
