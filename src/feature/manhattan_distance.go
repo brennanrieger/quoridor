@@ -1,6 +1,6 @@
 // WIP
 
-package main
+package feature
 
 // type ManhattanDistance struct {
 // 	board *board.Board
