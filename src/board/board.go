@@ -28,34 +28,34 @@ const (
 )
 
 type Board struct {
-	n_cols int
-	n_rows int
+	NCols int
+	NRows int
 
-	pos0 *Pos
-	pos1 *Pos
+	Pos0 *Pos
+	Pos1 *Pos
 
-	vertiWalls *Matrix
-	horizWalls *Matrix
+	VertiWalls *Matrix
+	HorizWalls *Matrix
 }
 
-func (b *Board) Init(n_rows int, n_cols int) {
-	b.n_rows = n_rows
-	b.n_cols = n_cols
+func (b *Board) Init(NRows int, NCols int) {
+	b.NRows = NRows
+	b.NCols = NCols
 
-	b.pos0 = &Pos{
+	b.Pos0 = &Pos{
 		r: 0,
-		c: n_cols / 2,
+		c: NCols / 2,
 	}
 
-	b.pos1 = &Pos{
-		r: n_rows - 1,
-		c: n_cols / 2,
+	b.Pos1 = &Pos{
+		r: NRows - 1,
+		c: NCols / 2,
 	}
 
-	b.vertiWalls = &Matrix{}
-	b.horizWalls = &Matrix{}
-	b.vertiWalls.Init(n_rows, n_cols+1)
-	b.horizWalls.Init(n_rows+1, n_cols)
+	b.VertiWalls = &Matrix{}
+	b.HorizWalls = &Matrix{}
+	b.VertiWalls.Init(NRows, NCols+1)
+	b.HorizWalls.Init(NRows+1, NCols)
 }
 
 func (b *Board) Move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan bool) error {
@@ -75,36 +75,36 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 
 	var curPos *Pos
 	if curPlayer {
-		curPos = b.pos1
+		curPos = b.Pos1
 	} else {
-		curPos = b.pos0
+		curPos = b.Pos0
 	}
 
 	switch moveType {
 	case HorizWall:
-		if wallPos.r < 0 || wallPos.c < 0 || wallPos.r > b.n_rows || wallPos.c > b.n_cols-2 {
+		if wallPos.r < 0 || wallPos.c < 0 || wallPos.r > b.NRows || wallPos.c > b.NCols-2 {
 			return fmt.Errorf("wall out of bounds")
-		} else if b.horizWalls.Get(wallPos) || b.horizWalls.Get(wallPos.R()) {
+		} else if b.HorizWalls.Get(wallPos) || b.HorizWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall already exists")
-		} else if wallPos.r != 0 && wallPos.r != b.n_rows && b.vertiWalls.Get(wallPos.D().R()) && b.vertiWalls.Get(wallPos.R()) {
+		} else if wallPos.r != 0 && wallPos.r != b.NRows && b.VertiWalls.Get(wallPos.D().R()) && b.VertiWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall intersects")
 		} else {
-			b.horizWalls.Set(wallPos)
-			b.horizWalls.Set(wallPos.R())
+			b.HorizWalls.Set(wallPos)
+			b.HorizWalls.Set(wallPos.R())
 		}
 	case VertiWall:
-		if wallPos.r < 0 || wallPos.c < 1 || wallPos.r > b.n_rows-2 || wallPos.c > b.n_cols-1 { // do not allow columns on far edges
+		if wallPos.r < 0 || wallPos.c < 1 || wallPos.r > b.NRows-2 || wallPos.c > b.NCols-1 { // do not allow columns on far edges
 			return fmt.Errorf("wall out of bounds")
-		} else if b.vertiWalls.Get(wallPos) || b.vertiWalls.Get(wallPos.U()) {
+		} else if b.VertiWalls.Get(wallPos) || b.VertiWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall already exists")
-		} else if b.horizWalls.Get(wallPos.U().L()) && b.horizWalls.Get(wallPos.U()) {
+		} else if b.HorizWalls.Get(wallPos.U().L()) && b.HorizWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall intersects")
 		} else {
-			b.vertiWalls.Set(wallPos)
-			b.vertiWalls.Set(wallPos.U())
+			b.VertiWalls.Set(wallPos)
+			b.VertiWalls.Set(wallPos.U())
 		}
 	case Down:
-		if b.horizWalls.Get(curPos) {
+		if b.HorizWalls.Get(curPos) {
 			return fmt.Errorf("hit bottom wall")
 		} else if curPos.r == 0 && curPlayer {
 			win <- true
@@ -112,47 +112,47 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 			return fmt.Errorf("hit floor")
 		} else {
 			if curPlayer {
-				b.pos1 = curPos.D()
+				b.Pos1 = curPos.D()
 			} else {
-				b.pos0 = curPos.D()
+				b.Pos0 = curPos.D()
 			}
 		}
 	case Up:
-		if b.horizWalls.Get(curPos.U()) {
+		if b.HorizWalls.Get(curPos.U()) {
 			return fmt.Errorf("hit top wall")
-		} else if curPos.r == b.n_rows-1 && curPlayer {
+		} else if curPos.r == b.NRows-1 && curPlayer {
 			return fmt.Errorf("hit ceiling")
-		} else if curPos.r == b.n_rows-1 && !curPlayer {
+		} else if curPos.r == b.NRows-1 && !curPlayer {
 			win <- false
 		} else {
 			if curPlayer {
-				b.pos1 = curPos.U()
+				b.Pos1 = curPos.U()
 			} else {
-				b.pos0 = curPos.U()
+				b.Pos0 = curPos.U()
 			}
 		}
 	case Left:
-		if b.vertiWalls.Get(curPos) {
+		if b.VertiWalls.Get(curPos) {
 			return fmt.Errorf("hit left wall")
 		} else if curPos.c == 0 {
 			return fmt.Errorf("hit left border")
 		} else {
 			if curPlayer {
-				b.pos1 = curPos.L()
+				b.Pos1 = curPos.L()
 			} else {
-				b.pos0 = curPos.L()
+				b.Pos0 = curPos.L()
 			}
 		}
 	case Right:
-		if b.vertiWalls.Get(curPos.R()) {
+		if b.VertiWalls.Get(curPos.R()) {
 			return fmt.Errorf("hit right wall")
-		} else if curPos.c == b.n_cols-1 {
+		} else if curPos.c == b.NCols-1 {
 			return fmt.Errorf("hit right border")
 		} else {
 			if curPlayer {
-				b.pos1 = curPos.R()
+				b.Pos1 = curPos.R()
 			} else {
-				b.pos0 = curPos.R()
+				b.Pos0 = curPos.R()
 			}
 		}
 	default:
@@ -164,57 +164,57 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 
 func (b *Board) Copy() *Board {
 	newBoard := &Board{}
-	newBoard.Init(b.n_rows, b.n_cols)
-	newBoard.pos1 = b.pos1.Copy()
-	newBoard.pos0 = b.pos0.Copy()
-	newBoard.vertiWalls = b.vertiWalls.Copy()
-	newBoard.horizWalls = b.horizWalls.Copy()
+	newBoard.Init(b.NRows, b.NCols)
+	newBoard.Pos1 = b.Pos1.Copy()
+	newBoard.Pos0 = b.Pos0.Copy()
+	newBoard.VertiWalls = b.VertiWalls.Copy()
+	newBoard.HorizWalls = b.HorizWalls.Copy()
 	return newBoard
 }
 
 func (b *Board) Flip() *Board {
 	newBoard := &Board{}
-	newBoard.Init(b.n_rows, b.n_cols)
-	newBoard.pos1 = b.flipPos(b.pos0)
-	newBoard.pos0 = b.flipPos(b.pos1)
-	newBoard.vertiWalls = b.vertiWalls.Flip()
-	newBoard.horizWalls = b.horizWalls.Flip()
+	newBoard.Init(b.NRows, b.NCols)
+	newBoard.Pos1 = b.flipPos(b.Pos0)
+	newBoard.Pos0 = b.flipPos(b.Pos1)
+	newBoard.VertiWalls = b.VertiWalls.Flip()
+	newBoard.HorizWalls = b.HorizWalls.Flip()
 	return newBoard
 }
 
 func (b *Board) flipPos(pos *Pos) *Pos {
 	return &Pos{
-		r: b.n_rows - pos.r - 1,
-		c: b.n_cols - pos.c - 1,
+		r: b.NRows - pos.r - 1,
+		c: b.NCols - pos.c - 1,
 	}
 }
 
 func (b *Board) Validate() bool {
 	var visited0 = &Matrix{}
 	var visited1 = &Matrix{}
-	visited0.Init(b.n_rows, b.n_cols)
-	visited1.Init(b.n_rows, b.n_cols)
-	return b.walk(b.pos0, visited0, false) && b.walk(b.pos1, visited1, true)
+	visited0.Init(b.NRows, b.NCols)
+	visited1.Init(b.NRows, b.NCols)
+	return b.walk(b.Pos0, visited0, false) && b.walk(b.Pos1, visited1, true)
 }
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
 
 	var neighbors []*Pos
-	if !b.vertiWalls.Get(pos) && pos.c != 0 {
+	if !b.VertiWalls.Get(pos) && pos.c != 0 {
 		neighbors = append(neighbors, pos.L())
 	}
-	if !b.vertiWalls.Get(pos.R()) && pos.c != b.n_cols-1 {
+	if !b.VertiWalls.Get(pos.R()) && pos.c != b.NCols-1 {
 		neighbors = append(neighbors, pos.R())
 	}
-	if !b.horizWalls.Get(pos) && pos.r == 0 && curWalker {
+	if !b.HorizWalls.Get(pos) && pos.r == 0 && curWalker {
 		return true
-	} else if !b.horizWalls.Get(pos) && pos.r != 0 {
+	} else if !b.HorizWalls.Get(pos) && pos.r != 0 {
 		neighbors = append(neighbors, pos.D())
 	}
-	if !b.horizWalls.Get(pos.U()) && pos.r == b.n_rows-1 && !curWalker {
+	if !b.HorizWalls.Get(pos.U()) && pos.r == b.NRows-1 && !curWalker {
 		return true
-	} else if !b.horizWalls.Get(pos.U()) && pos.r != b.n_rows-1 {
+	} else if !b.HorizWalls.Get(pos.U()) && pos.r != b.NRows-1 {
 		neighbors = append(neighbors, pos.U())
 	}
 

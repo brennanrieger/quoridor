@@ -51,6 +51,6 @@ func (p *Pos) Show() {
 }
 
 // So far unused
-// func (p *Pos) Validate(n_rows int, n_cols int) bool {
-// 	return p.r > 0 && p.c > 0 && p.r < n_rows && p.c < n_cols
+// func (p *Pos) Validate(NRows int, NCols int) bool {
+// 	return p.r > 0 && p.c > 0 && p.r < NRows && p.c < NCols
 // }

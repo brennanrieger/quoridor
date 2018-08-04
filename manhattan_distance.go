@@ -7,27 +7,27 @@ package main
 // }
 
 // func (md *ManhattanDistance) Val(b *board.Board) {
-// 	visited := [b.n_rows][b.n_cols]int{}
+// 	visited := [b.NRows][b.NCols]int{}
 // }
 
 // func (md *ManhattanDistance) walk(pos *board.Pos, visited *Matrix) bool {
 // 	visited.Set(pos)
 
 // 	var neighbors []*board.Pos
-// 	if !b.vertiWalls.Get(pos) && pos.c != 0 {
+// 	if !b.VertiWalls.Get(pos) && pos.c != 0 {
 // 		neighbors = append(neighbors, pos.L())
 // 	}
-// 	if !b.vertiWalls.Get(pos.R()) && pos.c != b.n_cols-1 {
+// 	if !b.VertiWalls.Get(pos.R()) && pos.c != b.NCols-1 {
 // 		neighbors = append(neighbors, pos.R())
 // 	}
-// 	if !b.horizWalls.Get(pos) && pos.r == 0 && curWalker {
+// 	if !b.HorizWalls.Get(pos) && pos.r == 0 && curWalker {
 // 		return true
-// 	} else if !b.horizWalls.Get(pos) && pos.r != 0 {
+// 	} else if !b.HorizWalls.Get(pos) && pos.r != 0 {
 // 		neighbors = append(neighbors, pos.D())
 // 	}
-// 	if !b.horizWalls.Get(pos.U()) && pos.r == b.n_rows-1 && !curWalker {
+// 	if !b.HorizWalls.Get(pos.U()) && pos.r == b.NRows-1 && !curWalker {
 // 		return true
-// 	} else if !b.horizWalls.Get(pos.U()) && pos.r != b.n_rows-1 {
+// 	} else if !b.HorizWalls.Get(pos.U()) && pos.r != b.NRows-1 {
 // 		neighbors = append(neighbors, pos.U())
 // 	}
 

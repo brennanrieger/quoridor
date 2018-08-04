@@ -14,22 +14,22 @@ var (
 
 func (av *AsciiVisualizer) Display(b *board.Board) {
 	var disp string
-	for r := b.n_rows; r >= 0; r-- {
+	for r := b.NRows; r >= 0; r-- {
 		// no gapRow before first lineRow
-		if r != b.n_rows {
+		if r != b.NRows {
 			disp += av.gapRow(b, r) + "\n"
 		}
 		disp += av.lineRow(b, r) + "\n"
 	}
 	disp += "\n\n  "
-	disp += strings.Repeat("=", b.n_cols*2-3)
+	disp += strings.Repeat("=", b.NCols*2-3)
 	disp += "\n\n"
 	fmt.Println(disp)
 }
 
 func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 	var lineRow string
-	for c := 0; c < b.n_cols+1; c++ {
+	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
 			r: r,
 			c: c,
@@ -37,7 +37,7 @@ func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 		lineRow += av.intersectionChar(b, pos)
 
 		// no horizChar following last intersectionChar
-		if c != b.n_cols {
+		if c != b.NCols {
 			lineRow += av.horizChar(b, pos)
 		}
 	}
@@ -46,7 +46,7 @@ func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 
 func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
 	var gapRow string
-	for c := 0; c < b.n_cols+1; c++ {
+	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
 			r: r,
 			c: c,
@@ -54,7 +54,7 @@ func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
 		gapRow += av.vertiChar(b, pos)
 
 		// no midChar following last vertiChar
-		if c != b.n_cols {
+		if c != b.NCols {
 			gapRow += av.midChar(b, pos)
 		}
 	}
@@ -63,23 +63,23 @@ func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
 
 func (av *AsciiVisualizer) intersectionChar(b *board.Board, pos *board.Pos) string {
 	var up bool
-	if pos.r < b.n_rows {
-		up = b.vertiWalls.Get(pos)
+	if pos.r < b.NRows {
+		up = b.VertiWalls.Get(pos)
 	}
 
 	var right bool
-	if pos.c < b.n_cols {
-		right = b.horizWalls.Get(pos)
+	if pos.c < b.NCols {
+		right = b.HorizWalls.Get(pos)
 	}
 
 	var down bool
 	if pos.r > 0 {
-		down = b.vertiWalls.Get(pos.D())
+		down = b.VertiWalls.Get(pos.D())
 	}
 
 	var left bool
 	if pos.c > 0 {
-		left = b.horizWalls.Get(pos.L())
+		left = b.HorizWalls.Get(pos.L())
 	}
 
 	charIdx := 0
@@ -99,7 +99,7 @@ func (av *AsciiVisualizer) intersectionChar(b *board.Board, pos *board.Pos) stri
 }
 
 func (av *AsciiVisualizer) horizChar(b *board.Board, pos *board.Pos) string {
-	if b.horizWalls.Get(pos) {
+	if b.HorizWalls.Get(pos) {
 		return "─"
 	} else {
 		return " "
@@ -107,7 +107,7 @@ func (av *AsciiVisualizer) horizChar(b *board.Board, pos *board.Pos) string {
 }
 
 func (av *AsciiVisualizer) vertiChar(b *board.Board, pos *board.Pos) string {
-	if b.vertiWalls.Get(pos) {
+	if b.VertiWalls.Get(pos) {
 		return "│"
 	} else {
 		return " "
@@ -115,9 +115,9 @@ func (av *AsciiVisualizer) vertiChar(b *board.Board, pos *board.Pos) string {
 }
 
 func (av *AsciiVisualizer) midChar(b *board.Board, pos *board.Pos) string {
-	if b.pos0.Equal(pos) {
+	if b.Pos0.Equal(pos) {
 		return "0"
-	} else if b.pos1.Equal(pos) {
+	} else if b.Pos1.Equal(pos) {
 		return "1"
 	} else {
 		return " "
