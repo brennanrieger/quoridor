@@ -4,6 +4,7 @@ import (
 	"board"
 	"fmt"
 	"player"
+	"visualizer"
 )
 
 type Game struct {
@@ -11,13 +12,13 @@ type Game struct {
 
 	p0         *player.Player
 	p1         *player.Player
-	visualizer *Visualizer
+	visualizer *visualizer.Visualizer
 	curPlayer  bool
 
 	win chan bool
 }
 
-func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v Visualizer) {
+func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v visualizer.Visualizer) {
 	g.p0 = &p0
 	g.p1 = &p1
 

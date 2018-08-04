@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"player"
+	"visualizer"
 )
 
 // TODO: read https://pdfs.semanticscholar.org/acad/6962a9bb3eb3fde4272f476d6625eb0a8182.pdf
@@ -14,7 +15,7 @@ import (
 // TODO: remove stutter wiht player package
 
 func main() {
-	av := &AsciiVisualizer{}
+	av := &visualizer.AsciiVisualizer{}
 	game := &Game{}
 	p0 := &player.RandomPlayer{}
 	p1 := &player.HumanPlayer{}
