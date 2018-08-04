@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"game"
 	"player"
 	"visualizer"
 )
@@ -16,7 +17,7 @@ import (
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
-	game := &Game{}
+	game := &game.Game{}
 	p0 := &player.RandomPlayer{}
 	p1 := &player.HumanPlayer{}
 	game.Init(9, 11, p0, p1, av)
