@@ -11,31 +11,31 @@ import (
 
 type HumanPlayer struct{}
 
-func (hp *HumanPlayer) Move(b *board.board) (MoveType, *board.Pos) {
+func (hp *HumanPlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
 	return hp.move()
 }
 
-func (hp *HumanPlayer) move() (MoveType, *board.Pos) {
+func (hp *HumanPlayer) move() (board.MoveType, *board.Pos) {
 	rawText := hp.promptUser()
 	inputs := strings.Split(rawText, " ")
 	var pos *board.Pos
 
 	switch inputs[0] {
 	case "a":
-		return Left, pos
+		return board.Left, pos
 	case "w":
-		return Up, pos
+		return board.Up, pos
 	case "s":
-		return Down, pos
+		return board.Down, pos
 	case "d":
-		return Right, pos
+		return board.Right, pos
 	case "h":
 		pos, err := hp.parseWallPos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()
 		} else {
-			return HorizWall, pos
+			return board.HorizWall, pos
 		}
 	case "v":
 		pos, err := hp.parseWallPos(inputs)
@@ -43,7 +43,7 @@ func (hp *HumanPlayer) move() (MoveType, *board.Pos) {
 			hp.helpText()
 			return hp.move()
 		} else {
-			return VertiWall, pos
+			return board.VertiWall, pos
 		}
 	default:
 		fmt.Println(inputs[0])

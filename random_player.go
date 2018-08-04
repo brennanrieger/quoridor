@@ -13,10 +13,10 @@ func (rp *RandomPlayer) Init(playerNum bool) {
 	rp.playerNum = playerNum
 }
 
-func (rp *RandomPlayer) Move(b *board.Board) (MoveType, *board.Pos) {
+func (rp *RandomPlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
 	var boardCopy = b.Copy()
 	var option = rand.Intn(3)
-	var mt MoveType
+	var mt board.MoveType
 	var po *board.Pos
 	if option == 1 {
 		mt, po = rp.makeWall(boardCopy, true)
@@ -28,10 +28,10 @@ func (rp *RandomPlayer) Move(b *board.Board) (MoveType, *board.Pos) {
 	return mt, po
 }
 
-func (rp *RandomPlayer) makeWall(b *board.Board, horizontal bool) (MoveType, *board.Pos) {
+func (rp *RandomPlayer) makeWall(b *board.Board, horizontal bool) (board.MoveType, *board.Pos) {
 	var availablePositions []*board.Pos
 
-	var moveType MoveType
+	var moveType board.MoveType
 	if horizontal {
 		moveType = HorizWall
 	} else {
@@ -59,8 +59,8 @@ func (rp *RandomPlayer) makeWall(b *board.Board, horizontal bool) (MoveType, *bo
 	}
 }
 
-func (rp *RandomPlayer) movePiece(b *board.Board) MoveType {
-	var availableMoves []MoveType
+func (rp *RandomPlayer) movePiece(b *board.Board) board.MoveType {
+	var availableMoves []board.MoveType
 
 	var curPos *board.Pos
 	if rp.playerNum {
@@ -70,16 +70,16 @@ func (rp *RandomPlayer) movePiece(b *board.Board) MoveType {
 	}
 
 	if !b.HorizWalls.Get(curPos) && (curPos.r != 0 || rp.playerNum == true) {
-		availableMoves = append(availableMoves, Down)
+		availableMoves = append(availableMoves, board.Down)
 	}
 	if !b.HorizWalls.Get(curPos.U()) && (curPos.r != b.NRows-1 || rp.playerNum == false) {
-		availableMoves = append(availableMoves, Up)
+		availableMoves = append(availableMoves, board.Up)
 	}
 	if !b.VertiWalls.Get(curPos) && curPos.c != 0 {
-		availableMoves = append(availableMoves, Left)
+		availableMoves = append(availableMoves, board.Left)
 	}
 	if !b.VertiWalls.Get(curPos.R()) && curPos.c != b.NCols-1 {
-		availableMoves = append(availableMoves, Right)
+		availableMoves = append(availableMoves, board.Right)
 	}
 
 	return availableMoves[rand.Intn(len(availableMoves))]
