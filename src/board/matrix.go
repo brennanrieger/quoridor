@@ -8,11 +8,11 @@ type Matrix struct {
 	grid  []bool
 }
 
-func (m *Matrix) Init(NRows int, NCols int) {
-	m.NRows = NRows
-	m.NCols = NCols
+func (m *Matrix) Init(nRows int, nCols int) {
+	m.NRows = nRows
+	m.NCols = nCols
 
-	var gridSize = NRows * NCols
+	var gridSize = nRows * nCols
 	m.grid = make([]bool, gridSize)
 }
 

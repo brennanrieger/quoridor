@@ -38,24 +38,24 @@ type Board struct {
 	HorizWalls *Matrix
 }
 
-func (b *Board) Init(NRows int, NCols int) {
-	b.NRows = NRows
-	b.NCols = NCols
+func (b *Board) Init(nRows int, nCols int) {
+	b.NRows = nRows
+	b.NCols = nCols
 
 	b.Pos0 = &Pos{
 		Row: 0,
-		Col: NCols / 2,
+		Col: nCols / 2,
 	}
 
 	b.Pos1 = &Pos{
-		Row: NRows - 1,
-		Col: NCols / 2,
+		Row: nRows - 1,
+		Col: nCols / 2,
 	}
 
 	b.VertiWalls = &Matrix{}
 	b.HorizWalls = &Matrix{}
-	b.VertiWalls.Init(NRows, NCols+1)
-	b.HorizWalls.Init(NRows+1, NCols)
+	b.VertiWalls.Init(nRows, nCols+1)
+	b.HorizWalls.Init(nRows+1, nCols)
 }
 
 func (b *Board) Move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan bool) error {

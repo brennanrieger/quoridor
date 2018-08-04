@@ -8,11 +8,11 @@ type ValMatrix struct {
 	grid  []interface{}
 }
 
-func (vm *ValMatrix) Init(NRows int, NCols int) {
-	vm.NRows = NRows
-	vm.NCols = NCols
+func (vm *ValMatrix) Init(nRows int, nCols int) {
+	vm.NRows = nRows
+	vm.NCols = nCols
 
-	var gridSize = NRows * NCols
+	var gridSize = nRows * nCols
 	vm.grid = make([]interface{}, gridSize)
 }
 

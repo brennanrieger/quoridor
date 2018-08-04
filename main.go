@@ -11,7 +11,6 @@ import (
 // TODO: idea use ML on small scale board to find good heuristics
 // TODO: put all move types in its own file
 // TODO: make Matrix non-exported (matrix)
-// TODO: make NRows and NCols args to Init not capitalized
 // TODO: curPlayer is probably a board concern, not game concern
 // TODO: remove stutter wiht player package
 
