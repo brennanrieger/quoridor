@@ -43,13 +43,13 @@ func (b *Board) Init(NRows int, NCols int) {
 	b.NCols = NCols
 
 	b.Pos0 = &Pos{
-		r: 0,
-		c: NCols / 2,
+		Row: 0,
+		Col: NCols / 2,
 	}
 
 	b.Pos1 = &Pos{
-		r: NRows - 1,
-		c: NCols / 2,
+		Row: NRows - 1,
+		Col: NCols / 2,
 	}
 
 	b.VertiWalls = &Matrix{}
@@ -82,18 +82,18 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 
 	switch moveType {
 	case HorizWall:
-		if wallPos.r < 0 || wallPos.c < 0 || wallPos.r > b.NRows || wallPos.c > b.NCols-2 {
+		if wallPos.Row < 0 || wallPos.Col < 0 || wallPos.Row > b.NRows || wallPos.Col > b.NCols-2 {
 			return fmt.Errorf("wall out of bounds")
 		} else if b.HorizWalls.Get(wallPos) || b.HorizWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall already exists")
-		} else if wallPos.r != 0 && wallPos.r != b.NRows && b.VertiWalls.Get(wallPos.D().R()) && b.VertiWalls.Get(wallPos.R()) {
+		} else if wallPos.Row != 0 && wallPos.Row != b.NRows && b.VertiWalls.Get(wallPos.D().R()) && b.VertiWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall intersects")
 		} else {
 			b.HorizWalls.Set(wallPos)
 			b.HorizWalls.Set(wallPos.R())
 		}
 	case VertiWall:
-		if wallPos.r < 0 || wallPos.c < 1 || wallPos.r > b.NRows-2 || wallPos.c > b.NCols-1 { // do not allow columns on far edges
+		if wallPos.Row < 0 || wallPos.Col < 1 || wallPos.Row > b.NRows-2 || wallPos.Col > b.NCols-1 { // do not allow columns on far edges
 			return fmt.Errorf("wall out of bounds")
 		} else if b.VertiWalls.Get(wallPos) || b.VertiWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall already exists")
@@ -106,9 +106,9 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 	case Down:
 		if b.HorizWalls.Get(curPos) {
 			return fmt.Errorf("hit bottom wall")
-		} else if curPos.r == 0 && curPlayer {
+		} else if curPos.Row == 0 && curPlayer {
 			win <- true
-		} else if curPos.r == 0 && !curPlayer {
+		} else if curPos.Row == 0 && !curPlayer {
 			return fmt.Errorf("hit floor")
 		} else {
 			if curPlayer {
@@ -120,9 +120,9 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 	case Up:
 		if b.HorizWalls.Get(curPos.U()) {
 			return fmt.Errorf("hit top wall")
-		} else if curPos.r == b.NRows-1 && curPlayer {
+		} else if curPos.Row == b.NRows-1 && curPlayer {
 			return fmt.Errorf("hit ceiling")
-		} else if curPos.r == b.NRows-1 && !curPlayer {
+		} else if curPos.Row == b.NRows-1 && !curPlayer {
 			win <- false
 		} else {
 			if curPlayer {
@@ -134,7 +134,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 	case Left:
 		if b.VertiWalls.Get(curPos) {
 			return fmt.Errorf("hit left wall")
-		} else if curPos.c == 0 {
+		} else if curPos.Col == 0 {
 			return fmt.Errorf("hit left border")
 		} else {
 			if curPlayer {
@@ -146,7 +146,7 @@ func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan b
 	case Right:
 		if b.VertiWalls.Get(curPos.R()) {
 			return fmt.Errorf("hit right wall")
-		} else if curPos.c == b.NCols-1 {
+		} else if curPos.Col == b.NCols-1 {
 			return fmt.Errorf("hit right border")
 		} else {
 			if curPlayer {
@@ -184,8 +184,8 @@ func (b *Board) Flip() *Board {
 
 func (b *Board) flipPos(pos *Pos) *Pos {
 	return &Pos{
-		r: b.NRows - pos.r - 1,
-		c: b.NCols - pos.c - 1,
+		Row: b.NRows - pos.Row - 1,
+		Col: b.NCols - pos.Col - 1,
 	}
 }
 
@@ -201,20 +201,20 @@ func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
 
 	var neighbors []*Pos
-	if !b.VertiWalls.Get(pos) && pos.c != 0 {
+	if !b.VertiWalls.Get(pos) && pos.Col != 0 {
 		neighbors = append(neighbors, pos.L())
 	}
-	if !b.VertiWalls.Get(pos.R()) && pos.c != b.NCols-1 {
+	if !b.VertiWalls.Get(pos.R()) && pos.Col != b.NCols-1 {
 		neighbors = append(neighbors, pos.R())
 	}
-	if !b.HorizWalls.Get(pos) && pos.r == 0 && curWalker {
+	if !b.HorizWalls.Get(pos) && pos.Row == 0 && curWalker {
 		return true
-	} else if !b.HorizWalls.Get(pos) && pos.r != 0 {
+	} else if !b.HorizWalls.Get(pos) && pos.Row != 0 {
 		neighbors = append(neighbors, pos.D())
 	}
-	if !b.HorizWalls.Get(pos.U()) && pos.r == b.NRows-1 && !curWalker {
+	if !b.HorizWalls.Get(pos.U()) && pos.Row == b.NRows-1 && !curWalker {
 		return true
-	} else if !b.HorizWalls.Get(pos.U()) && pos.r != b.NRows-1 {
+	} else if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 {
 		neighbors = append(neighbors, pos.U())
 	}
 

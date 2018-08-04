@@ -77,8 +77,8 @@ func (hp *HumanPlayer) parseWallPos(inputs []string) (*board.Pos, error) {
 		return pos, fmt.Errorf("%v %v", rErr, cErr)
 	} else {
 		pos = &board.Pos{
-			r: int(r),
-			c: int(c),
+			Row: int(r),
+			Col: int(c),
 		}
 		return pos, nil
 	}

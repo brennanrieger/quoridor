@@ -17,12 +17,12 @@ func (vm *ValMatrix) Init(NRows int, NCols int) {
 }
 
 func (vm *ValMatrix) Get(pos *board.Pos) interface{} {
-	var idx = pos.r*vm.NCols + pos.c
+	var idx = pos.Row*vm.NCols + pos.Col
 	return vm.grid[idx]
 }
 
 func (vm *ValMatrix) Set(pos *board.Pos, val interface{}) {
-	var idx = pos.r*vm.NCols + pos.c
+	var idx = pos.Row*vm.NCols + pos.Col
 	vm.grid[idx] = val
 }
 

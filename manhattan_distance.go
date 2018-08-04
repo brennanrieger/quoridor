@@ -14,20 +14,20 @@ package main
 // 	visited.Set(pos)
 
 // 	var neighbors []*board.Pos
-// 	if !b.VertiWalls.Get(pos) && pos.c != 0 {
+// 	if !b.VertiWalls.Get(pos) && pos.Col != 0 {
 // 		neighbors = append(neighbors, pos.L())
 // 	}
-// 	if !b.VertiWalls.Get(pos.R()) && pos.c != b.NCols-1 {
+// 	if !b.VertiWalls.Get(pos.R()) && pos.Col != b.NCols-1 {
 // 		neighbors = append(neighbors, pos.R())
 // 	}
-// 	if !b.HorizWalls.Get(pos) && pos.r == 0 && curWalker {
+// 	if !b.HorizWalls.Get(pos) && pos.Row == 0 && curWalker {
 // 		return true
-// 	} else if !b.HorizWalls.Get(pos) && pos.r != 0 {
+// 	} else if !b.HorizWalls.Get(pos) && pos.Row != 0 {
 // 		neighbors = append(neighbors, pos.D())
 // 	}
-// 	if !b.HorizWalls.Get(pos.U()) && pos.r == b.NRows-1 && !curWalker {
+// 	if !b.HorizWalls.Get(pos.U()) && pos.Row == b.NRows-1 && !curWalker {
 // 		return true
-// 	} else if !b.HorizWalls.Get(pos.U()) && pos.r != b.NRows-1 {
+// 	} else if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 {
 // 		neighbors = append(neighbors, pos.U())
 // 	}
 

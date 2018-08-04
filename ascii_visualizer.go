@@ -31,8 +31,8 @@ func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 	var lineRow string
 	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
-			r: r,
-			c: c,
+			Row: r,
+			Col: c,
 		}
 		lineRow += av.intersectionChar(b, pos)
 
@@ -48,8 +48,8 @@ func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
 	var gapRow string
 	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
-			r: r,
-			c: c,
+			Row: r,
+			Col: c,
 		}
 		gapRow += av.vertiChar(b, pos)
 
@@ -63,22 +63,22 @@ func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
 
 func (av *AsciiVisualizer) intersectionChar(b *board.Board, pos *board.Pos) string {
 	var up bool
-	if pos.r < b.NRows {
+	if pos.Row < b.NRows {
 		up = b.VertiWalls.Get(pos)
 	}
 
 	var right bool
-	if pos.c < b.NCols {
+	if pos.Col < b.NCols {
 		right = b.HorizWalls.Get(pos)
 	}
 
 	var down bool
-	if pos.r > 0 {
+	if pos.Row > 0 {
 		down = b.VertiWalls.Get(pos.D())
 	}
 
 	var left bool
-	if pos.c > 0 {
+	if pos.Col > 0 {
 		left = b.HorizWalls.Get(pos.L())
 	}
 

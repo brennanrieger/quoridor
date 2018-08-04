@@ -17,12 +17,12 @@ func (m *Matrix) Init(NRows int, NCols int) {
 }
 
 func (m *Matrix) Get(pos *Pos) bool {
-	var idx = pos.r*m.NCols + pos.c
+	var idx = pos.Row*m.NCols + pos.Col
 	return m.grid[idx]
 }
 
 func (m *Matrix) Set(pos *Pos) {
-	var idx = pos.r*m.NCols + pos.c
+	var idx = pos.Row*m.NCols + pos.Col
 	m.grid[idx] = true
 }
 
