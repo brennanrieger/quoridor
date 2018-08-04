@@ -3,20 +3,21 @@ package main
 import (
 	"board"
 	"fmt"
+	"player"
 )
 
 type Game struct {
 	board *board.Board
 
-	p0         *Player
-	p1         *Player
+	p0         *player.Player
+	p1         *player.Player
 	visualizer *Visualizer
 	curPlayer  bool
 
 	win chan bool
 }
 
-func (g *Game) Init(NRows int, NCols int, p0 Player, p1 Player, v Visualizer) {
+func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v Visualizer) {
 	g.p0 = &p0
 	g.p1 = &p1
 

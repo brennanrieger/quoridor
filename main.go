@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"player"
 )
 
 // TODO: read https://pdfs.semanticscholar.org/acad/6962a9bb3eb3fde4272f476d6625eb0a8182.pdf
@@ -10,12 +11,13 @@ import (
 // TODO: make Matrix non-exported (matrix)
 // TODO: make NRows and NCols args to Init not capitalized
 // TODO: curPlayer is probably a board concern, not game concern
+// TODO: remove stutter wiht player package
 
 func main() {
 	av := &AsciiVisualizer{}
 	game := &Game{}
-	p0 := &RandomPlayer{}
-	p1 := &HumanPlayer{}
+	p0 := &player.RandomPlayer{}
+	p1 := &player.HumanPlayer{}
 	game.Init(9, 11, p0, p1, av)
 	bool := game.Play()
 	if bool {
