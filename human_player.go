@@ -1,6 +1,7 @@
 package main
 
 import (
+	"board"
 	"bufio"
 	"fmt"
 	"os"
@@ -10,14 +11,14 @@ import (
 
 type HumanPlayer struct{}
 
-func (hp *HumanPlayer) Move(b *Board) (MoveType, *Pos) {
+func (hp *HumanPlayer) Move(b *board.board) (MoveType, *board.Pos) {
 	return hp.move()
 }
 
-func (hp *HumanPlayer) move() (MoveType, *Pos) {
+func (hp *HumanPlayer) move() (MoveType, *board.Pos) {
 	rawText := hp.promptUser()
 	inputs := strings.Split(rawText, " ")
-	var pos *Pos
+	var pos *board.Pos
 
 	switch inputs[0] {
 	case "a":
@@ -64,8 +65,8 @@ func (hp *HumanPlayer) promptUser() string {
 	}
 }
 
-func (hp *HumanPlayer) parseWallPos(inputs []string) (*Pos, error) {
-	var pos *Pos
+func (hp *HumanPlayer) parseWallPos(inputs []string) (*board.Pos, error) {
+	var pos *board.Pos
 	if len(inputs) != 3 {
 		return pos, fmt.Errorf("Building a wall requires 3 inputs")
 	}
@@ -75,7 +76,7 @@ func (hp *HumanPlayer) parseWallPos(inputs []string) (*Pos, error) {
 	if rErr != nil || cErr != nil {
 		return pos, fmt.Errorf("%v %v", rErr, cErr)
 	} else {
-		pos = &Pos{
+		pos = &board.Pos{
 			r: int(r),
 			c: int(c),
 		}

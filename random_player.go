@@ -1,6 +1,7 @@
 package main
 
 import (
+	"board"
 	"math/rand"
 )
 
@@ -12,23 +13,23 @@ func (rp *RandomPlayer) Init(playerNum bool) {
 	rp.playerNum = playerNum
 }
 
-func (rp *RandomPlayer) Move(b *Board) (MoveType, *Pos) {
+func (rp *RandomPlayer) Move(b *board.Board) (MoveType, *board.Pos) {
 	var boardCopy = b.Copy()
 	var option = rand.Intn(3)
 	var mt MoveType
-	var po *Pos
+	var po *board.Pos
 	if option == 1 {
 		mt, po = rp.makeWall(boardCopy, true)
 	} else if option == 2 {
 		mt, po = rp.makeWall(boardCopy, false)
 	} else {
-		mt, po = rp.movePiece(b), &Pos{}
+		mt, po = rp.movePiece(b), &board.Pos{}
 	}
 	return mt, po
 }
 
-func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
-	var availablePositions []*Pos
+func (rp *RandomPlayer) makeWall(b *board.Board, horizontal bool) (MoveType, *board.Pos) {
+	var availablePositions []*board.Pos
 
 	var moveType MoveType
 	if horizontal {
@@ -40,7 +41,7 @@ func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
 	for r := 0; r < b.n_rows-1; r++ {
 		for c := 0; c < b.n_cols-1; c++ {
 			var boardCopy = b.Copy()
-			pos := &Pos{
+			pos := &board.Pos{
 				r: r,
 				c: c,
 			}
@@ -58,10 +59,10 @@ func (rp *RandomPlayer) makeWall(b *Board, horizontal bool) (MoveType, *Pos) {
 	}
 }
 
-func (rp *RandomPlayer) movePiece(b *Board) MoveType {
+func (rp *RandomPlayer) movePiece(b *board.Board) MoveType {
 	var availableMoves []MoveType
 
-	var curPos *Pos
+	var curPos *board.Pos
 	if rp.playerNum {
 		curPos = b.pos1
 	} else {

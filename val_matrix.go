@@ -1,5 +1,7 @@
 package main
 
+import "board"
+
 type ValMatrix struct {
 	n_rows int
 	n_cols int
@@ -14,12 +16,12 @@ func (vm *ValMatrix) Init(n_rows int, n_cols int) {
 	vm.grid = make([]interface{}, gridSize)
 }
 
-func (vm *ValMatrix) Get(pos *Pos) interface{} {
+func (vm *ValMatrix) Get(pos *board.Pos) interface{} {
 	var idx = pos.r*vm.n_cols + pos.c
 	return vm.grid[idx]
 }
 
-func (vm *ValMatrix) Set(pos *Pos, val interface{}) {
+func (vm *ValMatrix) Set(pos *board.Pos, val interface{}) {
 	var idx = pos.r*vm.n_cols + pos.c
 	vm.grid[idx] = val
 }

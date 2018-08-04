@@ -3,17 +3,17 @@
 package main
 
 // type ManhattanDistance struct {
-// 	board *Board
+// 	board *board.Board
 // }
 
-// func (md *ManhattanDistance) Val(b *Board) {
+// func (md *ManhattanDistance) Val(b *board.Board) {
 // 	visited := [b.n_rows][b.n_cols]int{}
 // }
 
-// func (md *ManhattanDistance) walk(pos *Pos, visited *Matrix) bool {
+// func (md *ManhattanDistance) walk(pos *board.Pos, visited *Matrix) bool {
 // 	visited.Set(pos)
 
-// 	var neighbors []*Pos
+// 	var neighbors []*board.Pos
 // 	if !b.vertiWalls.Get(pos) && pos.c != 0 {
 // 		neighbors = append(neighbors, pos.L())
 // 	}

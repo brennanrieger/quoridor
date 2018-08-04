@@ -1,6 +1,7 @@
 package main
 
 import (
+	"board"
 	"fmt"
 	"strings"
 )
@@ -11,7 +12,7 @@ var (
 	boxChars = [16]string{"·", "╵", "╶", "└", "╷", "│", "┌", "├", "╴", "┘", "─", "┴", "┐", "┤", "┬", "┼"}
 )
 
-func (av *AsciiVisualizer) Display(b *Board) {
+func (av *AsciiVisualizer) Display(b *board.Board) {
 	var disp string
 	for r := b.n_rows; r >= 0; r-- {
 		// no gapRow before first lineRow
@@ -26,10 +27,10 @@ func (av *AsciiVisualizer) Display(b *Board) {
 	fmt.Println(disp)
 }
 
-func (av *AsciiVisualizer) lineRow(b *Board, r int) string {
+func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 	var lineRow string
 	for c := 0; c < b.n_cols+1; c++ {
-		pos := &Pos{
+		pos := &board.Pos{
 			r: r,
 			c: c,
 		}
@@ -43,10 +44,10 @@ func (av *AsciiVisualizer) lineRow(b *Board, r int) string {
 	return lineRow
 }
 
-func (av *AsciiVisualizer) gapRow(b *Board, r int) string {
+func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
 	var gapRow string
 	for c := 0; c < b.n_cols+1; c++ {
-		pos := &Pos{
+		pos := &board.Pos{
 			r: r,
 			c: c,
 		}
@@ -60,7 +61,7 @@ func (av *AsciiVisualizer) gapRow(b *Board, r int) string {
 	return gapRow
 }
 
-func (av *AsciiVisualizer) intersectionChar(b *Board, pos *Pos) string {
+func (av *AsciiVisualizer) intersectionChar(b *board.Board, pos *board.Pos) string {
 	var up bool
 	if pos.r < b.n_rows {
 		up = b.vertiWalls.Get(pos)
@@ -97,7 +98,7 @@ func (av *AsciiVisualizer) intersectionChar(b *Board, pos *Pos) string {
 	return boxChars[charIdx]
 }
 
-func (av *AsciiVisualizer) horizChar(b *Board, pos *Pos) string {
+func (av *AsciiVisualizer) horizChar(b *board.Board, pos *board.Pos) string {
 	if b.horizWalls.Get(pos) {
 		return "─"
 	} else {
@@ -105,7 +106,7 @@ func (av *AsciiVisualizer) horizChar(b *Board, pos *Pos) string {
 	}
 }
 
-func (av *AsciiVisualizer) vertiChar(b *Board, pos *Pos) string {
+func (av *AsciiVisualizer) vertiChar(b *board.Board, pos *board.Pos) string {
 	if b.vertiWalls.Get(pos) {
 		return "│"
 	} else {
@@ -113,7 +114,7 @@ func (av *AsciiVisualizer) vertiChar(b *Board, pos *Pos) string {
 	}
 }
 
-func (av *AsciiVisualizer) midChar(b *Board, pos *Pos) string {
+func (av *AsciiVisualizer) midChar(b *board.Board, pos *board.Pos) string {
 	if b.pos0.Equal(pos) {
 		return "0"
 	} else if b.pos1.Equal(pos) {

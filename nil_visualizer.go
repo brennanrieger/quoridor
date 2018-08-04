@@ -1,7 +1,9 @@
 package main
 
+import "board"
+
 type NilVisualizer struct{}
 
-func (nv *NilVisualizer) Display(b *Board) {
+func (nv *NilVisualizer) Display(b *board.Board) {
 	return
 }

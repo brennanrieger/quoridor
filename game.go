@@ -1,9 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"board"
+	"fmt"
+)
 
 type Game struct {
-	board *Board
+	board *board.Board
 
 	p0         *Player
 	p1         *Player
@@ -18,7 +21,7 @@ func (g *Game) Init(n_rows int, n_cols int, p0 Player, p1 Player, v Visualizer) 
 	g.p1 = &p1
 
 	win := make(chan bool, 2)
-	g.board = &Board{}
+	g.board = &board.Board{}
 	g.board.Init(n_rows, n_cols)
 	g.visualizer = &v
 	g.win = win
@@ -33,7 +36,7 @@ func (g *Game) Play() bool {
 		default:
 			g.Display()
 			var moveType MoveType
-			var wallPos *Pos
+			var wallPos *board.Pos
 			if g.curPlayer {
 				moveType, wallPos = (*g.p1).Move(g.board)
 			} else {
