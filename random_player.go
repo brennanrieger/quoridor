@@ -33,9 +33,9 @@ func (rp *RandomPlayer) makeWall(b *board.Board, horizontal bool) (board.MoveTyp
 
 	var moveType board.MoveType
 	if horizontal {
-		moveType = HorizWall
+		moveType = board.HorizWall
 	} else {
-		moveType = VertiWall
+		moveType = board.VertiWall
 	}
 
 	for r := 0; r < b.NRows-1; r++ {
