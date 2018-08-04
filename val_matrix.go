@@ -6,42 +6,42 @@ type ValMatrix struct {
 	grid   []interface{}
 }
 
-func (m *Matrix) Init(n_rows int, n_cols int) {
-	m.n_rows = n_rows
-	m.n_cols = n_cols
+func (vm *ValMatrix) Init(n_rows int, n_cols int) {
+	vm.n_rows = n_rows
+	vm.n_cols = n_cols
 
 	var gridSize = n_rows * n_cols
-	m.grid = make([]int, gridSize)
+	vm.grid = make([]interface{}, gridSize)
 }
 
-func (m *Matrix) Get(pos *Pos) interface{} {
-	var idx = pos.r*m.n_cols + pos.c
-	return m.grid[idx]
+func (vm *ValMatrix) Get(pos *Pos) interface{} {
+	var idx = pos.r*vm.n_cols + pos.c
+	return vm.grid[idx]
 }
 
-func (m *Matrix) Set(pos *Pos, val interface{}) {
-	var idx = pos.r*m.n_cols + pos.c
-	m.grid[idx] = val
+func (vm *ValMatrix) Set(pos *Pos, val interface{}) {
+	var idx = pos.r*vm.n_cols + pos.c
+	vm.grid[idx] = val
 }
 
-func (m *Matrix) Copy() *Matrix {
-	grid := make([]bool, m.n_rows*m.n_cols)
-	copy(grid, m.grid)
-	return &Matrix{
-		n_rows: m.n_rows,
-		n_cols: m.n_cols,
+func (vm *ValMatrix) Copy() *ValMatrix {
+	grid := make([]interface{}, vm.n_rows*vm.n_cols)
+	copy(grid, vm.grid)
+	return &ValMatrix{
+		n_rows: vm.n_rows,
+		n_cols: vm.n_cols,
 		grid:   grid,
 	}
 }
 
-func (m *Matrix) Flip() *Matrix {
-	grid := make([]bool, m.n_rows*m.n_cols)
+func (vm *ValMatrix) Flip() *ValMatrix {
+	grid := make([]interface{}, vm.n_rows*vm.n_cols)
 	for i, j := 0, len(grid)-1; i < j; i, j = i+1, j-1 {
 		grid[i], grid[j] = grid[j], grid[i]
 	}
-	return &Matrix{
-		n_rows: m.n_rows,
-		n_cols: m.n_cols,
+	return &ValMatrix{
+		n_rows: vm.n_rows,
+		n_cols: vm.n_cols,
 		grid:   grid,
 	}
 }
