@@ -17,7 +17,7 @@ import (
 func main() {
 	av := &visualizer.AsciiVisualizer{}
 	game := &game.Game{}
-	p0 := &player.RandomPlayer{}
+	p0 := &player.HumanPlayer{}
 	p1 := &player.HumanPlayer{}
 	game.Init(9, 11, p0, p1, av)
 	bool := game.Play()

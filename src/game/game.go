@@ -40,11 +40,11 @@ func (g *Game) Play() bool {
 			var moveType board.MoveType
 			var wallPos *board.Pos
 			if g.curPlayer {
-				moveType, wallPos = (*g.p1).Move(g.board)
+				move = (*g.p1).Move(g.board)
 			} else {
-				moveType, wallPos = (*g.p0).Move(g.board)
+				move = (*g.p0).Move(g.board)
 			}
-			if err := g.board.Move(moveType, wallPos, g.curPlayer, g.win); err != nil {
+			if err := g.board.Move(move, g.curPlayer, g.win); err != nil {
 				// if player makes invalid move other player wins
 				fmt.Println(err)
 				fmt.Println("bad move")

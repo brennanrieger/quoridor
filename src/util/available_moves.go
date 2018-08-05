@@ -1,35 +1,30 @@
-package player
+package util
 
 // import (
 // 	"board"
-// 	"feature"
 // 	"math/rand"
 // )
 
-// type FeaturePlayer struct {
-// 	playerNum bool
+// func AvailableMoves(b *Board) []*board.Pos {
+// 	return
 // }
 
-// func (fp *FeaturePlayer) Init(playerNum bool) {
-// 	fp.playerNum = playerNum
-// }
-
-// func (fp *FeaturePlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
+// func (rp *RandomPlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
 // 	var boardCopy = b.Copy()
 // 	var option = rand.Intn(3)
 // 	var mt board.MoveType
-// 	var pos *board.Pos
+// 	var po *board.Pos
 // 	if option == 1 {
-// 		mt, pos = fp.makeWall(boardCopy, true)
+// 		mt, po = rp.makeWall(boardCopy, true)
 // 	} else if option == 2 {
-// 		mt, pos = fp.makeWall(boardCopy, false)
+// 		mt, po = rp.makeWall(boardCopy, false)
 // 	} else {
-// 		mt, pos = fp.movePiece(b), &board.Pos{}
+// 		mt, po = rp.movePiece(b), &board.Pos{}
 // 	}
-// 	return mt, pos
+// 	return mt, po
 // }
 
-// func (fp *FeaturePlayer) makeWall(b *board.Board, horizontal bool) (board.MoveType, *board.Pos) {
+// func availableWalls(b *board.Board, horizontal bool) (board.MoveType, *board.Pos) {
 // 	var availablePositions []*board.Pos
 
 // 	var moveType board.MoveType
@@ -47,7 +42,7 @@ package player
 // 				Col: c,
 // 			}
 // 			dummyWinCh := make(chan bool, 2)
-// 			if err := boardCopy.Move(moveType, pos, fp.playerNum, dummyWinCh); err == nil && boardCopy.Validate() {
+// 			if err := boardCopy.Move(moveType, pos, rp.playerNum, dummyWinCh); err == nil && boardCopy.Validate() {
 // 				availablePositions = append(availablePositions, pos)
 // 			}
 // 		}
@@ -56,24 +51,24 @@ package player
 // 	if len(availablePositions) > 0 {
 // 		return moveType, availablePositions[rand.Intn(len(availablePositions))]
 // 	} else {
-// 		return fp.movePiece(b), nil
+// 		return rp.movePiece(b), nil
 // 	}
 // }
 
-// func (fp *FeaturePlayer) movePiece(b *board.Board) board.MoveType {
+// func (rp *RandomPlayer) movePiece(b *board.Board) board.MoveType {
 // 	var availableMoves []board.MoveType
 
 // 	var curPos *board.Pos
-// 	if fp.playerNum {
+// 	if rp.playerNum {
 // 		curPos = b.Pos1
 // 	} else {
 // 		curPos = b.Pos0
 // 	}
 
-// 	if !b.HorizWalls.Get(curPos) && (curPos.Row != 0 || fp.playerNum == true) {
+// 	if !b.HorizWalls.Get(curPos) && (curPos.Row != 0 || rp.playerNum == true) {
 // 		availableMoves = append(availableMoves, board.Down)
 // 	}
-// 	if !b.HorizWalls.Get(curPos.U()) && (curPos.Row != b.NRows-1 || fp.playerNum == false) {
+// 	if !b.HorizWalls.Get(curPos.U()) && (curPos.Row != b.NRows-1 || rp.playerNum == false) {
 // 		availableMoves = append(availableMoves, board.Up)
 // 	}
 // 	if !b.VertiWalls.Get(curPos) && curPos.Col != 0 {
@@ -83,17 +78,5 @@ package player
 // 		availableMoves = append(availableMoves, board.Right)
 // 	}
 
-// 	bestVal := 0
-// 	bestI := 0
-// 	for i, _ := range availableMoves {
-// 		md := &feature.ManhattanDistance{}
-// 		bNew := b.Copy()
-// 		bNew.Pos0 = bNew.Pos0.R() // TODO: make this real
-// 		val := md.Val(bNew)
-// 		if val > bestVal {
-// 			bestVal = val
-// 			bestI = i
-// 		}
-// 	}
-// 	return availableMoves[bestI]
+// 	return availableMoves[rand.Intn(len(availableMoves))]
 // }

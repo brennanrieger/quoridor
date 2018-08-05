@@ -1,31 +1,5 @@
-package board
 
-import (
-	"fmt"
-)
-
-type MoveType int
-
-const (
-	HorizWall      = 1
-	VertiWall      = 2
-	Up             = 3
-	Down           = 4
-	Right          = 5
-	Left           = 6
-	JumpUpUp       = 7
-	JumpUpLeft     = 8
-	JumpUpRight    = 9
-	JumpDownDown   = 10
-	JumpDownLeft   = 11
-	JumpDownRight  = 12
-	JumpRightRight = 13
-	JumpRightUp    = 14
-	JumpRightDown  = 15
-	JumpLeftLeft   = 16
-	JumpLeftUp     = 17
-	JumpLeftDown   = 18
-)
+import "fmt"
 
 type Board struct {
 	NCols int
@@ -58,7 +32,10 @@ func (b *Board) Init(nRows int, nCols int) {
 	b.HorizWalls.Init(nRows+1, nCols)
 }
 
-func (b *Board) Move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan bool) error {
+func (b *Board) Move(move *Move, curPlayer bool, win chan bool) error {
+	var moveType = move.Mt
+	var wallPos = move.Pos
+
 	var boardCopy = b.Copy()
 	dummyWinCh := make(chan bool, 2)
 	if err := boardCopy.move(moveType, wallPos, curPlayer, dummyWinCh); err != nil {
