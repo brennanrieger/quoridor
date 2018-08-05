@@ -30,7 +30,7 @@ func (md *ManhattanDistance) bfs(head int) {
 	pos := md.neighbors[head]
 	dist := md.distances.Get(pos).(int)
 	b := md.board
-	curWalker := true //TODO: make this real
+	curWalker := false //TODO: put this in implementation
 
 	if !b.VertiWalls.Get(pos) && pos.Col != 0 && md.distances.Get(pos.L()) == 0 {
 		md.distances.Set(pos.L(), dist+1)
