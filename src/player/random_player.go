@@ -1,19 +1,23 @@
 package player
 
-// import (
-// 	"board"
-// 	"math/rand"
-// )
+import (
+	"board"
+	"math/rand"
+)
 
-// type RandomPlayer struct {
-// 	playerNum bool
-// }
+type RandomPlayer struct {
+	playerNum bool
+}
 
-// func (rp *RandomPlayer) Init(playerNum bool) {
-// 	rp.playerNum = playerNum
-// }
+func (rp *RandomPlayer) Init(playerNum bool) {
+	rp.playerNum = playerNum
+}
 
-// func (rp *RandomPlayer) Move(b *board.Board) *board.Move {
+func (rp *RandomPlayer) Move(b *board.Board) *board.Move {
+	var availableMoves = util.AvailableMoves(b)
+	return availableMoves[rand.Intn(len(availableMoves))]
+}
+
 // 	var boardCopy = b.Copy()
 // 	var option = rand.Intn(3)
 // 	var mt board.MoveType

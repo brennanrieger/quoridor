@@ -5,27 +5,27 @@ import (
 	"math/rand"
 )
 
-func AvailableMoves(b *Board) []*board.Move {
+func AvailableMoves(b *Board, playerNum bool) []*board.Move {
   var horizWallMoves = availableWalls(b, true)
   var vertiWallMoves = availableWalls(b, false)
   var allWallMoves = append(horizWallMoves, vertiWallMoves...)
-  return appent(allWallMoves, availableStepMoves(b)...)
+  return appent(allWallMoves, availableStepMoves(b, playerNum)...)
 }
 
-func (rp *RandomPlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
-	var boardCopy = b.Copy()
-	var option = rand.Intn(3)
-	var mt board.MoveType
-	var po *board.Pos
-	if option == 1 {
-		mt, po = rp.makeWall(boardCopy, true)
-	} else if option == 2 {
-		mt, po = rp.makeWall(boardCopy, false)
-	} else {
-		mt, po = rp.movePiece(b), &board.Pos{}
-	}
-	return mt, po
-}
+// func (rp *RandomPlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
+// 	var boardCopy = b.Copy()
+// 	var option = rand.Intn(3)
+// 	var mt board.MoveType
+// 	var po *board.Pos
+// 	if option == 1 {
+// 		mt, po = rp.makeWall(boardCopy, true)
+// 	} else if option == 2 {
+// 		mt, po = rp.makeWall(boardCopy, false)
+// 	} else {
+// 		mt, po = rp.movePiece(b), &board.Pos{}
+// 	}
+// 	return mt, po
+// }
 
 func availableWalls(b *board.Board, horizontal bool) ([]*board.Move) {
 	var availableWalls []*board.Move
@@ -58,7 +58,7 @@ func availableWalls(b *board.Board, horizontal bool) ([]*board.Move) {
   return availableWalls
 }
 
-func availableStepMoves(b *board.Board) []*board.Move {
+func availableStepMoves(b *board.Board, playerNum bool) []*board.Move {
 	var availableMoves []board.MoveType
 
 	var curPos *board.Pos
