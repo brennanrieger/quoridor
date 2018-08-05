@@ -34,22 +34,21 @@ func (b *Board) Init(nRows int, nCols int) {
 }
 
 func (b *Board) Move(move *Move, curPlayer bool, win chan bool) error {
-	var moveType = move.Mt
-	var wallPos = move.Pos
-
 	var boardCopy = b.Copy()
 	dummyWinCh := make(chan bool, 2)
-	if err := boardCopy.move(moveType, wallPos, curPlayer, dummyWinCh); err != nil {
+	if err := boardCopy.move(move, curPlayer, dummyWinCh); err != nil {
 		return err
 	} else if !boardCopy.Validate() {
 		return fmt.Errorf("New board is not valid")
 	} else {
-		b.move(moveType, wallPos, curPlayer, win)
+		b.move(move, curPlayer, win)
 	}
 	return nil
 }
 
-func (b *Board) move(moveType MoveType, wallPos *Pos, curPlayer bool, win chan bool) error {
+func (b *Board) move(move *Move, curPlayer bool, win chan bool) error {
+	var moveType = move.Mt
+	var wallPos = move.Pos
 
 	var curPos *Pos
 	if curPlayer {
