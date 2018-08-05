@@ -2,39 +2,57 @@
 
 package feature
 
-// type ManhattanDistance struct {
-// 	board *board.Board
-// }
+import (
+	"board"
+	"util"
+)
 
-// func (md *ManhattanDistance) Val(b *board.Board) {
-// 	visited := [b.NRows][b.NCols]int{}
-// }
+type ManhattanDistance struct {
+	board     *board.Board
+	distances *util.ValMatrix{}
+	neighbors []*board.Pos
+	val       int
+}
 
-// func (md *ManhattanDistance) walk(pos *board.Pos, visited *Matrix) bool {
-// 	visited.Set(pos)
+func (md *ManhattanDistance) Val(b *board.Board) int {
+	if md.val != 0 {
+		return val
+	} else {
+		md.distances.Init(b.NRows, b.NCols)
+		md.neighbors = []*board.Pos{b.Pos0}
 
-// 	var neighbors []*board.Pos
-// 	if !b.VertiWalls.Get(pos) && pos.Col != 0 {
-// 		neighbors = append(neighbors, pos.L())
-// 	}
-// 	if !b.VertiWalls.Get(pos.R()) && pos.Col != b.NCols-1 {
-// 		neighbors = append(neighbors, pos.R())
-// 	}
-// 	if !b.HorizWalls.Get(pos) && pos.Row == 0 && curWalker {
-// 		return true
-// 	} else if !b.HorizWalls.Get(pos) && pos.Row != 0 {
-// 		neighbors = append(neighbors, pos.D())
-// 	}
-// 	if !b.HorizWalls.Get(pos.U()) && pos.Row == b.NRows-1 && !curWalker {
-// 		return true
-// 	} else if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 {
-// 		neighbors = append(neighbors, pos.U())
-// 	}
+		for head := 0; md.val == 0; head++ {
+			bfs(head)
+		}
+		return md.val
+	}
 
-// 	for _, neighborPos := range neighbors {
-// 		if !visited.Get(neighborPos) && b.walk(neighborPos, visited, curWalker) {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
+}
+
+func (md *ManhattanDistance) bfs(pos *board.Pos) {
+	pos := neighbors[head]
+	dist := distances.Get(pos)
+	b := md.board
+
+	if !b.VertiWalls.Get(pos) && pos.Col != 0 && md.distances.Get(pos.L()) == 0 {
+		md.Set(pos.L(), dist+1)
+		md.neighbors = append(md.neighbors, pos.L())
+	}
+	if !b.VertiWalls.Get(pos.R()) && pos.Col != b.NCols-1 && md.distances.Get(pos.R()) == 0 {
+		md.Set(pos.R(), dist+1)
+		md.neighbors = append(md.neighbors, pos.R())
+	}
+	if !b.HorizWalls.Get(pos) && pos.Row == 0 && curWalker {
+		md.val = dist+1
+	} else if !b.HorizWalls.Get(pos) && pos.Row != 0 && md.distances.Get(pos.D()) == 0 {
+		md.Set(pos.D(), dist+1)
+		md.neighbors = append(md.neighbors, pos.D())
+	}
+	if !b.HorizWalls.Get(pos.U()) && pos.Row == b.NRows-1 && !curWalker {
+		md.val = dist+1
+	} else if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 && md.distances.Get(pos.U()) == 0 {
+		md.Set(pos.U(), dist+1)
+		md.neighbors = append(md.neighbors, pos.U())
+	}
+
+}

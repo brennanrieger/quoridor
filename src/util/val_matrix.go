@@ -47,19 +47,3 @@ func (vm *ValMatrix) Flip() *ValMatrix {
 		grid:  grid,
 	}
 }
-
-// func (m *Matrix) Show() {
-// 	var disp string
-// 	for r := m.NRows - 1; r >= 0; r-- {
-// 		for c := 0; c < m.NCols; c++ {
-// 			if m.grid[r*m.NCols+c] {
-// 				disp += "1"
-// 			} else {
-// 				disp += "0"
-// 			}
-// 		}
-// 		disp += "\n"
-// 	}
-// 	disp += "\n"
-// 	fmt.Println(disp)
-// }
