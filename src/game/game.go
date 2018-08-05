@@ -37,8 +37,7 @@ func (g *Game) Play() bool {
 			return winner
 		default:
 			g.Display()
-			var moveType board.MoveType
-			var wallPos *board.Pos
+			var move *board.Move
 			if g.curPlayer {
 				move = (*g.p1).Move(g.board)
 			} else {

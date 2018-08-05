@@ -22,22 +22,22 @@ func (hp *HumanPlayer) move() *board.Move {
 
 	switch inputs[0] {
 	case "a":
-		return &Move{
+		return &board.Move{
 			Mt:  board.Left,
 			Pos: pos,
 		}
 	case "w":
-		return &Move{
+		return &board.Move{
 			Mt:  board.Up,
 			Pos: pos,
 		}
 	case "s":
-		return &Move{
+		return &board.Move{
 			Mt:  board.Down,
 			Pos: pos,
 		}
 	case "d":
-		return &Move{
+		return &board.Move{
 			Mt:  board.Right,
 			Pos: pos,
 		}
@@ -47,7 +47,7 @@ func (hp *HumanPlayer) move() *board.Move {
 			hp.helpText()
 			return hp.move()
 		} else {
-			return &Move{
+			return &board.Move{
 				Mt:  board.HorizWall,
 				Pos: pos,
 			}
@@ -58,7 +58,7 @@ func (hp *HumanPlayer) move() *board.Move {
 			hp.helpText()
 			return hp.move()
 		} else {
-			return &Move{
+			return &board.Move{
 				Mt:  board.VertiWall,
 				Pos: pos,
 			}
