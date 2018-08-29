@@ -16,3 +16,10 @@ type Move struct {
 	Mt  MoveType
 	Pos *Pos
 }
+
+func (m *Move) Copy() *Move {
+	return &Move{
+		Mt:  m.Mt,
+		Pos: m.Pos,
+	}
+}
