@@ -13,13 +13,16 @@ import (
 // TODO: curPlayer is probably a board concern, not game concern
 // TODO: remove stutter wiht player package
 // TODO: move as an action and a struct is confusing
+// TODO: change interface for feature to return player 0 and player 1?
+
+// Current work: fix feature player
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
 	game := &game.Game{}
-	p0 := &player.HumanPlayer{}
-	p1 := &player.FeaturePlayer{}
-	p1.Init(true)
+	p0 := &player.FeaturePlayer{}
+	p1 := &player.HumanPlayer{}
+	p0.Init(true)
 	game.Init(9, 11, p0, p1, av)
 	bool := game.Play()
 	if bool {

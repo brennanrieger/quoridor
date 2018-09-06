@@ -18,15 +18,16 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 	var md = &feature.ManhattanDistance{}
 	var availableMoves = util.AvailableMoves(b, fp.playerNum)
 
-	bestVal := 0
+	bestVal := 0.
 	bestI := 0
 	dummyWinCh := make(chan bool, 2)
 	for i, move := range availableMoves {
 		bNew := b.Copy()
 		bNew.Move(move, fp.playerNum, dummyWinCh)
-		val := md.Val(bNew)
-		if val > bestVal {
-			bestVal = val
+		move.Show()
+		val0, val1 := md.Val(bNew)
+		if val1-val0 > bestVal { // TODO don't hardcode player 0
+			bestVal = val1 - val0
 			bestI = i
 		}
 	}

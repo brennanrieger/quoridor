@@ -1,5 +1,7 @@
 package board
 
+import "fmt"
+
 type MoveType int
 
 const (
@@ -22,4 +24,9 @@ func (m *Move) Copy() *Move {
 		Mt:  m.Mt,
 		Pos: m.Pos,
 	}
+}
+
+func (m *Move) Show() {
+	fmt.Println("Move type: ", m.Mt, "\nPosition: ")
+	m.Pos.Show()
 }
