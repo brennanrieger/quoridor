@@ -14,11 +14,8 @@ var (
 )
 
 func (av *AsciiVisualizer) Display(b *board.Board) {
-	var disp = "  "
-	for c := 0; c <= b.NCols; c++ {
-		disp += " " + strconv.Itoa(c)
-	}
-	disp += "\n\n"
+	var disp string
+	disp += av.numberRow(b)
 	for r := b.NRows; r >= 0; r-- {
 		// no gapRow before first lineRow
 		if r != b.NRows {
@@ -26,10 +23,20 @@ func (av *AsciiVisualizer) Display(b *board.Board) {
 		}
 		disp += av.lineRow(b, r) + "\n"
 	}
-	disp += "\n\n  "
+	disp += av.numberRow(b)
+	disp += "\n     "
 	disp += strings.Repeat("=", b.NCols*2-3)
 	disp += "\n\n"
 	fmt.Println(disp)
+}
+
+func (av *AsciiVisualizer) numberRow(b *board.Board) string {
+	var numberRow = "\n  "
+	for c := 0; c <= b.NCols; c++ {
+		numberRow += " " + strconv.Itoa(c)
+	}
+	numberRow += "\n\n"
+	return numberRow
 }
 
 func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
@@ -46,7 +53,7 @@ func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 			lineRow += av.horizChar(b, pos)
 		}
 	}
-	return lineRow
+	return lineRow + "  " + strconv.Itoa(r)
 }
 
 func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {

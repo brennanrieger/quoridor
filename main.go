@@ -13,6 +13,7 @@ import (
 // TODO: curPlayer is probably a board concern, not game concern
 // TODO: remove stutter wiht player package
 // TODO: add testing
+// TODO: bug where you can't add wall to edge
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
@@ -20,7 +21,7 @@ func main() {
 	p0 := &player.FeaturePlayer{}
 	p1 := &player.HumanPlayer{}
 	p0.Init(false)
-	game.Init(5, 5, p0, p1, av)
+	game.Init(9, 9, p0, p1, av)
 	bool := game.Play()
 	if bool {
 		fmt.Println("player 1 wins")
