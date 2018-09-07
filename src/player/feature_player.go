@@ -19,16 +19,21 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 
 	bestVal := 0.
 	bestI := 0
-	dummyWinCh := make(chan bool, 2)
+	winCh := make(chan bool, 2)
 	for i, move := range availableMoves {
 		bNew := b.Copy()
-		bNew.Move(move, fp.playerNum, dummyWinCh)
-		move.Show()
-		var md = &feature.ManhattanDistance{}
-		val0, val1 := md.Val(bNew)
-		if val1-val0 > bestVal { // TODO don't hardcode player 0
-			bestVal = val1 - val0
-			bestI = i
+		bNew.Move(move, fp.playerNum, winCh)
+		select {
+		case <-winCh:
+			return move
+		default:
+			move.Show()
+			var md = &feature.ManhattanDistance{}
+			val0, val1 := md.Val(bNew)
+			if val1-val0 > bestVal { // TODO don't hardcode player 0
+				bestVal = val1 - val0
+				bestI = i
+			}
 		}
 	}
 	return availableMoves[bestI]

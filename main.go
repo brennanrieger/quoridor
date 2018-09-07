@@ -22,7 +22,7 @@ func main() {
 	game := &game.Game{}
 	p0 := &player.FeaturePlayer{}
 	p1 := &player.HumanPlayer{}
-	p0.Init(true)
+	p0.Init(false)
 	game.Init(5, 5, p0, p1, av)
 	bool := game.Play()
 	if bool {
