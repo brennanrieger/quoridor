@@ -1,6 +1,9 @@
 package util
 
-import "board"
+import (
+	"board"
+	"fmt"
+)
 
 type ValMatrix struct {
 	NRows int
@@ -46,4 +49,20 @@ func (vm *ValMatrix) Flip() *ValMatrix {
 		NCols: vm.NCols,
 		grid:  grid,
 	}
+}
+
+func (vm *ValMatrix) Show() {
+	var disp string
+	for r := vm.NRows - 1; r >= 0; r-- {
+		for c := 0; c < vm.NCols; c++ {
+			if vm.grid[r*vm.NCols+c] != nil {
+				disp += "1"
+			} else {
+				disp += "0"
+			}
+		}
+		disp += "\n"
+	}
+	disp += "\n"
+	fmt.Println(disp)
 }

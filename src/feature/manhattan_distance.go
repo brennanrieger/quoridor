@@ -25,6 +25,7 @@ func (md *ManhattanDistance) Val(b *board.Board) (float64, float64) {
 	for head := 0; md.val0 == 0; head++ {
 		md.bfs(head, false)
 	}
+	md.distances.Show()
 
 	md.distances.Init(b.NRows, b.NCols)
 	md.neighbors = []*board.Pos{b.Pos1}
