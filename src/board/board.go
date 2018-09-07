@@ -33,20 +33,20 @@ func (b *Board) Init(nRows int, nCols int) {
 	b.HorizWalls.Init(nRows+1, nCols)
 }
 
-func (b *Board) Move(move *Move, curPlayer bool, win chan bool) error {
+func (b *Board) MakeMove(move *Move, curPlayer bool, win chan bool) error {
 	var boardCopy = b.Copy()
 	dummyWinCh := make(chan bool, 2)
-	if err := boardCopy.move(move, curPlayer, dummyWinCh); err != nil {
+	if err := boardCopy.makeMove(move, curPlayer, dummyWinCh); err != nil {
 		return err
 	} else if !boardCopy.Validate() {
 		return fmt.Errorf("New board is not valid")
 	} else {
-		b.move(move, curPlayer, win)
+		b.makeMove(move, curPlayer, win)
 	}
 	return nil
 }
 
-func (b *Board) move(move *Move, curPlayer bool, win chan bool) error {
+func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 	var moveType = move.Mt
 	var wallPos = move.Pos
 

@@ -22,7 +22,7 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 	winCh := make(chan bool, 2)
 	for i, move := range availableMoves {
 		bNew := b.Copy()
-		bNew.Move(move, fp.playerNum, winCh)
+		bNew.MakeMove(move, fp.playerNum, winCh)
 		select {
 		case <-winCh:
 			return move

@@ -13,9 +13,6 @@ import (
 // TODO: curPlayer is probably a board concern, not game concern
 // TODO: remove stutter wiht player package
 // TODO: move as an action and a struct is confusing
-// TODO: change interface for feature to return player 0 and player 1?
-
-// Current work: fix feature player
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}

@@ -48,7 +48,7 @@ func availableWalls(b *board.Board, horizontal bool) []*board.Move {
 				Mt:  moveType,
 				Pos: pos,
 			}
-			if err := boardCopy.Move(move, true, dummyWinCh); err == nil && boardCopy.Validate() {
+			if err := boardCopy.MakeMove(move, true, dummyWinCh); err == nil && boardCopy.Validate() {
 				availableWalls = append(availableWalls, move)
 			}
 		}
