@@ -11,21 +11,6 @@ func AvailableMoves(b *board.Board, playerNum bool) []*board.Move {
 	return append(allWallMoves, availableStepMoves(b, playerNum)...)
 }
 
-// func (rp *RandomPlayer) Move(b *board.Board) (board.MoveType, *board.Pos) {
-// 	var boardCopy = b.Copy()
-// 	var option = rand.Intn(3)
-// 	var mt board.MoveType
-// 	var po *board.Pos
-// 	if option == 1 {
-// 		mt, po = rp.makeWall(boardCopy, true)
-// 	} else if option == 2 {
-// 		mt, po = rp.makeWall(boardCopy, false)
-// 	} else {
-// 		mt, po = rp.movePiece(b), &board.Pos{}
-// 	}
-// 	return mt, po
-// }
-
 func availableWalls(b *board.Board, horizontal bool) []*board.Move {
 	var availableWalls []*board.Move
 

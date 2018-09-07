@@ -12,7 +12,6 @@ import (
 // TODO: make Matrix non-exported (matrix) - actually this might not work...
 // TODO: curPlayer is probably a board concern, not game concern
 // TODO: remove stutter wiht player package
-// TODO: move as an action and a struct is confusing
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
