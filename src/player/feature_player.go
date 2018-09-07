@@ -19,12 +19,12 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 
 	bestVal := 0.
 	bestI := 0
-	winCh := make(chan bool, 2)
+	win := make(chan bool, 2)
 	for i, move := range availableMoves {
 		bNew := b.Copy()
-		bNew.MakeMove(move, fp.playerNum, winCh)
+		bNew.MakeMove(move, fp.playerNum, win)
 		select {
-		case <-winCh:
+		case <-win:
 			return move
 		default:
 			move.Show()

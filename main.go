@@ -12,6 +12,7 @@ import (
 // TODO: make Matrix non-exported (matrix) - actually this might not work...
 // TODO: curPlayer is probably a board concern, not game concern
 // TODO: remove stutter wiht player package
+// TODO: add testing
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
