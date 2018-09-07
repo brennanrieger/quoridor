@@ -3,6 +3,7 @@ package visualizer
 import (
 	"board"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -13,7 +14,11 @@ var (
 )
 
 func (av *AsciiVisualizer) Display(b *board.Board) {
-	var disp string
+	var disp = "  "
+	for c := 0; c <= b.NCols; c++ {
+		disp += " " + strconv.Itoa(c)
+	}
+	disp += "\n\n"
 	for r := b.NRows; r >= 0; r-- {
 		// no gapRow before first lineRow
 		if r != b.NRows {
@@ -28,7 +33,7 @@ func (av *AsciiVisualizer) Display(b *board.Board) {
 }
 
 func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
-	var lineRow string
+	var lineRow = strconv.Itoa(r) + "  "
 	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
 			Row: r,
@@ -45,7 +50,7 @@ func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 }
 
 func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
-	var gapRow string
+	var gapRow = "   "
 	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
 			Row: r,
