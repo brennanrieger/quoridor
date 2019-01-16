@@ -5,35 +5,32 @@ import (
 )
 
 func AvailableMoves(b *board.Board, playerNum bool) []*board.Move {
-	var horizWallMoves = availableWalls(b, true)
-	var vertiWallMoves = availableWalls(b, false)
-	var allWallMoves = append(horizWallMoves, vertiWallMoves...)
-	return append(allWallMoves, availableStepMoves(b, playerNum)...)
+	var wallMoves = availableWalls(b)
+	return append(wallMoves, availableStepMoves(b, playerNum)...)
 }
 
-func availableWalls(b *board.Board, horizontal bool) []*board.Move {
+func availableWalls(b *board.Board) []*board.Move {
 	var availableWalls []*board.Move
-
-	var moveType board.MoveType
-	if horizontal {
-		moveType = board.HorizWall
-	} else {
-		moveType = board.VertiWall
-	}
 
 	for r := 0; r < b.NRows-1; r++ {
 		for c := 0; c < b.NCols-1; c++ {
-			var boardCopy = b.Copy()
 			pos := &board.Pos{
 				Row: r,
 				Col: c,
 			}
-			dummyWinCh := make(chan bool, 2)
+
+			// horizontal wall
 			var move = &board.Move{
-				Mt:  moveType,
+				Mt:  board.HorizWall,
 				Pos: pos,
 			}
-			if err := boardCopy.MakeMove(move, true, dummyWinCh); err == nil && boardCopy.Validate() {
+			if testMove(b, move) {
+				availableWalls = append(availableWalls, move)
+			}
+
+			// vertical wall
+			move.Mt = board.VertiWall
+			if testMove(b, move) {
 				availableWalls = append(availableWalls, move)
 			}
 		}
@@ -57,22 +54,37 @@ func availableStepMoves(b *board.Board, playerNum bool) []*board.Move {
 		Pos: curPos,
 	}
 
-	if !b.HorizWalls.Get(curPos) && (curPos.Row != 0 || playerNum) {
-		move.Mt = board.Down
+	move.Mt = board.Down
+	if testMove(b, move) {
 		availableMoves = append(availableMoves, move.Copy())
 	}
-	if !b.HorizWalls.Get(curPos.U()) && (curPos.Row != b.NRows-1 || !playerNum) {
-		move.Mt = board.Up
+	move.Mt = board.Left
+	if testMove(b, move) {
 		availableMoves = append(availableMoves, move.Copy())
 	}
-	if !b.VertiWalls.Get(curPos) && curPos.Col != 0 {
-		move.Mt = board.Left
+	move.Mt = board.Up
+	if testMove(b, move) {
 		availableMoves = append(availableMoves, move.Copy())
 	}
-	if !b.VertiWalls.Get(curPos.R()) && curPos.Col != b.NCols-1 {
-		move.Mt = board.Right
+	move.Mt = board.Right
+	if testMove(b, move) {
 		availableMoves = append(availableMoves, move.Copy())
 	}
 
 	return availableMoves
+}
+
+func availableJumpMoves(b *board.Board, playerNum bool) []*board.Move {
+	var availableMoves []*board.Move
+
+	for
+
+	return availableMoves
+}
+
+func testMove(b *board.Board, move *board.Move) bool {
+	var boardCopy = b.Copy()
+	dummyWinCh := make(chan bool, 2)
+	err := boardCopy.MakeMove(move, true, dummyWinCh)
+	return err == nil && boardCopy.Validate()
 }
