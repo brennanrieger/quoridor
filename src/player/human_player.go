@@ -63,6 +63,17 @@ func (hp *HumanPlayer) move() *board.Move {
 				Pos: pos,
 			}
 		}
+	case "j":
+		futurePos, err := hp.parseWallPos(inputs)
+		if err != nil {
+			hp.helpText()
+			return hp.move()
+		} else {
+			return &board.Move{
+				Mt:  board.Jump,
+				Pos: pos,
+			}
+		}
 	default:
 		fmt.Println(inputs[0])
 		fmt.Printf("Invalid move. Please try again")
@@ -109,15 +120,17 @@ func (hp *HumanPlayer) helpText() {
 =
 =   USAGE:
 =
-=   There are 6 valid move types: left, up, down, right, horizontal wall and vertical wall
+=   There are 7 valid move types: left, up, down, right, horizontal wall, vertical wall, and jump
 =   To move your piece, press the a w s d keys to move it left, up, down, and right, respectively
 =   To build a horizontal wall, press h followed by the row and column of the left corner wall
 =   To build a vertical wall, press v followed by the row and column of the bottom corner wall
+=   To jump over your opponent, press j followed by the row and column of the square to jump to
 =
 =   Ex: h 3 5
 =   Ex: a
 =   Ex: v 2 3
 =   Ex: s
+=   Ex: j 4 4
 =
 =========================================================================================
 	`)
