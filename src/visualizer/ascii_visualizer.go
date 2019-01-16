@@ -31,16 +31,16 @@ func (av *AsciiVisualizer) Display(b *board.Board) {
 }
 
 func (av *AsciiVisualizer) numberRow(b *board.Board) string {
-	var numberRow = "\n  "
+	var numberRow = "\n "
 	for c := 0; c <= b.NCols; c++ {
-		numberRow += " " + strconv.Itoa(c)
+		numberRow += "   " + strconv.Itoa(c)
 	}
 	numberRow += "\n\n"
 	return numberRow
 }
 
 func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
-	var lineRow = strconv.Itoa(r) + "  "
+	var lineRow = strconv.Itoa(r) + "   "
 	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
 			Row: r,
@@ -53,11 +53,11 @@ func (av *AsciiVisualizer) lineRow(b *board.Board, r int) string {
 			lineRow += av.horizChar(b, pos)
 		}
 	}
-	return lineRow + "  " + strconv.Itoa(r)
+	return lineRow + "   " + strconv.Itoa(r)
 }
 
 func (av *AsciiVisualizer) gapRow(b *board.Board, r int) string {
-	var gapRow = "   "
+	var gapRow = "    "
 	for c := 0; c < b.NCols+1; c++ {
 		pos := &board.Pos{
 			Row: r,
@@ -112,9 +112,9 @@ func (av *AsciiVisualizer) intersectionChar(b *board.Board, pos *board.Pos) stri
 
 func (av *AsciiVisualizer) horizChar(b *board.Board, pos *board.Pos) string {
 	if b.HorizWalls.Get(pos) {
-		return "─"
+		return "───"
 	} else {
-		return " "
+		return "   "
 	}
 }
 
@@ -128,10 +128,10 @@ func (av *AsciiVisualizer) vertiChar(b *board.Board, pos *board.Pos) string {
 
 func (av *AsciiVisualizer) midChar(b *board.Board, pos *board.Pos) string {
 	if b.Pos0.Equal(pos) {
-		return "0"
+		return " 0 "
 	} else if b.Pos1.Equal(pos) {
-		return "1"
+		return " 1 "
 	} else {
-		return " "
+		return "   "
 	}
 }
