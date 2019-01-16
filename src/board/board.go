@@ -133,7 +133,8 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 			}
 		}
 	case Jump:
-		futurePos = move.Pos
+		futurePos := move.Pos
+		var enemyPos *Pos
 		if curPlayer {
 			enemyPos = b.Pos0
 		} else {
@@ -141,14 +142,16 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 		}
 		if futurePos.Equal(curPos) {
 			return fmt.Errorf("cannot jump to current position")
-		} else if (!b.neighbors(curPos, enemyPos)) {
+		} else if !b.areNeighbors(curPos, enemyPos) {
 			return fmt.Errorf("the two players must be touching to perform a jump")
-		} else if (!b.neighbors(enemyPos, futurePos)) {
+		} else if !b.areNeighbors(enemyPos, futurePos) {
 			return fmt.Errorf("the destination space must be next to the opponent")
-		} else if () {
-
 		}
-
+		if curPlayer {
+			b.Pos1 = futurePos
+		} else {
+			b.Pos0 = futurePos
+		}
 	default:
 		return fmt.Errorf("Not a valid move type")
 	}
@@ -188,6 +191,9 @@ func (b *Board) Validate() bool {
 	var visited1 = &Matrix{}
 	visited0.Init(b.NRows, b.NCols)
 	visited1.Init(b.NRows, b.NCols)
+	if b.Pos0.Equal(b.Pos1) {
+		return false
+	}
 	return b.walk(b.Pos0, visited0, false) && b.walk(b.Pos1, visited1, true)
 }
 
@@ -221,21 +227,20 @@ func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 }
 
 // Checks if pos2 can be reached from pos1 in one move
-func (b *Board) neighbors(pos1 *Pos, pos2 *Pos) bool {
+func (b *Board) areNeighbors(pos1 *Pos, pos2 *Pos) bool {
 	if pos1.Row == pos2.Row {
 		if pos1.Col+1 == pos2.Col {
-			return board.VertiWalls(pos2)
+			return b.VertiWalls.Get(pos2)
 		} else if pos2.Col+1 == pos1.Col {
-			return board.VertiWalls(pos1)
+			return b.VertiWalls.Get(pos1)
 		}
 	} else if pos2.Col == pos2.Col {
 		if pos1.Row+1 == pos2.Row {
-			return board.HorizWalls(pos2)
+			return b.HorizWalls.Get(pos2)
 		} else if pos2.Row+1 == pos1.Row {
-			return board.HorizWalls(pos1)
+			return b.HorizWalls.Get(pos1)
 		}
 	}
 	// Not on adjacent square
 	return false
 }
-

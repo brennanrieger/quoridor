@@ -14,6 +14,7 @@ import (
 // TODO: remove stutter wiht player package
 // TODO: add testing
 // TODO: bug where you can't add wall to edge
+// TODO: make vertiwall and horizwall functions rather than using get function
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
