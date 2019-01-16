@@ -25,7 +25,7 @@ func (av *AsciiVisualizer) Display(b *board.Board) {
 	}
 	disp += av.numberRow(b)
 	disp += "\n     "
-	disp += strings.Repeat("=", b.NCols*2-3)
+	disp += strings.Repeat("=", b.NCols*4-1)
 	disp += "\n\n"
 	fmt.Println(disp)
 }
