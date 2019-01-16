@@ -31,13 +31,14 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 			move.Show()
 			var md = &feature.ManhattanDistance{}
 			val0, val1 := md.Val(bNew)
-			if fp.playerNum == 0 {
-				if val1-val0 > bestVal {
+			if fp.playerNum {
+				// if player1, want player0's distance to be greater
+				if val0-val1 > bestVal {
 					bestVal = val1 - val0
 					bestI = i
 				}
 			} else {
-				if val0-val1 > bestVal {
+				if val1-val0 > bestVal {
 					bestVal = val1 - val0
 					bestI = i
 				}
