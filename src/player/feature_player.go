@@ -3,6 +3,7 @@ package player
 import (
 	"board"
 	"feature"
+	"math"
 	"util"
 )
 
@@ -17,7 +18,7 @@ func (fp *FeaturePlayer) Init(playerNum bool) {
 func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 	var availableMoves = util.AvailableMoves(b, fp.playerNum)
 
-	bestVal := 0.
+	bestVal := math.Inf(-1)
 	bestI := 0
 	win := make(chan bool, 2)
 	for i, move := range availableMoves {
@@ -30,9 +31,16 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 			move.Show()
 			var md = &feature.ManhattanDistance{}
 			val0, val1 := md.Val(bNew)
-			if val1-val0 > bestVal { // TODO don't hardcode player 0
-				bestVal = val1 - val0
-				bestI = i
+			if fp.playerNum == 0 {
+				if val1-val0 > bestVal {
+					bestVal = val1 - val0
+					bestI = i
+				}
+			} else {
+				if val0-val1 > bestVal {
+					bestVal = val1 - val0
+					bestI = i
+				}
 			}
 		}
 	}
