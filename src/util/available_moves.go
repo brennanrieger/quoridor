@@ -6,7 +6,9 @@ import (
 
 func AvailableMoves(b *board.Board, playerNum bool) []*board.Move {
 	var wallMoves = availableWallMoves(b)
-	return append(wallMoves, availableStepMoves(b, playerNum)...)
+	var stepMoves = availableStepMoves(b, playerNum)
+	var jumpMoves = availableJumpMoves(b, playerNum)
+	return append(append(wallMoves, stepMoves...), jumpMoves...)
 }
 
 func availableWallMoves(b *board.Board) []*board.Move {
@@ -77,7 +79,7 @@ func availableJumpMoves(b *board.Board, playerNum bool) []*board.Move {
 
 	for _, futurePos := range b.Neighbors(enemyPos) {
 		var move = &board.Move{
-			Mt:  board.Jump, // dummy value
+			Mt:  board.Jump,
 			Pos: futurePos,
 		}
 		addMoveIfValid(b, move, availableMoves)
