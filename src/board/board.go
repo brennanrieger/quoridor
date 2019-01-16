@@ -199,7 +199,25 @@ func (b *Board) Validate() bool {
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
+	for _, neighborPos := range b.neighbors(pos) {
+		if !visited.Get(neighborPos) && b.walk(neighborPos, visited, curWalker) {
+			return true
+		}
+	}
+	return false
+}
 
+// Checks if pos2 can be reached from pos1 in one move
+func (b *Board) areNeighbors(pos1 *Pos, pos2 *Pos) bool {
+	for _, neighbor := range b.neighbors(pos1) {
+		if neighbor.Equal(pos2) {
+			return true
+		}
+	}
+	return false
+}
+
+func (b *Board) neighbors(pos *Pos) []*Pos {
 	var neighbors []*Pos
 	if !b.VertiWalls.Get(pos) && pos.Col != 0 {
 		neighbors = append(neighbors, pos.L())
@@ -217,30 +235,5 @@ func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	} else if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 {
 		neighbors = append(neighbors, pos.U())
 	}
-
-	for _, neighborPos := range neighbors {
-		if !visited.Get(neighborPos) && b.walk(neighborPos, visited, curWalker) {
-			return true
-		}
-	}
-	return false
-}
-
-// Checks if pos2 can be reached from pos1 in one move
-func (b *Board) areNeighbors(pos1 *Pos, pos2 *Pos) bool {
-	if pos1.Row == pos2.Row {
-		if pos1.Col+1 == pos2.Col {
-			return b.VertiWalls.Get(pos2)
-		} else if pos2.Col+1 == pos1.Col {
-			return b.VertiWalls.Get(pos1)
-		}
-	} else if pos2.Col == pos2.Col {
-		if pos1.Row+1 == pos2.Row {
-			return b.HorizWalls.Get(pos2)
-		} else if pos2.Row+1 == pos1.Row {
-			return b.HorizWalls.Get(pos1)
-		}
-	}
-	// Not on adjacent square
-	return false
+	return neighbors
 }

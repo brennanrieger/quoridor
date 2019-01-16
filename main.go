@@ -10,11 +10,13 @@ import (
 // TODO: read https://pdfs.semanticscholar.org/acad/6962a9bb3eb3fde4272f476d6625eb0a8182.pdf
 // TODO: idea use ML on small scale board to find good heuristics
 // TODO: make Matrix non-exported (matrix) - actually this might not work...
-// TODO: curPlayer is probably a board concern, not game concern
+// TODO: curPlayer is probably a board concern, not game concern <== *this*
 // TODO: remove stutter wiht player package
 // TODO: add testing
 // TODO: bug where you can't add wall to edge
 // TODO: make vertiwall and horizwall functions rather than using get function
+// TODO: completely refactor available_moves to make a list of candidate moves, try them all out, and eliminate
+// TODO: remove unnecessary parentheses in if statements
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
