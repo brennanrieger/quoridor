@@ -132,6 +132,23 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 				b.Pos0 = curPos.R()
 			}
 		}
+	case Jump:
+		futurePos = move.Pos
+		if curPlayer {
+			enemyPos = b.Pos0
+		} else {
+			enemyPos = b.Pos1
+		}
+		if futurePos.Equal(curPos) {
+			return fmt.Errorf("cannot jump to current position")
+		} else if (!b.neighbors(curPos, enemyPos)) {
+			return fmt.Errorf("the two players must be touching to perform a jump")
+		} else if (!b.neighbors(enemyPos, futurePos)) {
+			return fmt.Errorf("the destination space must be next to the opponent")
+		} else if () {
+
+		}
+
 	default:
 		return fmt.Errorf("Not a valid move type")
 	}
@@ -202,3 +219,23 @@ func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	}
 	return false
 }
+
+// Checks if pos2 can be reached from pos1 in one move
+func (b *Board) neighbors(pos1 *Pos, pos2 *Pos) bool {
+	if pos1.Row == pos2.Row {
+		if pos1.Col+1 == pos2.Col {
+			return board.VertiWalls(pos2)
+		} else if pos2.Col+1 == pos1.Col {
+			return board.VertiWalls(pos1)
+		}
+	} else if pos2.Col == pos2.Col {
+		if pos1.Row+1 == pos2.Row {
+			return board.HorizWalls(pos2)
+		} else if pos2.Row+1 == pos1.Row {
+			return board.HorizWalls(pos1)
+		}
+	}
+	// Not on adjacent square
+	return false
+}
+
