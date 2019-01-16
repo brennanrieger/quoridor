@@ -5,12 +5,12 @@ import (
 )
 
 func AvailableMoves(b *board.Board, playerNum bool) []*board.Move {
-	var wallMoves = availableWalls(b)
+	var wallMoves = availableWallMoves(b)
 	return append(wallMoves, availableStepMoves(b, playerNum)...)
 }
 
-func availableWalls(b *board.Board) []*board.Move {
-	var availableWalls []*board.Move
+func availableWallMoves(b *board.Board) []*board.Move {
+	var availableMoves []*board.Move
 
 	for r := 0; r < b.NRows-1; r++ {
 		for c := 0; c < b.NCols-1; c++ {
@@ -24,19 +24,15 @@ func availableWalls(b *board.Board) []*board.Move {
 				Mt:  board.HorizWall,
 				Pos: pos,
 			}
-			if testMove(b, move) {
-				availableWalls = append(availableWalls, move)
-			}
+			addMoveIfValid(b, move, availableMoves)
 
 			// vertical wall
 			move.Mt = board.VertiWall
-			if testMove(b, move) {
-				availableWalls = append(availableWalls, move)
-			}
+			addMoveIfValid(b, move, availableMoves)
 		}
 	}
 
-	return availableWalls
+	return availableMoves
 }
 
 func availableStepMoves(b *board.Board, playerNum bool) []*board.Move {
@@ -55,21 +51,16 @@ func availableStepMoves(b *board.Board, playerNum bool) []*board.Move {
 	}
 
 	move.Mt = board.Down
-	if testMove(b, move) {
-		availableMoves = append(availableMoves, move.Copy())
-	}
+	addMoveIfValid(b, move, availableMoves)
+
 	move.Mt = board.Left
-	if testMove(b, move) {
-		availableMoves = append(availableMoves, move.Copy())
-	}
+	addMoveIfValid(b, move, availableMoves)
+
 	move.Mt = board.Up
-	if testMove(b, move) {
-		availableMoves = append(availableMoves, move.Copy())
-	}
+	addMoveIfValid(b, move, availableMoves)
+
 	move.Mt = board.Right
-	if testMove(b, move) {
-		availableMoves = append(availableMoves, move.Copy())
-	}
+	addMoveIfValid(b, move, availableMoves)
 
 	return availableMoves
 }
@@ -77,14 +68,28 @@ func availableStepMoves(b *board.Board, playerNum bool) []*board.Move {
 func availableJumpMoves(b *board.Board, playerNum bool) []*board.Move {
 	var availableMoves []*board.Move
 
-	for
+	var enemyPos *Pos
+	if playerNum {
+		enemyPos = b.Pos0
+	} else {
+		enemyPos = b.pos1
+	}
+
+	for _, futurePos := range b.Neighbors(enemyPos) {
+		var move = &board.Move{
+			Mt:  board.Jump, // dummy value
+			Pos: futurePos,
+		}
+		addMoveIfValid(b, move, availableMoves)
+	}
 
 	return availableMoves
 }
 
-func testMove(b *board.Board, move *board.Move) bool {
+func addMoveIfValid(b *board.Board, move *board.Move, availableMoves []*board.Move) bool {
 	var boardCopy = b.Copy()
 	dummyWinCh := make(chan bool, 2)
-	err := boardCopy.MakeMove(move, true, dummyWinCh)
-	return err == nil && boardCopy.Validate()
+	if err := boardCopy.MakeMove(move, true, dummyWinCh); err == nil && boardCopy.Validate() {
+		availableMoves = append(availableMoves, move.Copy())
+	}
 }

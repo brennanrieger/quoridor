@@ -15,7 +15,6 @@ import (
 // TODO: add testing
 // TODO: bug where you can't add wall to edge
 // TODO: make vertiwall and horizwall functions rather than using get function
-// TODO: completely refactor available_moves to make a list of candidate moves, try them all out, and eliminate
 // TODO: remove unnecessary parentheses in if statements
 
 func main() {

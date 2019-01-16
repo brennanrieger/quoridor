@@ -199,7 +199,7 @@ func (b *Board) Validate() bool {
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
-	for _, neighborPos := range b.neighbors(pos) {
+	for _, neighborPos := range b.Neighbors(pos) {
 		if !visited.Get(neighborPos) && b.walk(neighborPos, visited, curWalker) {
 			return true
 		}
@@ -209,7 +209,7 @@ func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 
 // Checks if pos2 can be reached from pos1 in one move
 func (b *Board) areNeighbors(pos1 *Pos, pos2 *Pos) bool {
-	for _, neighbor := range b.neighbors(pos1) {
+	for _, neighbor := range b.Neighbors(pos1) {
 		if neighbor.Equal(pos2) {
 			return true
 		}
@@ -217,7 +217,7 @@ func (b *Board) areNeighbors(pos1 *Pos, pos2 *Pos) bool {
 	return false
 }
 
-func (b *Board) neighbors(pos *Pos) []*Pos {
+func (b *Board) Neighbors(pos *Pos) []*Pos {
 	var neighbors []*Pos
 	if !b.VertiWalls.Get(pos) && pos.Col != 0 {
 		neighbors = append(neighbors, pos.L())
