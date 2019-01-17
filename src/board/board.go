@@ -146,6 +146,11 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 			return fmt.Errorf("the two players must be touching to perform a jump")
 		} else if !b.areNeighbors(enemyPos, futurePos) {
 			return fmt.Errorf("the destination space must be next to the opponent")
+		} else if (curPos.Row == enemyPos.Row && futurePos.Row != curPos.Row && curPos.Col > enemyPos.Col && !b.HorizWalls.Get(enemyPos)) ||
+			(curPos.Row == enemyPos.Row && futurePos.Row != curPos.Row && curPos.Col < enemyPos.Col && !b.HorizWalls.Get(enemyPos.L())) ||
+			(curPos.Col == enemyPos.Col && futurePos.Col != curPos.Col && curPos.Row > enemyPos.Row && !b.HorizWalls.Get(enemyPos)) ||
+			(curPos.Col == enemyPos.Col && futurePos.Col != curPos.Col && curPos.Row > enemyPos.Row && !b.HorizWalls.Get(enemyPos.U())) {
+			return fmt.Errorf("if jumping to the side, there must be a wall behind your opponent")
 		}
 		if curPlayer {
 			b.Pos1 = futurePos
