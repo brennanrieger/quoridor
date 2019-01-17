@@ -9,10 +9,12 @@ import (
 
 type FeaturePlayer struct {
 	playerNum bool
+	md        feature.Feature // TODO: rename md to something more generic
 }
 
 func (fp *FeaturePlayer) Init(playerNum bool) {
 	fp.playerNum = playerNum
+	fp.md = &feature.ManhattanDistance{}
 }
 
 func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
@@ -29,8 +31,7 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 			return move
 		default:
 			move.Show()
-			var md = &feature.ManhattanDistance{}
-			val0, val1 := md.Val(bNew)
+			val0, val1 := fp.md.Val(bNew)
 			if fp.playerNum {
 				// if player1, want player0's distance to be greater
 				if val0-val1 > bestVal {

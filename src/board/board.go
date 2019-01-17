@@ -143,7 +143,7 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 		if futurePos.Equal(curPos) {
 			return fmt.Errorf("cannot jump to current position")
 		} else if !b.areNeighbors(curPos, enemyPos) {
-			return fmt.Errorf("the two players must be touching to perform a jump")
+			return fmt.Errorf("the two players must be neighbors to perform a jump")
 		} else if !b.areNeighbors(enemyPos, futurePos) {
 			return fmt.Errorf("the destination space must be next to the opponent")
 		} else if (curPos.Row == enemyPos.Row && futurePos.Row != curPos.Row && curPos.Col > enemyPos.Col && !b.HorizWalls.Get(enemyPos)) ||
