@@ -199,6 +199,14 @@ func (b *Board) Validate() bool {
 
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
+
+	if !b.HorizWalls.Get(pos) && pos.Row == 0 && curWalker {
+		return true
+	}
+	if !b.HorizWalls.Get(pos.U()) && pos.Row == b.NRows-1 && !curWalker {
+		return true
+	}
+
 	for _, neighborPos := range b.Neighbors(pos) {
 		if !visited.Get(neighborPos) && b.walk(neighborPos, visited, curWalker) {
 			return true
@@ -225,14 +233,10 @@ func (b *Board) Neighbors(pos *Pos) []*Pos {
 	if !b.VertiWalls.Get(pos.R()) && pos.Col != b.NCols-1 {
 		neighbors = append(neighbors, pos.R())
 	}
-	if !b.HorizWalls.Get(pos) && pos.Row == 0 && curWalker {
-		return true
-	} else if !b.HorizWalls.Get(pos) && pos.Row != 0 {
+	if !b.HorizWalls.Get(pos) && pos.Row != 0 {
 		neighbors = append(neighbors, pos.D())
 	}
-	if !b.HorizWalls.Get(pos.U()) && pos.Row == b.NRows-1 && !curWalker {
-		return true
-	} else if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 {
+	if !b.HorizWalls.Get(pos.U()) && pos.Row != b.NRows-1 {
 		neighbors = append(neighbors, pos.U())
 	}
 	return neighbors

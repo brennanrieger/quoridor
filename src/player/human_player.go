@@ -64,7 +64,7 @@ func (hp *HumanPlayer) move() *board.Move {
 			}
 		}
 	case "j":
-		futurePos, err := hp.parseWallPos(inputs)
+		pos, err := hp.parseWallPos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()

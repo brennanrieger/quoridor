@@ -16,6 +16,7 @@ import (
 // TODO: bug where you can't add wall to edge
 // TODO: make vertiwall and horizwall functions rather than using get function
 // TODO: remove unnecessary parentheses in if statements
+// TODO: investigate why implementing jumping changed manhattan distance player behavior
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
