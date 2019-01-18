@@ -8,18 +8,21 @@ import (
 )
 
 type ManhattanDistance struct {
+	val0      int
+	val1      int
 	board     *board.Board
 	distances *util.ValMatrix
 	neighbors []*board.Pos
-	val0      int
-	val1      int
 }
 
 func (md *ManhattanDistance) Val(b *board.Board) (float64, float64) {
+	md.val0 = 0
+	md.val1 = 0
 	md.board = b
-	md.distances = &util.ValMatrix{}
 
+	md.distances = &util.ValMatrix{}
 	md.distances.Init(b.NRows, b.NCols)
+
 	md.neighbors = []*board.Pos{b.Pos0}
 	md.distances.Set(b.Pos0, 0)
 	for head := 0; md.val0 == 0; head++ {

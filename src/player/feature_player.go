@@ -3,6 +3,7 @@ package player
 import (
 	"board"
 	"feature"
+	"fmt"
 	"math"
 	"util"
 )
@@ -32,10 +33,12 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 		default:
 			move.Show()
 			val0, val1 := fp.featureType.Val(bNew)
+			fmt.Println(val0)
+			fmt.Println(val1)
 			if fp.playerNum {
 				// if player1, want player0's distance to be greater
 				if val0-val1 > bestVal {
-					bestVal = val1 - val0
+					bestVal = val0 - val1
 					bestI = i
 				}
 			} else {
