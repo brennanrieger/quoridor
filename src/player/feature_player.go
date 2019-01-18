@@ -12,9 +12,9 @@ type FeaturePlayer struct {
 	featureType feature.Feature
 }
 
-func (fp *FeaturePlayer) Init(playerNum bool) {
+func (fp *FeaturePlayer) Init(playerNum bool, featureType feature.Feature) {
 	fp.playerNum = playerNum
-	fp.featureType = &feature.ManhattanDistance{}
+	fp.featureType = featureType
 }
 
 func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {

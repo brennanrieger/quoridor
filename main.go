@@ -1,6 +1,7 @@
 package main
 
 import (
+	"feature"
 	"fmt"
 	"game"
 	"player"
@@ -23,7 +24,7 @@ func main() {
 	game := &game.Game{}
 	p0 := &player.FeaturePlayer{}
 	p1 := &player.HumanPlayer{}
-	p0.Init(false)
+	p0.Init(false, &feature.ManhattanDistance{})
 	game.Init(9, 9, p0, p1, av)
 	bool := game.Play()
 	if bool {
