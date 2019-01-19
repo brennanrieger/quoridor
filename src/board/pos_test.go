@@ -1,8 +1,12 @@
 package board
 
 import (
+	"testing"
+
 	gc "github.com/go-check/check"
 )
+
+func Test(t *testing.T) { gc.TestingT(t) }
 
 type PosSuite struct{}
 
@@ -44,7 +48,7 @@ func (s *PosSuite) TestD(c *gc.C) {
 		Row: 9,
 		Col: 10,
 	}
-	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
+	c.Check(srcPos.D().Equal(destPos), gc.Equals, true)
 }
 
 func (s *PosSuite) TestR(c *gc.C) {
@@ -56,7 +60,7 @@ func (s *PosSuite) TestR(c *gc.C) {
 		Row: 10,
 		Col: 11,
 	}
-	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
+	c.Check(srcPos.R().Equal(destPos), gc.Equals, true)
 }
 
 func (s *PosSuite) TestL(c *gc.C) {
@@ -68,7 +72,7 @@ func (s *PosSuite) TestL(c *gc.C) {
 		Row: 10,
 		Col: 9,
 	}
-	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
+	c.Check(srcPos.L().Equal(destPos), gc.Equals, true)
 }
 
 func (s *PosSuite) TestCopy(c *gc.C) {
