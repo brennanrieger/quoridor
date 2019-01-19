@@ -18,6 +18,7 @@ import (
 // TODO: make vertiwall and horizwall functions rather than using get function
 // TODO: remove unnecessary parentheses in if statements
 // TODO: investigate why implementing jumping changed manhattan distance player behavior
+// TODO: move `func Test(t *testing.T) { gc.TestingT(t) }` to board_test
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
