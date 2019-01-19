@@ -4,7 +4,9 @@ import (
 	gc "github.com/go-check/check"
 )
 
-func TestEqual(c *gc.C) {
+type PosSuite struct{}
+
+func (s *PosSuite) TestEqual(c *gc.C) {
 	srcPos := &Pos{
 		Row: 10,
 		Col: 10,
@@ -21,7 +23,7 @@ func TestEqual(c *gc.C) {
 	c.Check(srcPos.Equal(diffPos), gc.Equals, false)
 }
 
-func TestU(c *gc.C) {
+func (s *PosSuite) TestU(c *gc.C) {
 	srcPos := &Pos{
 		Row: 10,
 		Col: 10,
@@ -33,7 +35,7 @@ func TestU(c *gc.C) {
 	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
 }
 
-func TestD(c *gc.C) {
+func (s *PosSuite) TestD(c *gc.C) {
 	srcPos := &Pos{
 		Row: 10,
 		Col: 10,
@@ -45,7 +47,7 @@ func TestD(c *gc.C) {
 	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
 }
 
-func TestR(c *gc.C) {
+func (s *PosSuite) TestR(c *gc.C) {
 	srcPos := &Pos{
 		Row: 10,
 		Col: 10,
@@ -57,7 +59,7 @@ func TestR(c *gc.C) {
 	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
 }
 
-func TestL(c *gc.C) {
+func (s *PosSuite) TestL(c *gc.C) {
 	srcPos := &Pos{
 		Row: 10,
 		Col: 10,
@@ -68,3 +70,14 @@ func TestL(c *gc.C) {
 	}
 	c.Check(srcPos.U().Equal(destPos), gc.Equals, true)
 }
+
+func (s *PosSuite) TestCopy(c *gc.C) {
+	srcPos := &Pos{
+		Row: 10,
+		Col: 10,
+	}
+	c.Check(srcPos.Equal(srcPos.Copy()), gc.Equals, true)
+	c.Check(srcPos, gc.Not(gc.Equals), srcPos.Copy())
+}
+
+var _ = gc.Suite(new(PosSuite))
