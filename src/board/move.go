@@ -22,7 +22,7 @@ type Move struct {
 func (m *Move) Copy() *Move {
 	return &Move{
 		Mt:  m.Mt,
-		Pos: m.Pos,
+		Pos: m.Pos.Copy(),
 	}
 }
 
