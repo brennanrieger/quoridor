@@ -12,7 +12,7 @@ type PosSuite struct {
 	srcPos *Pos
 }
 
-func (s *PosSuite) SetUpSuite(c *gc.C) {
+func (s *PosSuite) SetUpTest(c *gc.C) {
 	s.srcPos = &Pos{
 		Row: 10,
 		Col: 10,

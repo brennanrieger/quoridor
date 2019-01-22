@@ -10,7 +10,7 @@ type MatrixSuite struct {
 	srcMatrix *Matrix
 }
 
-func (s *MatrixSuite) SetUpSuite(c *gc.C) {
+func (s *MatrixSuite) SetUpTest(c *gc.C) {
 	s.srcMatrix = &Matrix{
 		NRows: 2,
 		NCols: 3,
@@ -36,6 +36,20 @@ func (s *MatrixSuite) TestFlip(c *gc.C) {
 		grid:  []bool{false, true, false, false, true, true},
 	}
 	c.Check(reflect.DeepEqual(s.srcMatrix.Flip(), destMatrix), gc.Equals, true)
+}
+
+func (s *MatrixSuite) TestSet(c *gc.C) {
+	destMatrix := &Matrix{
+		NRows: 2,
+		NCols: 3,
+		grid:  []bool{true, true, true, false, true, false},
+	}
+	pos := &Pos{
+		Row: 0,
+		Col: 2,
+	}
+	s.srcMatrix.Set(pos)
+	c.Check(reflect.DeepEqual(s.srcMatrix, destMatrix), gc.Equals, true)
 }
 
 var _ = gc.Suite(new(MatrixSuite))
