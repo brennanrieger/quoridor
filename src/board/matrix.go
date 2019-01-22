@@ -38,6 +38,7 @@ func (m *Matrix) Copy() *Matrix {
 
 func (m *Matrix) Flip() *Matrix {
 	grid := make([]bool, m.NRows*m.NCols)
+	copy(grid, m.grid)
 	for i, j := 0, len(grid)-1; i < j; i, j = i+1, j-1 {
 		grid[i], grid[j] = grid[j], grid[i]
 	}
