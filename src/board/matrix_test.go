@@ -52,4 +52,12 @@ func (s *MatrixSuite) TestSet(c *gc.C) {
 	c.Check(reflect.DeepEqual(s.srcMatrix, destMatrix), gc.Equals, true)
 }
 
+func (s *MatrixSuite) TestGet(c *gc.C) {
+	pos := &Pos{
+		Row: 0,
+		Col: 2,
+	}
+	c.Check(s.srcMatrix.Get(pos), gc.Equals, false)
+}
+
 var _ = gc.Suite(new(MatrixSuite))
