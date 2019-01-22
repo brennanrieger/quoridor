@@ -11,6 +11,9 @@ type Board struct {
 
 	VertiWalls *Matrix
 	HorizWalls *Matrix
+
+	// true is player 1; false is player 0
+	CurPlayer bool
 }
 
 func (b *Board) Init(nRows int, nCols int) {
@@ -160,6 +163,9 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 	default:
 		return fmt.Errorf("Not a valid move type")
 	}
+
+	// Next player's turn
+	b.CurPlayer = !b.CurPlayer
 
 	return nil
 }

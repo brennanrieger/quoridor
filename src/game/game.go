@@ -38,18 +38,18 @@ func (g *Game) Play() bool {
 		default:
 			g.Display()
 			var move *board.Move
-			if g.curPlayer {
+			if g.board.CurPlayer {
 				move = (*g.p1).Move(g.board)
 			} else {
 				move = (*g.p0).Move(g.board)
 			}
-			if err := g.board.MakeMove(move, g.curPlayer, g.win); err != nil {
+			if err := g.board.MakeMove(move, g.board.CurPlayer, g.win); err != nil {
 				// if player makes invalid move other player wins
 				fmt.Println(err)
 				fmt.Println("bad move")
-				return !g.curPlayer
+				return !g.board.CurPlayer
 			}
-			g.curPlayer = !g.curPlayer
+			g.curPlayer = g.board.CurPlayer
 		}
 	}
 }

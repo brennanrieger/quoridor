@@ -19,6 +19,10 @@ func (fp *FeaturePlayer) Init(playerNum bool, featureType feature.Feature) {
 }
 
 func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
+	if fp.playerNum != b.CurPlayer {
+		panic("it's not my turn")
+	}
+
 	var availableMoves = util.AvailableMoves(b, fp.playerNum)
 
 	bestVal := math.Inf(-1)
