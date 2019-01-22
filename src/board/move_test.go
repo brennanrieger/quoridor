@@ -7,11 +7,11 @@ import (
 type MoveSuite struct{}
 
 func (s *MoveSuite) TestCopy(c *gc.C) {
-	pos = &Pos{
+	pos := &Pos{
 		Row: 10,
 		Col: 10,
 	}
-	move = &Move{
+	move := &Move{
 		Mt:  1,
 		Pos: pos,
 	}

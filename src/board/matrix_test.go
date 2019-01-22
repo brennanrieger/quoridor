@@ -9,7 +9,7 @@ import (
 type MatrixSuite struct{}
 
 func (s *MatrixSuite) TestCopy(c *gc.C) {
-	matrix = &Matrix{
+	matrix := &Matrix{
 		NRows: 2,
 		NCols: 2,
 		grid:  make([]bool, 4, 4),
@@ -22,7 +22,7 @@ func (s *MatrixSuite) TestCopy(c *gc.C) {
 
 	// Check grid is copied by value but not reference
 	c.Check(matrix.grid, gc.Not(gc.Equals), matrix.Copy().grid)
-	c.Check(reflect.DeepEqual(matrix.grid, matrix.grid.Copy()), gc.Equals, true)
+	c.Check(reflect.DeepEqual(matrix.grid, matrix.Copy().grid), gc.Equals, true)
 }
 
 var _ = gc.Suite(new(MatrixSuite))
