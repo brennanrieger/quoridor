@@ -7,11 +7,11 @@ import (
 )
 
 type MatrixSuite struct {
-	matrix *Matrix
+	srcMatrix *Matrix
 }
 
 func (s *MatrixSuite) SetUpSuite(c *gc.C) {
-	s.matrix = &Matrix{
+	s.srcMatrix = &Matrix{
 		NRows: 2,
 		NCols: 3,
 		grid:  []bool{true, true, false, false, true, false},
@@ -19,14 +19,23 @@ func (s *MatrixSuite) SetUpSuite(c *gc.C) {
 }
 
 func (s *MatrixSuite) TestCopy(c *gc.C) {
-	// Check s.matrix is copied by value but not reference
-	c.Check(s.matrix, gc.Not(gc.Equals), s.matrix.Copy())
-	c.Check(s.matrix.NRows, gc.Equals, s.matrix.Copy().NRows)
-	c.Check(s.matrix.NCols, gc.Equals, s.matrix.Copy().NCols)
+	// Check s.srcMatrix is copied by value but not reference
+	c.Check(s.srcMatrix, gc.Not(gc.Equals), s.srcMatrix.Copy())
+	c.Check(s.srcMatrix.NRows, gc.Equals, s.srcMatrix.Copy().NRows)
+	c.Check(s.srcMatrix.NCols, gc.Equals, s.srcMatrix.Copy().NCols)
 
 	// Check grid is copied by value but not reference
-	c.Check(s.matrix.grid, gc.Not(gc.Equals), s.matrix.Copy().grid)
-	c.Check(reflect.DeepEqual(s.matrix.grid, s.matrix.Copy().grid), gc.Equals, true)
+	c.Check(s.srcMatrix.grid, gc.Not(gc.Equals), s.srcMatrix.Copy().grid)
+	c.Check(reflect.DeepEqual(s.srcMatrix.grid, s.srcMatrix.Copy().grid), gc.Equals, true)
+}
+
+func (s *MatrixSuite) TestFlip(c *gc.C) {
+	destMatrix := &Matrix{
+		NRows: 2,
+		NCols: 3,
+		grid:  []bool{false, true, false, false, true, true},
+	}
+	c.Check(reflect.DeepEqual(s.srcMatrix.Flip(), destMatrix), gc.Equals, true)
 }
 
 var _ = gc.Suite(new(MatrixSuite))
