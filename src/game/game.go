@@ -13,7 +13,6 @@ type Game struct {
 	p0         *player.Player
 	p1         *player.Player
 	visualizer *visualizer.Visualizer
-	curPlayer  bool
 
 	win chan bool
 }
@@ -49,7 +48,6 @@ func (g *Game) Play() bool {
 				fmt.Println("bad move")
 				return !g.board.CurPlayer
 			}
-			g.curPlayer = g.board.CurPlayer
 		}
 	}
 }

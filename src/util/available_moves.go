@@ -38,7 +38,7 @@ func addAvailableWallMoves(b *board.Board, availableMoves *[]*board.Move) {
 
 func addAvailableStepMoves(b *board.Board, availableMoves *[]*board.Move) {
 	var curPos *board.Pos
-	if b.curPlayer {
+	if b.CurPlayer {
 		curPos = b.Pos1
 	} else {
 		curPos = b.Pos0
