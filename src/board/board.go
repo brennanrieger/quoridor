@@ -36,25 +36,26 @@ func (b *Board) Init(nRows int, nCols int) {
 	b.HorizWalls.Init(nRows+1, nCols)
 }
 
+// Wrapper around makeMove to ensure the resulting board is valid
 func (b *Board) MakeMove(move *Move, curPlayer bool, win chan bool) error {
 	var boardCopy = b.Copy()
 	dummyWinCh := make(chan bool, 2)
-	if err := boardCopy.makeMove(move, curPlayer, dummyWinCh); err != nil {
+	if err := boardCopy.makeMove(move, dummyWinCh); err != nil {
 		return err
 	} else if !boardCopy.Validate() {
 		return fmt.Errorf("New board is not valid")
 	} else {
-		b.makeMove(move, curPlayer, win)
+		b.makeMove(move, win)
 	}
 	return nil
 }
 
-func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
+func (b *Board) makeMove(move *Move, win chan bool) error {
 	var moveType = move.Mt
 	var wallPos = move.Pos
 
 	var curPos *Pos
-	if curPlayer {
+	if b.CurPlayer {
 		curPos = b.Pos1
 	} else {
 		curPos = b.Pos0
@@ -86,12 +87,12 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 	case Down:
 		if b.HorizWalls.Get(curPos) {
 			return fmt.Errorf("hit bottom wall")
-		} else if curPos.Row == 0 && curPlayer {
+		} else if curPos.Row == 0 && b.CurPlayer {
 			win <- true
-		} else if curPos.Row == 0 && !curPlayer {
+		} else if curPos.Row == 0 && !b.CurPlayer {
 			return fmt.Errorf("hit floor")
 		} else {
-			if curPlayer {
+			if b.CurPlayer {
 				b.Pos1 = curPos.D()
 			} else {
 				b.Pos0 = curPos.D()
@@ -100,12 +101,12 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 	case Up:
 		if b.HorizWalls.Get(curPos.U()) {
 			return fmt.Errorf("hit top wall")
-		} else if curPos.Row == b.NRows-1 && curPlayer {
+		} else if curPos.Row == b.NRows-1 && b.CurPlayer {
 			return fmt.Errorf("hit ceiling")
-		} else if curPos.Row == b.NRows-1 && !curPlayer {
+		} else if curPos.Row == b.NRows-1 && !b.CurPlayer {
 			win <- false
 		} else {
-			if curPlayer {
+			if b.CurPlayer {
 				b.Pos1 = curPos.U()
 			} else {
 				b.Pos0 = curPos.U()
@@ -117,7 +118,7 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 		} else if curPos.Col == 0 {
 			return fmt.Errorf("hit left border")
 		} else {
-			if curPlayer {
+			if b.CurPlayer {
 				b.Pos1 = curPos.L()
 			} else {
 				b.Pos0 = curPos.L()
@@ -129,7 +130,7 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 		} else if curPos.Col == b.NCols-1 {
 			return fmt.Errorf("hit right border")
 		} else {
-			if curPlayer {
+			if b.CurPlayer {
 				b.Pos1 = curPos.R()
 			} else {
 				b.Pos0 = curPos.R()
@@ -138,7 +139,7 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 	case Jump:
 		futurePos := move.Pos
 		var enemyPos *Pos
-		if curPlayer {
+		if b.CurPlayer {
 			enemyPos = b.Pos0
 		} else {
 			enemyPos = b.Pos1
@@ -155,7 +156,7 @@ func (b *Board) makeMove(move *Move, curPlayer bool, win chan bool) error {
 			(curPos.Col == enemyPos.Col && futurePos.Col != curPos.Col && curPos.Row > enemyPos.Row && !b.HorizWalls.Get(enemyPos.U())) {
 			return fmt.Errorf("if jumping to the side, there must be a wall behind your opponent")
 		}
-		if curPlayer {
+		if b.CurPlayer {
 			b.Pos1 = futurePos
 		} else {
 			b.Pos0 = futurePos
@@ -177,6 +178,7 @@ func (b *Board) Copy() *Board {
 	newBoard.Pos0 = b.Pos0.Copy()
 	newBoard.VertiWalls = b.VertiWalls.Copy()
 	newBoard.HorizWalls = b.HorizWalls.Copy()
+	newBoard.CurPlayer = b.CurPlayer
 	return newBoard
 }
 
