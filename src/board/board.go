@@ -37,7 +37,7 @@ func (b *Board) Init(nRows int, nCols int) {
 }
 
 // Wrapper around makeMove to ensure the resulting board is valid
-func (b *Board) MakeMove(move *Move, curPlayer bool, win chan bool) error {
+func (b *Board) MakeMove(move *Move, win chan bool) error {
 	var boardCopy = b.Copy()
 	dummyWinCh := make(chan bool, 2)
 	if err := boardCopy.makeMove(move, dummyWinCh); err != nil {
