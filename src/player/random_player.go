@@ -15,6 +15,10 @@ func (rp *RandomPlayer) Init(playerNum bool) {
 }
 
 func (rp *RandomPlayer) Move(b *board.Board) *board.Move {
-	var availableMoves = util.AvailableMoves(b, rp.playerNum)
+	if rp.playerNum != b.CurPlayer {
+		panic("it's not my turn")
+	}
+
+	var availableMoves = util.AvailableMoves(b)
 	return availableMoves[rand.Intn(len(availableMoves))]
 }

@@ -23,7 +23,7 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 		panic("it's not my turn")
 	}
 
-	var availableMoves = util.AvailableMoves(b, fp.playerNum)
+	var availableMoves = util.AvailableMoves(b)
 
 	bestVal := math.Inf(-1)
 	bestI := 0

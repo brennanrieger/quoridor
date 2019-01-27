@@ -4,7 +4,7 @@ import (
 	"board"
 )
 
-func AvailableMoves(b *board.Board, playerNum bool) []*board.Move {
+func AvailableMoves(b *board.Board) []*board.Move {
 	av := make([]*board.Move, 0)
 	availableMoves := &av
 
