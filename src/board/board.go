@@ -210,6 +210,7 @@ func (b *Board) Validate() bool {
 	return b.walk(b.Pos0, visited0, false) && b.walk(b.Pos1, visited1, true)
 }
 
+// returns whether it is possible for player curWalker to win the game
 func (b *Board) walk(pos *Pos, visited *Matrix, curWalker bool) bool {
 	visited.Set(pos)
 

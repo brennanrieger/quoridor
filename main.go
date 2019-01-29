@@ -20,6 +20,7 @@ import (
 // TODO: investigate why implementing jumping changed manhattan distance player behavior
 // TODO: move `func Test(t *testing.T) { gc.TestingT(t) }` to board_test
 // TODO: review capitalization on matrix.grid and matrix.NRows
+// TODO: create randomized dfs feature (n samples)
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
