@@ -27,12 +27,11 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 
 	bestVal := math.Inf(-1)
 	bestI := 0
-	win := make(chan bool, 2) // TODO replace usages of this variable with bNew.Win
 	for i, move := range availableMoves {
 		bNew := b.Copy()
 		bNew.MakeMove(move)
 		select {
-		case <-win:
+		case <-bNew.Win:
 			return move
 		default:
 			move.Show()

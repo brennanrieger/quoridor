@@ -20,7 +20,7 @@ func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v 
 	g.p1 = &p1
 
 	g.board = &board.Board{}
-	g.board.Init(NRows, NCols, make(chan bool, 2))
+	g.board.Init(NRows, NCols)
 
 	g.visualizer = &v
 }

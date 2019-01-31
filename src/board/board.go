@@ -18,11 +18,11 @@ type Board struct {
 	Win chan bool
 }
 
-func (b *Board) Init(nRows int, nCols int, win chan bool) {
+func (b *Board) Init(nRows int, nCols int) {
 	b.NRows = nRows
 	b.NCols = nCols
 
-	b.Win = win
+	b.Win = make(chan bool, 2)
 
 	b.Pos0 = &Pos{
 		Row: 0,
@@ -176,8 +176,7 @@ func (b *Board) makeMove(move *Move) error {
 
 func (b *Board) Copy() *Board {
 	newBoard := &Board{}
-	dummyWinCh := make(chan bool, 2) //TODO: rename from dummyWinCh?
-	newBoard.Init(b.NRows, b.NCols, dummyWinCh)
+	newBoard.Init(b.NRows, b.NCols)
 	newBoard.Pos1 = b.Pos1.Copy()
 	newBoard.Pos0 = b.Pos0.Copy()
 	newBoard.VertiWalls = b.VertiWalls.Copy()
@@ -188,8 +187,7 @@ func (b *Board) Copy() *Board {
 
 func (b *Board) Flip() *Board {
 	newBoard := &Board{}
-	dummyWinCh := make(chan bool, 2) //TODO: rename from dummyWinCh?
-	newBoard.Init(b.NRows, b.NCols, dummyWinCh)
+	newBoard.Init(b.NRows, b.NCols)
 	newBoard.Pos1 = b.flipPos(b.Pos0)
 	newBoard.Pos0 = b.flipPos(b.Pos1)
 	newBoard.VertiWalls = b.VertiWalls.Flip()
