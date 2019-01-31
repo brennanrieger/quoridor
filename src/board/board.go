@@ -74,7 +74,7 @@ func (b *Board) makeMove(move *Move, win chan bool) error {
 			b.HorizWalls.Set(wallPos.R())
 		}
 	case VertiWall:
-		if wallPos.Row < 0 || wallPos.Col < 1 || wallPos.Row > b.NRows-2 || wallPos.Col > b.NCols-1 { // do not allow columns on far edges
+		if wallPos.Row < 0 || wallPos.Col < 0 || wallPos.Row > b.NRows-2 || wallPos.Col > b.NCols {
 			return fmt.Errorf("wall out of bounds")
 		} else if b.VertiWalls.Get(wallPos) || b.VertiWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall already exists")
