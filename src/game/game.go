@@ -21,11 +21,12 @@ func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v 
 	g.p0 = &p0
 	g.p1 = &p1
 
-	win := make(chan bool, 2)
+	g.win = make(chan bool, 2)
+
 	g.board = &board.Board{}
-	g.board.Init(NRows, NCols)
+	g.board.Init(NRows, NCols, g.win)
+
 	g.visualizer = &v
-	g.win = win
 }
 
 func (g *Game) Play() bool {
