@@ -13,18 +13,14 @@ type Game struct {
 	p0         *player.Player
 	p1         *player.Player
 	visualizer *visualizer.Visualizer
-
-	win chan bool
 }
 
 func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v visualizer.Visualizer) {
 	g.p0 = &p0
 	g.p1 = &p1
 
-	g.win = make(chan bool, 2)
-
 	g.board = &board.Board{}
-	g.board.Init(NRows, NCols, g.win)
+	g.board.Init(NRows, NCols, make(chan bool, 2))
 
 	g.visualizer = &v
 }
@@ -32,7 +28,7 @@ func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v 
 func (g *Game) Play() bool {
 	for {
 		select {
-		case winner := <-g.win:
+		case winner := <-g.board.Win:
 			fmt.Println("won")
 			return winner
 		default:
