@@ -21,6 +21,7 @@ import (
 // TODO: move `func Test(t *testing.T) { gc.TestingT(t) }` to board_test
 // TODO: review capitalization on matrix.grid and matrix.NRows
 // TODO: create randomized dfs feature (n samples)
+// TODO: use better system than true/false for current player
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
