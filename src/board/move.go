@@ -30,3 +30,14 @@ func (m *Move) Show() {
 	fmt.Println("Move type: ", m.Mt, "\nPosition: ")
 	m.Pos.Show()
 }
+
+func StepMove(moveType MoveType) *Move {
+	if moveType < 3 || moveType > 6 {
+		panic("cannot generate a move of type %d", moveType)
+	}
+	dummyPos = &Pos{}
+	return &Move{
+		Mt:  moveType,
+		Pos: dummyPos,
+	}
+}
