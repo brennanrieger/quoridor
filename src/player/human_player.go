@@ -18,29 +18,16 @@ func (hp *HumanPlayer) Move(b *board.Board) *board.Move {
 func (hp *HumanPlayer) move() *board.Move {
 	rawText := hp.promptUser()
 	inputs := strings.Split(rawText, " ")
-	var pos *board.Pos
 
 	switch inputs[0] {
 	case "a":
-		return &board.Move{
-			Mt:  board.Left,
-			Pos: pos,
-		}
+		return board.StepMove(board.Left)
 	case "w":
-		return &board.Move{
-			Mt:  board.Up,
-			Pos: pos,
-		}
+		return board.StepMove(board.Up)
 	case "s":
-		return &board.Move{
-			Mt:  board.Down,
-			Pos: pos,
-		}
+		return board.StepMove(board.Down)
 	case "d":
-		return &board.Move{
-			Mt:  board.Right,
-			Pos: pos,
-		}
+		return board.StepMove(board.Right)
 	case "h":
 		pos, err := hp.parseWallPos(inputs)
 		if err != nil {

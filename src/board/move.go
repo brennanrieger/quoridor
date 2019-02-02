@@ -33,11 +33,10 @@ func (m *Move) Show() {
 
 func StepMove(moveType MoveType) *Move {
 	if moveType < 3 || moveType > 6 {
-		panic("cannot generate a move of type %d", moveType)
+		panic(fmt.Sprintf("moveType %d is not a step move", moveType))
 	}
-	dummyPos = &Pos{}
 	return &Move{
 		Mt:  moveType,
-		Pos: dummyPos,
+		Pos: &Pos{},
 	}
 }
