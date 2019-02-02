@@ -29,7 +29,7 @@ func (hp *HumanPlayer) move() *board.Move {
 	case "d":
 		return board.StepMove(board.Right)
 	case "h":
-		pos, err := hp.parseWallPos(inputs)
+		pos, err := hp.parsePos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()
@@ -40,7 +40,7 @@ func (hp *HumanPlayer) move() *board.Move {
 			}
 		}
 	case "v":
-		pos, err := hp.parseWallPos(inputs)
+		pos, err := hp.parsePos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()
@@ -51,7 +51,7 @@ func (hp *HumanPlayer) move() *board.Move {
 			}
 		}
 	case "j":
-		pos, err := hp.parseWallPos(inputs)
+		pos, err := hp.parsePos(inputs)
 		if err != nil {
 			hp.helpText()
 			return hp.move()
@@ -81,10 +81,10 @@ func (hp *HumanPlayer) promptUser() string {
 	}
 }
 
-func (hp *HumanPlayer) parseWallPos(inputs []string) (*board.Pos, error) {
+func (hp *HumanPlayer) parsePos(inputs []string) (*board.Pos, error) {
 	var pos *board.Pos
 	if len(inputs) != 3 {
-		return pos, fmt.Errorf("Building a wall requires 3 inputs")
+		return pos, fmt.Errorf("3 arguments required")
 	}
 
 	r, rErr := strconv.ParseInt(inputs[1], 10, 16)
