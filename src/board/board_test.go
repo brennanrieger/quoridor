@@ -28,23 +28,20 @@ func (s *BoardSuite) SetUpTest(c *gc.C) {
 
 	s.srcBoard.MakeMove(StepMove(Up))
 	s.srcBoard.MakeMove(StepMove(Left))
-	posH := &Pos{
-		Row: 0,
-		Col: 0,
-	}
 	s.srcBoard.MakeMove(&Move{
-		Mt:  HorizWall,
-		Pos: posH,
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 0,
+			Col: 0,
+		},
 	})
-	posV := &Pos{
-		Row: 2,
-		Col: 3,
-	}
 	s.srcBoard.MakeMove(&Move{
-		Mt:  VertiWall,
-		Pos: posV,
+		Mt: VertiWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 3,
+		},
 	})
-
 }
 
 func (s *BoardSuite) TestInit(c *gc.C) {
@@ -164,26 +161,42 @@ func (s *BoardSuite) TestFlip(c *gc.C) {
 	c.Check(s.srcBoard.Flip().HorizWalls.Equal(destHorizWalls), gc.Equals, true)
 }
 
-// func (s *MatrixSuite) TestSet(c *gc.C) {
-// 	destMatrix := &Matrix{
-// 		NRows: 2,
-// 		NCols: 3,
-// 		grid:  []bool{true, true, true, false, true, false},
-// 	}
-// 	pos := &Pos{
-// 		Row: 0,
-// 		Col: 2,
-// 	}
-// 	s.srcMatrix.Set(pos)
-// 	c.Check(reflect.DeepEqual(s.srcMatrix, destMatrix), gc.Equals, true)
-// }
+func (s *BoardSuite) TestValidate(c *gc.C) {
+	var err error
 
-// func (s *MatrixSuite) TestGet(c *gc.C) {
-// 	pos := &Pos{
-// 		Row: 0,
-// 		Col: 2,
-// 	}
-// 	c.Check(s.srcMatrix.Get(pos), gc.Equals, false)
-// }
+	p0StuckBoard := s.srcBoard.Copy()
+
+	// Check that a harmless move is okay
+	err = p0StuckBoard.MakeMove(&Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 4,
+			Col: 0,
+		},
+	})
+	c.Check(err, gc.Equals, nil)
+
+	// Check that a move making it impossible for p0 to win raises an error
+	err = p0StuckBoard.MakeMove(&Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 4,
+			Col: 2,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	p1StuckBoard := s.srcBoard.Copy()
+
+	// Check that a move making it impossible for p1 to win raises an error
+	err = p1StuckBoard.MakeMove(&Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 0,
+			Col: 2,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+}
 
 var _ = gc.Suite(new(BoardSuite))
