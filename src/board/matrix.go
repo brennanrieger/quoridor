@@ -1,6 +1,9 @@
 package board
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 type Matrix struct {
 	NRows int
@@ -47,6 +50,10 @@ func (m *Matrix) Flip() *Matrix {
 		NCols: m.NCols,
 		grid:  grid,
 	}
+}
+
+func (m *Matrix) Equal(m2 *Matrix) bool {
+	return m.NRows == m2.NRows && m.NCols == m2.NCols && reflect.DeepEqual(m.grid, m2.grid)
 }
 
 func (m *Matrix) Show() {

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"feature"
 	"fmt"
 	"game"
 	"player"
@@ -22,15 +21,15 @@ import (
 // TODO: review capitalization on matrix.grid and matrix.NRows
 // TODO: create randomized dfs feature (n samples)
 // TODO: use better system than true/false for current player
-// TODO: test StepMove method
+// TODO: test StepMove method (research how to test a move with a panic)
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
 	game := &game.Game{}
-	p0 := &player.FeaturePlayer{}
+	p0 := &player.HumanPlayer{}
 	p1 := &player.HumanPlayer{}
-	p0.Init(false, &feature.ManhattanDistance{})
-	game.Init(9, 9, p0, p1, av)
+	// p0.Init(false, &feature.ManhattanDistance{})
+	game.Init(4, 4, p0, p1, av)
 	bool := game.Play()
 	if bool {
 		fmt.Println("player 1 wins")
