@@ -164,10 +164,8 @@ func (s *BoardSuite) TestFlip(c *gc.C) {
 func (s *BoardSuite) TestValidate(c *gc.C) {
 	var err error
 
-	p0StuckBoard := s.srcBoard.Copy()
-
 	// Check that a harmless move is okay
-	err = p0StuckBoard.MakeMove(&Move{
+	err = s.srcBoard.MakeMove(&Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 4,
@@ -177,7 +175,7 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 	c.Check(err, gc.Equals, nil)
 
 	// Check that a move making it impossible for p0 to win raises an error
-	err = p0StuckBoard.MakeMove(&Move{
+	err = s.srcBoard.MakeMove(&Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 4,
@@ -186,10 +184,8 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 	})
 	c.Check(err, gc.Not(gc.Equals), nil)
 
-	p1StuckBoard := s.srcBoard.Copy()
-
 	// Check that a move making it impossible for p1 to win raises an error
-	err = p1StuckBoard.MakeMove(&Move{
+	err = s.srcBoard.MakeMove(&Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 0,
