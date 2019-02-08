@@ -22,6 +22,7 @@ import (
 // TODO: create randomized dfs feature (n samples)
 // TODO: use better system than true/false for current player
 // TODO: test StepMove method (research how to test a move with a panic)
+// TODO: can I replace all custom Equal methods with reflect.DeepEqual?
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}

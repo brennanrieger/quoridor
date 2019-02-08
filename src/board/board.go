@@ -188,8 +188,8 @@ func (b *Board) Copy() *Board {
 func (b *Board) Flip() *Board {
 	newBoard := &Board{}
 	newBoard.Init(b.NRows, b.NCols)
-	newBoard.Pos1 = b.flipPos(b.Pos0)
-	newBoard.Pos0 = b.flipPos(b.Pos1)
+	newBoard.Pos0 = b.flipPos(b.Pos0)
+	newBoard.Pos1 = b.flipPos(b.Pos1)
 	newBoard.VertiWalls = b.VertiWalls.Flip()
 	newBoard.HorizWalls = b.HorizWalls.Flip()
 	return newBoard

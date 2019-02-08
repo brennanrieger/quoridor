@@ -133,9 +133,9 @@ func (s *BoardSuite) TestFlip(c *gc.C) {
 	// Check Pos1 is in correct place
 	destPos1 := &Pos{
 		Row: 0,
-		Col: 3,
+		Col: 2,
 	}
-	c.Check(s.srcBoard.Flip().Pos0.Equal(destPos1), gc.Equals, true)
+	c.Check(s.srcBoard.Flip().Pos1.Equal(destPos1), gc.Equals, true)
 
 	// Check VertiWalls is flipped
 	destVertiWalls := &Matrix{}
@@ -162,7 +162,6 @@ func (s *BoardSuite) TestFlip(c *gc.C) {
 		Col: 3,
 	})
 	c.Check(s.srcBoard.Flip().HorizWalls.Equal(destHorizWalls), gc.Equals, true)
-	// TODO fix this test in cases where the walls don't match
 }
 
 // func (s *MatrixSuite) TestSet(c *gc.C) {
@@ -187,4 +186,4 @@ func (s *BoardSuite) TestFlip(c *gc.C) {
 // 	c.Check(s.srcMatrix.Get(pos), gc.Equals, false)
 // }
 
-var _ = gc.Suite(new(MatrixSuite))
+var _ = gc.Suite(new(BoardSuite))
