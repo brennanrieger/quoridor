@@ -137,17 +137,32 @@ func (s *BoardSuite) TestFlip(c *gc.C) {
 	}
 	c.Check(s.srcBoard.Flip().Pos0.Equal(destPos1), gc.Equals, true)
 
-	// // Check VertiWalls is flipped
-	// destVertiWalls := &Matrix
-	// destVertiWalls.Init(4, 5)
-	// destVertiWalls.Set(0, 1)
-	// c.Check(s.srcBoard.Flip().VertiWalls.Equal(destVertiWalls), gc.Equals, true)
+	// Check VertiWalls is flipped
+	destVertiWalls := &Matrix{}
+	destVertiWalls.Init(4, 5)
+	destVertiWalls.Set(&Pos{
+		Row: 0,
+		Col: 1,
+	})
+	destVertiWalls.Set(&Pos{
+		Row: 1,
+		Col: 1,
+	})
+	c.Check(s.srcBoard.Flip().VertiWalls.Equal(destVertiWalls), gc.Equals, true)
 
-	// // Check HorizWalls is flipped
-	// destHorizWalls := &Matrix
-	// destHorizWalls.Init(5, 4)
-	// destHorizWalls.Set(4, 2)
-	// c.Check(s.srcBoard.Flip().HorizWalls.Equal(destHorizWalls), gc.Equals, true)
+	// Check HorizWalls is flipped
+	destHorizWalls := &Matrix{}
+	destHorizWalls.Init(5, 4)
+	destHorizWalls.Set(&Pos{
+		Row: 4,
+		Col: 2,
+	})
+	destHorizWalls.Set(&Pos{
+		Row: 4,
+		Col: 3,
+	})
+	c.Check(s.srcBoard.Flip().HorizWalls.Equal(destHorizWalls), gc.Equals, true)
+	// TODO fix this test in cases where the walls don't match
 }
 
 // func (s *MatrixSuite) TestSet(c *gc.C) {

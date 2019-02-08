@@ -18,6 +18,21 @@ func (s *MatrixSuite) SetUpTest(c *gc.C) {
 	}
 }
 
+func (s *MatrixSuite) TestEqual(c *gc.C) {
+	sameMatrix := &Matrix{
+		NRows: 2,
+		NCols: 3,
+		grid:  []bool{true, true, false, false, true, false},
+	}
+	diffMatrix := &Matrix{
+		NRows: 2,
+		NCols: 3,
+		grid:  []bool{true, true, true, false, true, false},
+	}
+	c.Check(s.srcMatrix.Equal(sameMatrix), gc.Equals, true)
+	c.Check(s.srcMatrix.Equal(diffMatrix), gc.Equals, false)
+}
+
 func (s *MatrixSuite) TestCopy(c *gc.C) {
 	// Check s.srcMatrix is copied by value but not reference
 	c.Check(s.srcMatrix, gc.Not(gc.Equals), s.srcMatrix.Copy())
