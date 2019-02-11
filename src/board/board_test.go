@@ -195,4 +195,12 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 	c.Check(err, gc.Not(gc.Equals), nil)
 }
 
+func (s *BoardSuite) TestNeighbors(c *gc.C) {
+	//TODO
+	s.srcBoard.Neighbors(&Pos{
+		Row: 2,
+		Col: 0,
+	})
+}
+
 var _ = gc.Suite(new(BoardSuite))
