@@ -14,7 +14,7 @@ func (s *BoardSuite) SetUpTest(c *gc.C) {
 	s.srcBoard = &Board{}
 	s.srcBoard.Init(4, 4)
 
-	// Random initialization so the board is interesting
+	// Initialization so the board is interesting
 	//
 	//   ·   ·   ·   ╷   ·
 	//         1     │
@@ -265,6 +265,57 @@ func (s *BoardSuite) TestMakeMoveHorizWall(c *gc.C) {
 		Pos: &Pos{
 			Row: 3,
 			Col: 2,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+}
+
+func (s *BoardSuite) TestMakeMoveVertiWall(c *gc.C) {
+	var err error
+
+	// Unobstructed wall allowed
+	err = s.srcBoard.MakeMove(false, &Move{
+		Mt: VertiWall,
+		Pos: &Pos{
+			Row: 1,
+			Col: 4,
+		},
+	})
+	c.Check(err, gc.Equals, nil)
+
+	// Cannot make wall out of bounds
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: VertiWall,
+		Pos: &Pos{
+			Row: 3,
+			Col: 1,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// Cannot make wall overlapping existing wall
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: VertiWall,
+		Pos: &Pos{
+			Row: 1,
+			Col: 3,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// Cannot make wall intersecting existing wall
+	s.srcBoard.MakeMove(true, &Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 0,
+		},
+	})
+	err = s.srcBoard.MakeMove(false, &Move{
+		Mt: VertiWall,
+		Pos: &Pos{
+			Row: 1,
+			Col: 1,
 		},
 	})
 	c.Check(err, gc.Not(gc.Equals), nil)
