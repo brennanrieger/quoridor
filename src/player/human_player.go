@@ -12,7 +12,20 @@ import (
 type HumanPlayer struct{}
 
 func (hp *HumanPlayer) Move(b *board.Board) *board.Move {
-	return hp.move()
+	var move *board.Move
+	validMove := false
+	boardCopy := b.Copy()
+
+	for !validMove {
+		move = hp.move()
+		if err := boardCopy.MakeMove(b.CurPlayer, move); err == nil {
+			validMove = true
+		} else {
+			hp.helpText()
+		}
+	}
+
+	return move
 }
 
 func (hp *HumanPlayer) move() *board.Move {

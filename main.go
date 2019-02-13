@@ -22,9 +22,9 @@ import (
 // TODO: test StepMove method (research how to test a move with a panic)
 // TODO: can I replace all custom Equal methods with reflect.DeepEqual?
 // TODO: is there a better testing framework that doesn't require gc.equals true
-// TODO: should MakeMove pass who is moving and then validate that it is current player?
 // TODO: test make winning move separately
 // TODO: you shouldn't lose if you make an illegal move; you should be reprompted
+// TODO: store playerNum on human player
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}

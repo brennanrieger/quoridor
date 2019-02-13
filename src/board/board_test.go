@@ -196,7 +196,7 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 }
 
 func (s *BoardSuite) TestNeighbors(c *gc.C) {
-	//TODO
+	//TODO: is there a better library that let's me implement the comparator for array?
 	// c.Check(
 	// 	reflect.DeepEqual(s.srcBoard.Neighbors(&Pos{
 	// 		Row: 1,
