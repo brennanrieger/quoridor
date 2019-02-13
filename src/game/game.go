@@ -34,12 +34,15 @@ func (g *Game) Play() bool {
 		default:
 			g.Display()
 			var move *board.Move
+			var err error
 			if g.board.CurPlayer {
 				move = (*g.p1).Move(g.board)
+				err = g.board.MakeMove(true, move)
 			} else {
 				move = (*g.p0).Move(g.board)
+				err = g.board.MakeMove(false, move)
 			}
-			if err := g.board.MakeMove(move); err != nil {
+			if err != nil {
 				// if player makes invalid move other player wins
 				fmt.Println(err)
 				fmt.Println("bad move")

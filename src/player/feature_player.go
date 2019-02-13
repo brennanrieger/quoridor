@@ -29,7 +29,7 @@ func (fp *FeaturePlayer) Move(b *board.Board) *board.Move {
 	bestI := 0
 	for i, move := range availableMoves {
 		bNew := b.Copy()
-		bNew.MakeMove(move)
+		bNew.MakeMove(fp.playerNum, move)
 		select {
 		case <-bNew.Win:
 			return move

@@ -71,7 +71,7 @@ func addAvailableJumpMoves(b *board.Board, availableMoves *[]*board.Move) {
 
 func addMoveIfValid(b *board.Board, move *board.Move, availableMoves *[]*board.Move) {
 	var boardCopy = b.Copy()
-	if err := boardCopy.MakeMove(move); err == nil && boardCopy.Validate() {
+	if err := boardCopy.MakeMove(b.CurPlayer, move); err == nil && boardCopy.Validate() {
 		*availableMoves = append(*availableMoves, move.Copy())
 	}
 }

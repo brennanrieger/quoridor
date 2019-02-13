@@ -26,16 +26,16 @@ func (s *BoardSuite) SetUpTest(c *gc.C) {
 	//
 	//   ╶───────╴   ·   ·
 
-	s.srcBoard.MakeMove(StepMove(Up))
-	s.srcBoard.MakeMove(StepMove(Left))
-	s.srcBoard.MakeMove(&Move{
+	s.srcBoard.MakeMove(false, StepMove(Up))
+	s.srcBoard.MakeMove(true, StepMove(Left))
+	s.srcBoard.MakeMove(false, &Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 0,
 			Col: 0,
 		},
 	})
-	s.srcBoard.MakeMove(&Move{
+	s.srcBoard.MakeMove(true, &Move{
 		Mt: VertiWall,
 		Pos: &Pos{
 			Row: 2,
@@ -165,7 +165,7 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 	var err error
 
 	// Check that a harmless move is okay
-	err = s.srcBoard.MakeMove(&Move{
+	err = s.srcBoard.MakeMove(false, &Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 4,
@@ -175,7 +175,7 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 	c.Check(err, gc.Equals, nil)
 
 	// Check that a move making it impossible for p0 to win raises an error
-	err = s.srcBoard.MakeMove(&Move{
+	err = s.srcBoard.MakeMove(true, &Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 4,
@@ -185,7 +185,7 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 	c.Check(err, gc.Not(gc.Equals), nil)
 
 	// Check that a move making it impossible for p1 to win raises an error
-	err = s.srcBoard.MakeMove(&Move{
+	err = s.srcBoard.MakeMove(false, &Move{
 		Mt: HorizWall,
 		Pos: &Pos{
 			Row: 0,
@@ -230,24 +230,24 @@ func (s *BoardSuite) TestMakeMoveUp(c *gc.C) {
 	var err error
 
 	// player 0 can move up
-	err = s.srcBoard.MakeMove(StepMove(Up))
+	err = s.srcBoard.MakeMove(false, StepMove(Up))
 	c.Check(err, gc.Equals, nil)
 	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 2)
 	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 2)
 
 	// player 1 cannot move up
-	err = s.srcBoard.MakeMove(StepMove(Up))
+	err = s.srcBoard.MakeMove(true, StepMove(Up))
 	c.Check(err, gc.Not(gc.Equals), nil)
 
-	// if player 1 makes a wall above player 0, player 0 cannot move up
-	s.srcBoard.MakeMove(&Move{
+	// if there is a wall above player 0, player 0 cannot move up
+	s.srcBoard.MakeMove(true, &Move{
 		Mt: HorizWall,
 		Pos: &Pos{
-			Row: 2,
-			Col: 2,
+			Row: 3,
+			Col: 1,
 		},
 	})
-	err = s.srcBoard.MakeMove(StepMove(Up))
+	err = s.srcBoard.MakeMove(false, StepMove(Up))
 	c.Check(err, gc.Not(gc.Equals), nil)
 }
 

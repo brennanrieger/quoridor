@@ -43,7 +43,10 @@ func (b *Board) Init(nRows int, nCols int) {
 }
 
 // Wrapper around makeMove to ensure the resulting board is valid
-func (b *Board) MakeMove(move *Move) error {
+func (b *Board) MakeMove(player bool, move *Move) error {
+	if player != b.CurPlayer {
+		return fmt.Errorf("wrong player's turn")
+	}
 	var boardCopy = b.Copy()
 	if err := boardCopy.makeMove(move); err != nil {
 		return err
