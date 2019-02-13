@@ -10,7 +10,6 @@ import (
 // TODO: read https://pdfs.semanticscholar.org/acad/6962a9bb3eb3fde4272f476d6625eb0a8182.pdf
 // TODO: idea use ML on small scale board to find good heuristics
 // TODO: make Matrix non-exported (matrix) - actually this might not work...
-// TODO: curPlayer is probably a board concern, not game concern <== *this*
 // TODO: remove stutter wiht player package
 // TODO: add testing
 // TODO: make vertiwall and horizwall functions rather than using get function
@@ -24,6 +23,7 @@ import (
 // TODO: can I replace all custom Equal methods with reflect.DeepEqual?
 // TODO: is there a better testing framework that doesn't require gc.equals true
 // TODO: should MakeMove pass who is moving and then validate that it is current player?
+// TODO: test make winning move separately
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}

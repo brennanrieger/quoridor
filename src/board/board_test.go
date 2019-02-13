@@ -229,17 +229,17 @@ func (s *BoardSuite) TestNeighbors(c *gc.C) {
 func (s *BoardSuite) TestMakeMoveUp(c *gc.C) {
 	var err error
 
-	// player 0 can move up
+	// Unobstructed move up allowed
 	err = s.srcBoard.MakeMove(false, StepMove(Up))
 	c.Check(err, gc.Equals, nil)
 	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 2)
 	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 2)
 
-	// player 1 cannot move up
+	// P1 cannot move up into ceiling
 	err = s.srcBoard.MakeMove(true, StepMove(Up))
 	c.Check(err, gc.Not(gc.Equals), nil)
 
-	// if there is a wall above player 0, player 0 cannot move up
+	// Cannot move up into wall
 	s.srcBoard.MakeMove(true, &Move{
 		Mt: HorizWall,
 		Pos: &Pos{
@@ -248,6 +248,32 @@ func (s *BoardSuite) TestMakeMoveUp(c *gc.C) {
 		},
 	})
 	err = s.srcBoard.MakeMove(false, StepMove(Up))
+	c.Check(err, gc.Not(gc.Equals), nil)
+}
+
+func (s *BoardSuite) TestMakeMoveDown(c *gc.C) {
+	var err error
+
+	// Unobstructed move down allowed
+	err = s.srcBoard.MakeMove(false, StepMove(Down))
+	c.Check(err, gc.Equals, nil)
+	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 0)
+	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 2)
+
+	// Cannot move down into wall
+	s.srcBoard.MakeMove(true, StepMove(Down))
+	s.srcBoard.MakeMove(false, &Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 1,
+		},
+	})
+	err = s.srcBoard.MakeMove(true, StepMove(Down))
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// P0 cannot move down into floor
+	err = s.srcBoard.MakeMove(false, StepMove(Down))
 	c.Check(err, gc.Not(gc.Equals), nil)
 }
 
