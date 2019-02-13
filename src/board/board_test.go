@@ -197,10 +197,58 @@ func (s *BoardSuite) TestValidate(c *gc.C) {
 
 func (s *BoardSuite) TestNeighbors(c *gc.C) {
 	//TODO
-	s.srcBoard.Neighbors(&Pos{
-		Row: 2,
-		Col: 0,
+	// c.Check(
+	// 	reflect.DeepEqual(s.srcBoard.Neighbors(&Pos{
+	// 		Row: 1,
+	// 		Col: 1,
+	// 	}), [4]*Pos{
+	// 		&Pos{
+	// 			Row: 2,
+	// 			Col: 1,
+	// 		},
+	// 		&Pos{
+	// 			Row: 0,
+	// 			Col: 1,
+	// 		},
+	// 		&Pos{
+	// 			Row: 1,
+	// 			Col: 2,
+	// 		},
+	// 		&Pos{
+	// 			Row: 1,
+	// 			Col: 0,
+	// 		},
+	// 	}),
+	// 	gc.Equals,
+	// 	true,
+	// )
+	// list := dll.New()
+	// list.Add("a")
+}
+
+func (s *BoardSuite) TestMakeMoveUp(c *gc.C) {
+	var err error
+
+	// player 0 can move up
+	err = s.srcBoard.MakeMove(StepMove(Up))
+	c.Check(err, gc.Equals, nil)
+	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 2)
+	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 2)
+
+	// player 1 cannot move up
+	err = s.srcBoard.MakeMove(StepMove(Up))
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// if player 1 makes a wall above player 0, player 0 cannot move up
+	s.srcBoard.MakeMove(&Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 2,
+		},
 	})
+	err = s.srcBoard.MakeMove(StepMove(Up))
+	c.Check(err, gc.Not(gc.Equals), nil)
 }
 
 var _ = gc.Suite(new(BoardSuite))

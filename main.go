@@ -23,6 +23,8 @@ import (
 // TODO: use better system than true/false for current player
 // TODO: test StepMove method (research how to test a move with a panic)
 // TODO: can I replace all custom Equal methods with reflect.DeepEqual?
+// TODO: is there a better testing framework that doesn't require gc.equals true
+// TODO: should MakeMove pass who is moving and then validate that it is current player?
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
