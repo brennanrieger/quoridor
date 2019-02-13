@@ -305,4 +305,30 @@ func (s *BoardSuite) TestMakeMoveLeft(c *gc.C) {
 	c.Check(err, gc.Not(gc.Equals), nil)
 }
 
+func (s *BoardSuite) TestMakeMoveRight(c *gc.C) {
+	var err error
+
+	// Unobstructed move right allowed
+	err = s.srcBoard.MakeMove(false, StepMove(Right))
+	c.Check(err, gc.Equals, nil)
+	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 1)
+	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 3)
+
+	// Cannot move left into wall
+	s.srcBoard.MakeMove(true, &Move{
+		Mt: VertiWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 2,
+		},
+	})
+	s.srcBoard.MakeMove(false, StepMove(Up)) // dummy move
+	err = s.srcBoard.MakeMove(true, StepMove(Right))
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// cannot move right off of right side of board
+	err = s.srcBoard.MakeMove(false, StepMove(Right))
+	c.Check(err, gc.Not(gc.Equals), nil)
+}
+
 var _ = gc.Suite(new(BoardSuite))
