@@ -23,14 +23,17 @@ import (
 // TODO: can I replace all custom Equal methods with reflect.DeepEqual?
 // TODO: is there a better testing framework that doesn't require gc.equals true
 // TODO: test make winning move separately
-// TODO: you shouldn't lose if you make an illegal move; you should be reprompted
-// TODO: store playerNum on human player
+// TODO: capitalization for playerNum
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
 	game := &game.Game{}
-	p0 := &player.HumanPlayer{}
-	p1 := &player.HumanPlayer{}
+	p0 := &player.HumanPlayer{
+		PlayerNum: false,
+	}
+	p1 := &player.HumanPlayer{
+		PlayerNum: true,
+	}
 	// p0.Init(false, &feature.ManhattanDistance{})
 	game.Init(4, 4, p0, p1, av)
 	bool := game.Play()

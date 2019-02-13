@@ -9,16 +9,22 @@ import (
 	"strings"
 )
 
-type HumanPlayer struct{}
+type HumanPlayer struct {
+	PlayerNum bool
+}
 
 func (hp *HumanPlayer) Move(b *board.Board) *board.Move {
+	if hp.PlayerNum != b.CurPlayer {
+		panic("it's not my turn")
+	}
+
 	var move *board.Move
 	validMove := false
 	boardCopy := b.Copy()
 
 	for !validMove {
 		move = hp.move()
-		if err := boardCopy.MakeMove(b.CurPlayer, move); err == nil {
+		if err := boardCopy.MakeMove(hp.PlayerNum, move); err == nil {
 			validMove = true
 		} else {
 			hp.helpText()
