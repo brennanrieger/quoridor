@@ -226,6 +226,50 @@ func (s *BoardSuite) TestNeighbors(c *gc.C) {
 	// list.Add("a")
 }
 
+func (s *BoardSuite) TestMakeMoveHorizWall(c *gc.C) {
+	var err error
+
+	// Unobstructed wall allowed
+	err = s.srcBoard.MakeMove(false, &Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 0,
+		},
+	})
+	c.Check(err, gc.Equals, nil)
+
+	// Cannot make wall out of bounds
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 2,
+			Col: 3,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// Cannot make wall overlapping existing wall
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 0,
+			Col: 1,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+
+	// Cannot make wall intersecting existing wall
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: HorizWall,
+		Pos: &Pos{
+			Row: 3,
+			Col: 2,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+}
+
 func (s *BoardSuite) TestMakeMoveUp(c *gc.C) {
 	var err error
 

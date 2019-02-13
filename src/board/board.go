@@ -74,7 +74,7 @@ func (b *Board) makeMove(move *Move) error {
 		if wallPos.Row < 0 || wallPos.Col < 0 || wallPos.Row > b.NRows || wallPos.Col > b.NCols-2 {
 			return fmt.Errorf("wall out of bounds")
 		} else if b.HorizWalls.Get(wallPos) || b.HorizWalls.Get(wallPos.R()) {
-			return fmt.Errorf("wall already exists")
+			return fmt.Errorf("wall overlaps existing wall(s)")
 		} else if wallPos.Row != 0 && wallPos.Row != b.NRows && b.VertiWalls.Get(wallPos.D().R()) && b.VertiWalls.Get(wallPos.R()) {
 			return fmt.Errorf("wall intersects")
 		} else {
@@ -85,7 +85,7 @@ func (b *Board) makeMove(move *Move) error {
 		if wallPos.Row < 0 || wallPos.Col < 0 || wallPos.Row > b.NRows-2 || wallPos.Col > b.NCols {
 			return fmt.Errorf("wall out of bounds")
 		} else if b.VertiWalls.Get(wallPos) || b.VertiWalls.Get(wallPos.U()) {
-			return fmt.Errorf("wall already exists")
+			return fmt.Errorf("wall overlaps existing wall(s)")
 		} else if b.HorizWalls.Get(wallPos.U().L()) && b.HorizWalls.Get(wallPos.U()) {
 			return fmt.Errorf("wall intersects")
 		} else {
