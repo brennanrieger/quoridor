@@ -159,7 +159,7 @@ func (b *Board) makeMove(move *Move) error {
 		} else if !b.areNeighbors(enemyPos, futurePos) {
 			return fmt.Errorf("the destination space must be next to the opponent")
 		} else if (curPos.Row == enemyPos.Row && futurePos.Row != curPos.Row && curPos.Col > enemyPos.Col && !b.VertiWalls.Get(enemyPos) && enemyPos.Col != 0) || // jump left
-			(curPos.Row == enemyPos.Row && futurePos.Row != curPos.Row && curPos.Col < enemyPos.Col && !b.VertiWalls.Get(enemyPos.L()) && enemyPos.Col != b.NCols-1) || // jump right
+			(curPos.Row == enemyPos.Row && futurePos.Row != curPos.Row && curPos.Col < enemyPos.Col && !b.VertiWalls.Get(enemyPos.R()) && enemyPos.Col != b.NCols-1) || // jump right
 			(curPos.Col == enemyPos.Col && futurePos.Col != curPos.Col && curPos.Row > enemyPos.Row && !b.HorizWalls.Get(enemyPos) && enemyPos.Row != 0) || // jump down
 			(curPos.Col == enemyPos.Col && futurePos.Col != curPos.Col && curPos.Row < enemyPos.Row && !b.HorizWalls.Get(enemyPos.U()) && enemyPos.Row != b.NRows-1) { // jump up
 			return fmt.Errorf("if jumping to the side, there must be a wall behind your opponent")

@@ -426,4 +426,70 @@ func (s *BoardSuite) TestMakeMoveRight(c *gc.C) {
 	c.Check(err, gc.Not(gc.Equals), nil)
 }
 
+func (s *BoardSuite) TestMakeMoveJump(c *gc.C) {
+	var err error
+
+	// Unobstructed jump allowed
+	s.srcBoard.MakeMove(false, StepMove(Left))
+	s.srcBoard.MakeMove(true, StepMove(Down))
+	err = s.srcBoard.MakeMove(false, &Move{
+		Mt: Jump,
+		Pos: &Pos{
+			Row: 3,
+			Col: 1,
+		},
+	})
+	c.Check(err, gc.Equals, nil)
+	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 3)
+	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 1)
+
+	// Jump to side in presence of ceiling allowed
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: Jump,
+		Pos: &Pos{
+			Row: 3,
+			Col: 2,
+		},
+	})
+	c.Check(err, gc.Equals, nil)
+	c.Check(s.srcBoard.Pos1.Row, gc.Equals, 3)
+	c.Check(s.srcBoard.Pos1.Col, gc.Equals, 2)
+
+	// Jump through wall not allowed
+	err = s.srcBoard.MakeMove(false, &Move{
+		Mt: Jump,
+		Pos: &Pos{
+			Row: 3,
+			Col: 3,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 3)
+	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 1)
+
+	// Jump to side in presence of wall allowed
+	err = s.srcBoard.MakeMove(false, &Move{
+		Mt: Jump,
+		Pos: &Pos{
+			Row: 2,
+			Col: 2,
+		},
+	})
+	c.Check(err, gc.Equals, nil)
+	c.Check(s.srcBoard.Pos0.Row, gc.Equals, 2)
+	c.Check(s.srcBoard.Pos0.Col, gc.Equals, 2)
+
+	// Jump to side in absence of wall not allowed
+	err = s.srcBoard.MakeMove(true, &Move{
+		Mt: Jump,
+		Pos: &Pos{
+			Row: 2,
+			Col: 1,
+		},
+	})
+	c.Check(err, gc.Not(gc.Equals), nil)
+	c.Check(s.srcBoard.Pos1.Row, gc.Equals, 3)
+	c.Check(s.srcBoard.Pos1.Col, gc.Equals, 2)
+}
+
 var _ = gc.Suite(new(BoardSuite))

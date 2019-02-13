@@ -24,6 +24,7 @@ import (
 // TODO: is there a better testing framework that doesn't require gc.equals true
 // TODO: should MakeMove pass who is moving and then validate that it is current player?
 // TODO: test make winning move separately
+// TODO: you shouldn't lose if you make an illegal move; you should be reprompted
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
