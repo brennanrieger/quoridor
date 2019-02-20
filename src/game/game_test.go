@@ -19,9 +19,12 @@ func (s *GameSuite) TestSmoke(c *gc.C) {
 	p1 := &player.RandomPlayer{}
 	p1.Init(true)
 	visualizer := &visualizer.NilVisualizer{}
-	err := game.Init(3, 3, p0, p1, visualizer)
+
+	var err error
+	err = game.Init(3, 3, p0, p1, visualizer)
 	c.Check(err, gc.Equals, nil)
-	game.Play()
+	_, err = game.Play()
+	c.Check(err, gc.Equals, nil)
 }
 
 var _ = gc.Suite(new(GameSuite))

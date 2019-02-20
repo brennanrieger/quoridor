@@ -31,12 +31,11 @@ func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v 
 	return nil
 }
 
-func (g *Game) Play() bool {
+func (g *Game) Play() (bool, error) {
 	for {
 		select {
 		case winner := <-g.board.Win:
-			fmt.Println("won")
-			return winner
+			return winner, nil
 		default:
 			g.Display()
 			var move *board.Move
@@ -49,10 +48,7 @@ func (g *Game) Play() bool {
 				err = g.board.MakeMove(false, move)
 			}
 			if err != nil {
-				// if player makes invalid move other player wins
-				fmt.Println(err)
-				fmt.Println("bad move")
-				return !g.board.CurPlayer
+				return !g.board.CurPlayer, fmt.Errorf("Illegal move: %s", err)
 			}
 		}
 	}

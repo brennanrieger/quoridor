@@ -38,7 +38,7 @@ func main() {
 	}
 	// p0.Init(false, &feature.ManhattanDistance{})
 	game.Init(7, 7, p0, p1, av)
-	bool := game.Play()
+	bool, _ := game.Play()
 	if bool {
 		fmt.Println("player 1 wins")
 	} else {
