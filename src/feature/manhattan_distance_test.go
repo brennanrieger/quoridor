@@ -1,35 +1,44 @@
-package board
+package feature
 
 import (
-	"reflect"
+	"board"
 	"testing"
-  "board"
 
 	gc "github.com/go-check/check"
 )
 
 func Test(t *testing.T) { gc.TestingT(t) }
 
-type ManhattanDistanceSuite struct {
-	board *Board
+type ManhattanDistanceSuite struct{}
+
+func (s *ManhattanDistanceSuite) TestInitialDistance(c *gc.C) {
+	for i := 2; i < 10; i++ {
+		testBoard := &board.Board{}
+		testBoard.Init(i, i)
+		md := &ManhattanDistance{}
+		val0, val1 := md.Val(testBoard)
+		c.Check(int(val0), gc.Equals, i)
+		c.Check(int(val1), gc.Equals, i)
+	}
 }
 
-func (s *ManhattanDistanceSuite) SetUpTest(c *gc.C) {
-	s.board = &board.Board{}
-	s.board.Init(4, 4)
+func (s *ManhattanDistanceSuite) TestReusageGeneratesDiffValues(c *gc.C) {
+	testBoard := &board.Board{}
+	testBoard.Init(5, 5)
+	md := &ManhattanDistance{}
+
+	val0_initial, val1_initial := md.Val(testBoard)
+	testBoard.MakeMove(false, &board.Move{
+		Mt: board.HorizWall,
+		Pos: &board.Pos{
+			Row: 2,
+			Col: 2,
+		},
+	})
+	val0_final, val1_final := md.Val(testBoard)
+
+	c.Check(val0_initial, gc.Not(gc.Equals), val0_final)
+	c.Check(val1_initial, gc.Not(gc.Equals), val1_final)
 }
 
-func (s *BoardSuite) TestInitialDistance(c *gc.C) {
-	for i := range(3,10) {
-    board := &board.Board{}
-    board.Init(i,i)
-    md := &ManhattanDistance{}
-    val0, val1 := md.Val(board)
-    c.Check(val0, gc.Equals, i)
-    c.Check(val1, gc.Equals, i)
-  }
-}
-
-func (s *BoardSuite) TestReuseManhattanDistanceGenerator(c *gc.C) {
-
-var _ = gc.Suite(new(BoardSuite))
+var _ = gc.Suite(new(ManhattanDistanceSuite))

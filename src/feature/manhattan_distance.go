@@ -1,5 +1,3 @@
-// WIP
-
 package feature
 
 import (
