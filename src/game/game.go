@@ -15,7 +15,11 @@ type Game struct {
 	visualizer *visualizer.Visualizer
 }
 
-func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v visualizer.Visualizer) {
+func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v visualizer.Visualizer) error {
+	if NCols < 2 {
+		return fmt.Errorf("must have at least two columns")
+	}
+
 	g.p0 = &p0
 	g.p1 = &p1
 
@@ -23,6 +27,8 @@ func (g *Game) Init(NRows int, NCols int, p0 player.Player, p1 player.Player, v 
 	g.board.Init(NRows, NCols)
 
 	g.visualizer = &v
+
+	return nil
 }
 
 func (g *Game) Play() bool {
