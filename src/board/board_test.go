@@ -2,9 +2,12 @@ package board
 
 import (
 	"reflect"
+	"testing"
 
 	gc "github.com/go-check/check"
 )
+
+func Test(t *testing.T) { gc.TestingT(t) }
 
 type BoardSuite struct {
 	srcBoard *Board
