@@ -24,6 +24,9 @@ import (
 // TODO: is there a better testing framework that doesn't require gc.equals true
 // TODO: test make winning move separately
 // TODO: capitalization for playerNum
+// TODO: make edge numbers not look like part of board
+// TODO: rerender board when displaying help instructions
+// TODO: replace Init methods with methods to return the initialized object?
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
@@ -35,7 +38,7 @@ func main() {
 		PlayerNum: true,
 	}
 	// p0.Init(false, &feature.ManhattanDistance{})
-	game.Init(4, 4, p0, p1, av)
+	game.Init(7, 7, p0, p1, av)
 	bool := game.Play()
 	if bool {
 		fmt.Println("player 1 wins")
