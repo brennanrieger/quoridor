@@ -41,4 +41,57 @@ func (s *ManhattanDistanceSuite) TestReusageGeneratesDiffValues(c *gc.C) {
 	c.Check(val1_initial, gc.Not(gc.Equals), val1_final)
 }
 
+func (s *ManhattanDistanceSuite) TestCanChooseShortestPath(c *gc.C) {
+	testBoard := &board.Board{}
+	testBoard.Init(4, 4)
+
+	// Create non-trivial position
+	//
+	//   ·   ·   ·   ·   ·
+	//         1
+	//   ╶───────╴   ╷   ·
+	//               │
+	//   ·   ╶───────┤   ·
+	//             0 │
+	//   ·   ·   ·   ╵   ·
+	//
+	//   ·   ·   ╶───────╴
+
+	testBoard.MakeMove(false, board.StepMove(board.Up))
+	testBoard.MakeMove(true, board.StepMove(board.Left))
+	testBoard.MakeMove(false, &board.Move{
+		Mt: board.HorizWall,
+		Pos: &board.Pos{
+			Row: 3,
+			Col: 0,
+		},
+	})
+	testBoard.MakeMove(true, &board.Move{
+		Mt: board.VertiWall,
+		Pos: &board.Pos{
+			Row: 1,
+			Col: 3,
+		},
+	})
+	testBoard.MakeMove(false, &board.Move{
+		Mt: board.HorizWall,
+		Pos: &board.Pos{
+			Row: 2,
+			Col: 1,
+		},
+	})
+	testBoard.MakeMove(true, &board.Move{
+		Mt: board.HorizWall,
+		Pos: &board.Pos{
+			Row: 0,
+			Col: 2,
+		},
+	})
+
+	md := &ManhattanDistance{}
+	val0, val1 := md.Val(testBoard)
+	c.Check(int(val0), gc.Equals, 6)
+	c.Check(int(val1), gc.Equals, 7)
+}
+
 var _ = gc.Suite(new(ManhattanDistanceSuite))
