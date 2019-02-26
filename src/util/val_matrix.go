@@ -3,6 +3,7 @@ package util
 import (
 	"board"
 	"fmt"
+	"reflect"
 )
 
 type ValMatrix struct {
@@ -49,6 +50,10 @@ func (vm *ValMatrix) Flip() *ValMatrix {
 		NCols: vm.NCols,
 		grid:  grid,
 	}
+}
+
+func (m *ValMatrix) Equal(m2 *ValMatrix) bool {
+	return m.NRows == m2.NRows && m.NCols == m2.NCols && reflect.DeepEqual(m.grid, m2.grid)
 }
 
 func (vm *ValMatrix) Show() {
