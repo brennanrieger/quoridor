@@ -18,6 +18,15 @@ func (s *MatrixSuite) SetUpTest(c *gc.C) {
 	}
 }
 
+func (s *MatrixSuite) TestInit(c *gc.C) {
+	matrix := &Matrix{}
+	matrix.Init(3, 4)
+
+	c.Check(matrix.NRows, gc.Equals, 3)
+	c.Check(matrix.NCols, gc.Equals, 4)
+	c.Check(len(matrix.grid), gc.Equals, 12)
+}
+
 func (s *MatrixSuite) TestEqual(c *gc.C) {
 	sameMatrix := &Matrix{
 		NRows: 2,
