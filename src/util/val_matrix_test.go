@@ -147,4 +147,26 @@ func (s *ValMatrixSuite) TestSet(c *gc.C) {
 	c.Check(s.srcMatrix.Get(pos), gc.Equals, 7)
 }
 
+func (s *ValMatrixSuite) TestCharVal(c *gc.C) {
+	stringMatrix := &ValMatrix{}
+	stringMatrix.Init(2, 3)
+	pos := &board.Pos{
+		Row: 0,
+		Col: 0,
+	}
+	stringMatrix.Set(pos, 'a')
+	c.Check(stringMatrix.Get(pos), gc.Equals, 'a')
+}
+
+func (s *ValMatrixSuite) TestStringVal(c *gc.C) {
+	stringMatrix := &ValMatrix{}
+	stringMatrix.Init(2, 3)
+	pos := &board.Pos{
+		Row: 0,
+		Col: 0,
+	}
+	stringMatrix.Set(pos, "hello")
+	c.Check(stringMatrix.Get(pos), gc.Equals, "hello")
+}
+
 var _ = gc.Suite(new(ValMatrixSuite))
