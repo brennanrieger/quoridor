@@ -3,9 +3,12 @@ package util
 import (
 	"board"
 	"reflect"
+	"testing"
 
 	gc "github.com/go-check/check"
 )
+
+func Test(t *testing.T) { gc.TestingT(t) }
 
 type ValMatrixSuite struct {
 	srcMatrix *ValMatrix
@@ -15,8 +18,8 @@ func (s *ValMatrixSuite) SetUpTest(c *gc.C) {
 
 	// Initialization so the ValMatrix is interesting
 	//
-	//  1  0  2
 	//  0  3  0
+	//  1  0  2
 
 	s.srcMatrix = &ValMatrix{}
 	s.srcMatrix.Init(2, 3)
@@ -121,7 +124,7 @@ func (s *ValMatrixSuite) TestFlip(c *gc.C) {
 	)
 	destMatrix.Set(
 		&board.Pos{
-			Row: 1,
+			Row: 0,
 			Col: 1,
 		},
 		3,
@@ -135,7 +138,7 @@ func (s *ValMatrixSuite) TestGet(c *gc.C) {
 		Row: 0,
 		Col: 2,
 	}
-	c.Check(s.srcMatrix.Get(pos), gc.Equals, 3)
+	c.Check(s.srcMatrix.Get(pos), gc.Equals, 2)
 }
 
 func (s *ValMatrixSuite) TestSet(c *gc.C) {

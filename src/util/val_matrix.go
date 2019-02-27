@@ -42,8 +42,8 @@ func (vm *ValMatrix) Copy() *ValMatrix {
 
 func (vm *ValMatrix) Flip() *ValMatrix {
 	grid := make([]interface{}, vm.NRows*vm.NCols)
-	for i, j := 0, len(grid)-1; i < j; i, j = i+1, j-1 {
-		grid[i], grid[j] = grid[j], grid[i]
+	for i := 0; i < len(grid); i++ {
+		grid[i] = vm.grid[len(grid)-1-i]
 	}
 	return &ValMatrix{
 		NRows: vm.NRows,
@@ -52,8 +52,8 @@ func (vm *ValMatrix) Flip() *ValMatrix {
 	}
 }
 
-func (m *ValMatrix) Equal(m2 *ValMatrix) bool {
-	return m.NRows == m2.NRows && m.NCols == m2.NCols && reflect.DeepEqual(m.grid, m2.grid)
+func (vm *ValMatrix) Equal(vm2 *ValMatrix) bool {
+	return vm.NRows == vm2.NRows && vm.NCols == vm2.NCols && reflect.DeepEqual(vm.grid, vm2.grid)
 }
 
 func (vm *ValMatrix) Show() {
