@@ -26,6 +26,7 @@ import (
 // TODO: make edge numbers not look like part of board
 // TODO: rerender board when displaying help instructions
 // TODO: replace Init methods with methods to return the initialized object?
+// TODO: make better UI? https://github.com/avelino/awesome-go#game-development
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
@@ -37,7 +38,7 @@ func main() {
 		PlayerNum: true,
 	}
 	// p0.Init(false, &feature.ManhattanDistance{})
-	game.Init(7, 7, p0, p1, av)
+	game.Init(4, 4, p0, p1, av)
 	bool, _ := game.Play()
 	if bool {
 		fmt.Println("player 1 wins")
