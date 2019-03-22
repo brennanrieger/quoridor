@@ -27,6 +27,8 @@ import (
 // TODO: rerender board when displaying help instructions
 // TODO: replace Init methods with methods to return the initialized object?
 // TODO: make better UI? https://github.com/avelino/awesome-go#game-development
+// TODO: to test each of the players, play them against each other and make sure they don't throw an error
+// TODO: replace win channel with returning a value
 
 func main() {
 	av := &visualizer.AsciiVisualizer{}
